@@ -887,7 +887,7 @@ try {
                 <ul>
                     <li><a href="#home" class="active">Beranda</a></li>
                     <li><a href="#about">Tentang</a></li>
-                    <li><a href="#features">Filosofi</a></li>
+                    <li><a href="#features">Pertandingan</a></li>
                     <li><a href="#team">Majelis</a></li>
                     <li><a href="#events">Kegiatan</a></li>
                     <li><a href="#contact">Kontak</a></li>
@@ -958,43 +958,43 @@ try {
         </div>
     </section>
 
-    <!-- ========== FEATURES/FILOSOFI SECTION ========== -->
+    <!-- ========== KELAS PERTANDINGAN SECTION ========== -->
     <section id="features">
         <div class="container">
             <div class="section-title">
-                <h2>Filosofi Karate</h2>
-                <p>Lima prinsip dasar yang mendasari setiap latihan dan kehidupan seorang karateka</p>
+                <h2>Kelas Pertandingan</h2>
+                <p>Berbagai kategori pertandingan karate untuk semua tingkat usia dari dini hingga veteran</p>
             </div>
             <div class="features-grid">
                 <div class="feature-box">
                     <span class="feature-icon">🥋</span>
-                    <h4>Reigi (Etika)</h4>
-                    <p>Menghormati orang lain, instruktur, dan dojo adalah dasar dari semua latihan karate.</p>
+                    <h4>Kata Perorangan</h4>
+                    <p>Pertandingan kata perorangan untuk kategori putra dan putri dari usia dini hingga veteran.</p>
                 </div>
                 <div class="feature-box">
-                    <span class="feature-icon">💪</span>
-                    <h4>Gambare (Ketekunan)</h4>
-                    <p>Ketekunan dan kerja keras adalah kunci untuk mencapai kesempurnaan dalam karate.</p>
+                    <span class="feature-icon">⚔️</span>
+                    <h4>Kata Perorangan Alat</h4>
+                    <p>Pertandingan kata perorangan dengan menggunakan alat/senjata untuk putra dan putri (usia dini - veteran).</p>
                 </div>
                 <div class="feature-box">
-                    <span class="feature-icon">🎯</span>
-                    <h4>Kokoro (Semangat)</h4>
-                    <p>Semangat yang kuat dan mental yang tangguh diperlukan dalam setiap tantangan.</p>
+                    <span class="feature-icon">👥</span>
+                    <h4>Kata Beregu</h4>
+                    <p>Pertandingan kata beregu untuk kategori putra dan putri dari usia dini hingga veteran.</p>
                 </div>
                 <div class="feature-box">
-                    <span class="feature-icon">⚖️</span>
-                    <h4>Makoto (Kejujuran)</h4>
-                    <p>Kejujuran pada diri sendiri dan orang lain adalah fondasi karakter yang kuat.</p>
+                    <span class="feature-icon">🗡️</span>
+                    <h4>Kata Beregu Alat</h4>
+                    <p>Pertandingan kata beregu dengan menggunakan alat/senjata untuk putra dan putri (usia dini - veteran).</p>
                 </div>
                 <div class="feature-box">
-                    <span class="feature-icon">🤝</span>
-                    <h4>Omoiyari (Empati)</h4>
-                    <p>Kepedulian terhadap sesama dan kemampuan memahami perasaan orang lain.</p>
+                    <span class="feature-icon">🥊</span>
+                    <h4>Kumite Perorangan</h4>
+                    <p>Pertandingan kumite (pertarungan) perorangan untuk putra dan putri dari usia dini hingga veteran.</p>
                 </div>
                 <div class="feature-box">
                     <span class="feature-icon">🏆</span>
-                    <h4>Bushido (Jiwa Kesatria)</h4>
-                    <p>Keberanian, kehormatan, dan integritas dalam setiap tindakan.</p>
+                    <h4>Kumite Beregu</h4>
+                    <p>Pertandingan kumite (pertarungan) beregu untuk putra dan putri dari usia dini hingga veteran.</p>
                 </div>
             </div>
         </div>
