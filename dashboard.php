@@ -1,8 +1,12 @@
 <?php
+// =============================================
+// SESSION CHECK - HARUS PALING ATAS!
+// =============================================
 require_once 'config/supabase.php';
 
+// Redirect jika belum login
 if(!isset($_SESSION['user_id'])) {
-    header('Location: index.php');
+    header('Location: /ypok_management/ypok_management/index.php');
     exit();
 }
 
@@ -10,22 +14,23 @@ if(!isset($_SESSION['user_id'])) {
 // STATISTIK UTAMA
 // =============================================
 
-$total_msh       = $pdo->query("SELECT COUNT(*) FROM majelis_sabuk_hitam WHERE status='aktif'")->fetchColumn();
-$total_kohai     = $pdo->query("SELECT COUNT(*) FROM kohai WHERE status='aktif'")->fetchColumn();
-$total_lokasi    = $pdo->query("SELECT COUNT(*) FROM lokasi WHERE status='aktif'")->fetchColumn();
-$total_pendapatan_bulan = $pdo->query("
-    SELECT
-        COALESCE((SELECT SUM(jumlah) FROM pembayaran WHERE status='lunas' AND EXTRACT(MONTH FROM tanggal_bayar)=EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(YEAR FROM tanggal_bayar)=EXTRACT(YEAR FROM CURRENT_DATE)), 0)
-        + COALESCE((SELECT SUM(total_harga) FROM transaksi_toko WHERE EXTRACT(MONTH FROM tanggal)=EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(YEAR FROM tanggal)=EXTRACT(YEAR FROM CURRENT_DATE)), 0)
-        AS total
-")->fetchColumn();
+try {
+    $total_msh       = $pdo->query("SELECT COUNT(*) FROM majelis_sabuk_hitam WHERE status='aktif'")->fetchColumn();
+    $total_kohai     = $pdo->query("SELECT COUNT(*) FROM kohai WHERE status='aktif'")->fetchColumn();
+    $total_lokasi    = $pdo->query("SELECT COUNT(*) FROM lokasi WHERE status='aktif'")->fetchColumn();
+    $total_pendapatan_bulan = $pdo->query("
+        SELECT
+            COALESCE((SELECT SUM(jumlah) FROM pembayaran WHERE status='lunas' AND EXTRACT(MONTH FROM tanggal_bayar)=EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(YEAR FROM tanggal_bayar)=EXTRACT(YEAR FROM CURRENT_DATE)), 0)
+            + COALESCE((SELECT SUM(total_harga) FROM transaksi_toko WHERE EXTRACT(MONTH FROM tanggal)=EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(YEAR FROM tanggal)=EXTRACT(YEAR FROM CURRENT_DATE)), 0)
+            AS total
+    ")->fetchColumn();
 
-$saldo_row = $pdo->query("SELECT COALESCE(SUM(CASE WHEN jenis='pemasukan' THEN jumlah ELSE 0 END),0) - COALESCE(SUM(CASE WHEN jenis='pengeluaran' THEN jumlah ELSE 0 END),0) as saldo FROM transaksi")->fetch();
-$saldo_keuangan = $saldo_row['saldo'] ?? 0;
+    $saldo_row = $pdo->query("SELECT COALESCE(SUM(CASE WHEN jenis='pemasukan' THEN jumlah ELSE 0 END),0) - COALESCE(SUM(CASE WHEN jenis='pengeluaran' THEN jumlah ELSE 0 END),0) as saldo FROM transaksi")->fetch();
+    $saldo_keuangan = $saldo_row['saldo'] ?? 0;
 
-$total_kegiatan  = $pdo->query("SELECT COUNT(*) FROM kegiatan WHERE status='akan_datang'")->fetchColumn();
-$total_legalitas = $pdo->query("SELECT COUNT(*) FROM legalitas WHERE status='aktif'")->fetchColumn();
-$total_pending   = $pdo->query("SELECT COUNT(*) FROM (SELECT id FROM pendaftaran_msh WHERE status='Pending' UNION SELECT id FROM pendaftaran_kohai WHERE status='Pending') AS pending_count")->fetchColumn();
+    $total_kegiatan  = $pdo->query("SELECT COUNT(*) FROM kegiatan WHERE status='akan_datang'")->fetchColumn();
+    $total_legalitas = $pdo->query("SELECT COUNT(*) FROM legalitas WHERE status='aktif'")->fetchColumn();
+    $total_pending   = $pdo->query("SELECT COUNT(*) FROM (SELECT id FROM pendaftaran_msh WHERE status='Pending' UNION SELECT id FROM pendaftaran_kohai WHERE status='Pending') AS pending_count")->fetchColumn();
 
 // =============================================
 // DATA CHART: KEUANGAN 6 BULAN TERAKHIR
@@ -171,6 +176,15 @@ $laki_kohai = 0; $perempuan_kohai = 0;
 foreach ($gender_kohai as $g) {
     if ($g['jenis_kelamin'] === 'L') $laki_kohai = (int)$g['jumlah'];
     else $perempuan_kohai = (int)$g['jumlah'];
+}
+
+} catch(PDOException $e) {
+    // Log error untuk debugging
+    error_log("Dashboard Error: " . $e->getMessage());
+    
+    // Redirect ke login dengan error message
+    header('Location: ' . BASE_PATH . '/index.php?error=db_dashboard');
+    exit();
 }
 ?>
 <!DOCTYPE html>

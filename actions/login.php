@@ -46,7 +46,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['nama_lengkap'] = $user['nama_lengkap'];
                 $_SESSION['role'] = $user['role'];
                 
-                header('Location: ../dashboard.php');
+                header('Location: ' . BASE_PATH . '/dashboard.php');
                 exit();
                 
             } elseif($password === $user['password']) {
@@ -63,27 +63,27 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $updateStmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
                 $updateStmt->execute([$hashed, $user['id']]);
                 
-                header('Location: ../dashboard.php');
+                header('Location: ' . BASE_PATH . '/dashboard.php');
                 exit();
                 
             } else {
                 error_log("Password mismatch");
-                header('Location: ../index.php?error=wrong');
+                header('Location: ' . BASE_PATH . '/index.php?error=wrong');
                 exit();
             }
         } else {
             error_log("User not found");
-            header('Location: ../index.php?error=notfound');
+            header('Location: ' . BASE_PATH . '/index.php?error=notfound');
             exit();
         }
         
     } catch(PDOException $e) {
         error_log("Database error: " . $e->getMessage());
-        header('Location: ../index.php?error=db');
+        header('Location: ' . BASE_PATH . '/index.php?error=db');
         exit();
     }
 } else {
-    header('Location: ../index.php');
+    header('Location: ' . BASE_PATH . '/index.php');
     exit();
 }
 ?>
