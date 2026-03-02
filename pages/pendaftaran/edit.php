@@ -63,7 +63,7 @@ if(!$data) {
                 
                 <?php if($type == 'msh'): ?>
                 <!-- MSH Edit Form -->
-                <form action="actions/update_pendaftaran_msh.php" method="POST" enctype="multipart/form-data">
+                <form action="../../actions/update_pendaftaran_msh.php" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="<?php echo $data['id']; ?>">
                     
                     <div class="form-group">
@@ -159,7 +159,7 @@ if(!$data) {
                 
                 <?php else: ?>
                 <!-- Kohai Edit Form -->
-                <form action="actions/update_pendaftaran_kohai.php" method="POST" enctype="multipart/form-data">
+                <form action="../../actions/update_pendaftaran_kohai.php" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="<?php echo $data['id']; ?>">
                     
                     <div class="form-group">

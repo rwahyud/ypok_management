@@ -2,6 +2,10 @@
 // Output buffering to prevent "headers already sent" errors
 ob_start();
 
+// Disable error display to prevent any output before redirect
+ini_set('display_errors', '0');
+error_reporting(E_ALL);
+
 // Load config (includes session_start)
 require_once '../config/supabase.php';
 
@@ -13,7 +17,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     error_log("Login attempt - Username: $username");
     
     if(empty($username) || empty($password)) {
-        header('Location: ../index.php?error=empty');
+        while (ob_get_level()) ob_end_clean();
+        header('Location: ' . BASE_PATH . '/index.php?error=empty', true, 302);
         exit();
     }
     
@@ -41,7 +46,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['nama_lengkap'] = $user['nama_lengkap'];
                 $_SESSION['role'] = $user['role'];
                 
-                header('Location: ' . BASE_PATH . '/dashboard.php');
+                // Clear ALL output buffers
+                while (ob_get_level()) {
+                    ob_end_clean();
+                }
+                
+                // Redirect dengan absolute URL
+                header('Location: ' . BASE_PATH . '/dashboard.php', true, 302);
                 exit();
                 
             } elseif($password === $user['password']) {
@@ -58,27 +69,36 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $updateStmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
                 $updateStmt->execute([$hashed, $user['id']]);
                 
-                header('Location: ' . BASE_PATH . '/dashboard.php');
+                // Clear ALL output buffers
+                while (ob_get_level()) {
+                    ob_end_clean();
+                }
+                
+                // Redirect dengan absolute URL
+                header('Location: ' . BASE_PATH . '/dashboard.php', true, 302);
                 exit();
                 
             } else {
                 error_log("Password mismatch");
-                header('Location: ' . BASE_PATH . '/index.php?error=wrong');
+                while (ob_get_level()) ob_end_clean();
+                header('Location: ' . BASE_PATH . '/index.php?error=wrong', true, 302);
                 exit();
             }
         } else {
             error_log("User not found");
-            header('Location: ' . BASE_PATH . '/index.php?error=notfound');
+            while (ob_get_level()) ob_end_clean();
+            header('Location: ' . BASE_PATH . '/index.php?error=notfound', true, 302);
             exit();
         }
         
     } catch(PDOException $e) {
         error_log("Database error: " . $e->getMessage());
-        header('Location: ' . BASE_PATH . '/index.php?error=db');
+        while (ob_get_level()) ob_end_clean();
+        header('Location: ' . BASE_PATH . '/index.php?error=db', true, 302);
         exit();
     }
 } else {
-    header('Location: ' . BASE_PATH . '/index.php');
+    while (ob_get_level()) ob_end_clean();
+    header('Location: ' . BASE_PATH . '/index.php', true, 302);
     exit();
 }
-?>

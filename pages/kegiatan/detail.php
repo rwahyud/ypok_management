@@ -7,7 +7,7 @@ if(!isset($_SESSION['user_id'])) {
 }
 
 if(!isset($_GET['id'])) {
-    header('Location: laporan_kegiatan.php');
+    header('Location: ../laporan/kegiatan.php');
     exit();
 }
 
@@ -19,7 +19,7 @@ $stmt->execute([$id]);
 $kegiatan = $stmt->fetch();
 
 if(!$kegiatan) {
-    header('Location: laporan_kegiatan.php?error=Data tidak ditemukan');
+    header('Location: ../laporan/kegiatan.php?error=Data tidak ditemukan');
     exit();
 }
 
@@ -196,8 +196,8 @@ $status_display = [
                 <?php endif; ?>
                 
                 <div class="action-buttons">
-                    <a href="laporan_kegiatan.php" class="btn-back">← Kembali</a>
-                    <a href="kegiatan_edit.php?id=<?php echo $kegiatan['id']; ?>" class="btn-edit">✏️ Edit</a>
+                    <a href="../laporan/kegiatan.php" class="btn-back">← Kembali</a>
+                    <a href="edit.php?id=<?php echo $kegiatan['id']; ?>" class="btn-edit">✏️ Edit</a>
                     <a href="/ypok_management/ypok_management/pages/kegiatan/delete.php?id=<?php echo $kegiatan['id']; ?>" 
                        class="btn-delete" 
                        onclick="return confirm('Yakin ingin menghapus kegiatan ini?')">🗑️ Hapus</a>

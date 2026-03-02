@@ -11,6 +11,6 @@ $id = $_GET['id'] ?? 0;
 $stmt = $pdo->prepare("DELETE FROM pengurus WHERE id = ?");
 $stmt->execute([$id]);
 
-header('Location: legalitas.php?deleted=1');
+header('Location: ../legalitas/index.php?deleted=1');
 exit();
 ?>

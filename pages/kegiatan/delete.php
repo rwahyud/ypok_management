@@ -11,6 +11,6 @@ $id = $_GET['id'] ?? 0;
 $stmt = $pdo->prepare("DELETE FROM kegiatan WHERE id = ?");
 $stmt->execute([$id]);
 
-header('Location: laporan_kegiatan.php?deleted=1');
+header('Location: ../laporan/kegiatan.php?deleted=1');
 exit();
 ?>

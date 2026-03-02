@@ -42,7 +42,7 @@ $stmt_kategori = $pdo->query("SELECT DISTINCT jenis_pembayaran FROM pembayaran O
 $existing_categories = $stmt_kategori->fetchAll(PDO::FETCH_COLUMN);
 
 // Get kohai list for dropdown
-$stmt_kohai = $pdo->query("SELECT id, nama, kode_kohai FROM kohai WHERE status='aktif' ORDER BY nama");
+$stmt_kohai = $pdo->query("SELECT id, nama, kode_kohai FROM kohai WHERE status='Aktif' ORDER BY nama");
 $kohai_list = $stmt_kohai->fetchAll();
 
 // Get MSH list for dropdown

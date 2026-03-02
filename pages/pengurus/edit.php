@@ -19,7 +19,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt = $pdo->prepare("UPDATE pengurus SET nama=?, jabatan=?, periode=?, email=?, telepon=?, status=? WHERE id=?");
     $stmt->execute([$nama, $jabatan, $periode, $email, $telepon, $status, $id]);
     
-    header('Location: legalitas.php?updated=1');
+    header('Location: ../legalitas/index.php?updated=1');
     exit();
 }
 
@@ -28,7 +28,7 @@ $stmt->execute([$id]);
 $pengurus = $stmt->fetch();
 
 if(!$pengurus) {
-    header('Location: legalitas.php');
+    header('Location: ../legalitas/index.php');
     exit();
 }
 ?>

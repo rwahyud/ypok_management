@@ -32,7 +32,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     // Handle file upload
     if(isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
-        $upload_dir = 'uploads/pengurus/';
+        $upload_dir = '../../uploads/pengurus/';
         if(!is_dir($upload_dir)) {
             mkdir($upload_dir, 0777, true);
         }
@@ -48,7 +48,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt = $pdo->prepare("INSERT INTO pengurus (nik, nama, tempat_lahir, tanggal_lahir, jabatan, periode, no_sk, tanggal_sk, email, telepon, alamat, pendidikan_terakhir, foto, foto_url, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->execute([$nik, $nama, $tempat_lahir, $tanggal_lahir, $jabatan, $periode, $no_sk, $tanggal_sk, $email, $telepon, $alamat, $pendidikan_terakhir, $foto, $foto_url, $status]);
     
-    header('Location: legalitas.php?success=1');
+    header('Location: ../legalitas/index.php?success=1');
     exit();
 }
 ?>

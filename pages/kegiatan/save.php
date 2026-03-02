@@ -35,7 +35,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Handle foto upload
         $foto_filename = null;
         if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
-            $upload_dir = 'uploads/kegiatan/';
+            $upload_dir = '../../uploads/kegiatan/';
             
             // Create directory if not exists
             if (!is_dir($upload_dir)) {
@@ -185,20 +185,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             throw new Exception("Gagal mendapatkan ID kegiatan");
         }
         
-        header('Location: laporan_kegiatan.php?success=1');
+        header('Location: ../laporan/kegiatan.php?success=1');
         exit();
         
     } catch(PDOException $e) {
         error_log("Error saving kegiatan: " . $e->getMessage());
-        header('Location: laporan_kegiatan.php?error=' . urlencode($e->getMessage()));
+        header('Location: ../laporan/kegiatan.php?error=' . urlencode($e->getMessage()));
         exit();
     } catch(Exception $e) {
         error_log("Error: " . $e->getMessage());
-        header('Location: laporan_kegiatan.php?error=' . urlencode($e->getMessage()));
+        header('Location: ../laporan/kegiatan.php?error=' . urlencode($e->getMessage()));
         exit();
     }
 } else {
-    header('Location: laporan_kegiatan.php');
+    header('Location: ../laporan/kegiatan.php');
     exit();
 }
 ?>

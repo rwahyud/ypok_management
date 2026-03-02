@@ -23,7 +23,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Handle foto upload
     $foto = '';
     if(isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
-        $target_dir = "uploads/msh/";
+        $target_dir = "../../uploads/msh/";
         if(!file_exists($target_dir)) {
             mkdir($target_dir, 0777, true);
         }
@@ -34,7 +34,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt = $pdo->prepare("INSERT INTO majelis_sabuk_hitam (nama, nomor_sertifikat, tingkat_sabuk, tanggal_lulus, foto, alamat, no_telp, email, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
     if($stmt->execute([$nama, $nomor_msh, $tingkat_dan, $tanggal_lahir, $foto, $alamat, $no_telp, $dojo_cabang, $status])) {
-        header('Location: msh.php?success=1');
+        header('Location: index.php?success=1');
         exit();
     }
 }

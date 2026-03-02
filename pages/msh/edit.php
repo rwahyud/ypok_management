@@ -12,7 +12,7 @@ $stmt->execute([$id]);
 $msh = $stmt->fetch();
 
 if(!$msh) {
-    header('Location: msh.php');
+    header('Location: index.php');
     exit();
 }
 

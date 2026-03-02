@@ -5,21 +5,43 @@
 // Output buffering to prevent header errors
 ob_start();
 
+// Disable error display to prevent any output
+ini_set('display_errors', '0');
+error_reporting(E_ALL);
+
 require_once 'config/supabase.php';
 
 // Redirect jika belum login
 if(!isset($_SESSION['user_id'])) {
-    header('Location: /ypok_management/ypok_management/index.php');
+    while (ob_get_level()) {
+        ob_end_clean();
+    }
+    header('Location: ' . BASE_PATH . '/index.php', true, 302);
     exit();
 }
+
+// Prevent caching
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+
+error_log("Dashboard: Session validated for user " . $_SESSION['user_id']);
 
 // =============================================
 // STATISTIK UTAMA
 // =============================================
 
 try {
-    $total_msh       = $pdo->query("SELECT COUNT(*) FROM majelis_sabuk_hitam WHERE status='aktif'")->fetchColumn();
-    $total_kohai     = $pdo->query("SELECT COUNT(*) FROM kohai WHERE status='aktif'")->fetchColumn();
+    // Log untuk debugging
+    error_log("Dashboard: Starting to load statistics");
+    
+    $total_msh       = $pdo->query("SELECT COUNT(*) FROM majelis_sabuk_hitam")->fetchColumn();
+    error_log("Dashboard: Loaded MSH count = " . $total_msh);
+    
+    $total_kohai     = $pdo->query("SELECT COUNT(*) FROM kohai WHERE status='Aktif'")->fetchColumn();
+    error_log("Dashboard: Loaded Kohai count = " . $total_kohai);
+    
     $total_lokasi    = $pdo->query("SELECT COUNT(*) FROM lokasi WHERE status='aktif'")->fetchColumn();
     $total_pendapatan_bulan = $pdo->query("
         SELECT
@@ -32,8 +54,10 @@ try {
     $saldo_keuangan = $saldo_row['saldo'] ?? 0;
 
     $total_kegiatan  = $pdo->query("SELECT COUNT(*) FROM kegiatan WHERE status='akan_datang'")->fetchColumn();
-    $total_legalitas = $pdo->query("SELECT COUNT(*) FROM legalitas WHERE status='aktif'")->fetchColumn();
+    $total_legalitas = $pdo->query("SELECT COUNT(*) FROM legalitas WHERE status='Aktif'")->fetchColumn();
     $total_pending   = $pdo->query("SELECT COUNT(*) FROM (SELECT id FROM pendaftaran_msh WHERE status='Pending' UNION SELECT id FROM pendaftaran_kohai WHERE status='Pending') AS pending_count")->fetchColumn();
+    
+    error_log("Dashboard: All statistics loaded successfully");
 
 // =============================================
 // DATA CHART: KEUANGAN 6 BULAN TERAKHIR
@@ -109,7 +133,7 @@ $pembayaran_kategori_raw = $pdo->query("SELECT jenis_pembayaran, COUNT(*) as jum
 // DATA CHART: GENDER MSH & KOHAI
 // =============================================
 $gender_msh = $pdo->query("SELECT jenis_kelamin, COUNT(*) as jumlah FROM majelis_sabuk_hitam WHERE status='aktif' GROUP BY jenis_kelamin")->fetchAll();
-$gender_kohai = $pdo->query("SELECT jenis_kelamin, COUNT(*) as jumlah FROM kohai WHERE status='aktif' GROUP BY jenis_kelamin")->fetchAll();
+$gender_kohai = $pdo->query("SELECT jenis_kelamin, COUNT(*) as jumlah FROM kohai WHERE status='Aktif' GROUP BY jenis_kelamin")->fetchAll();
 
 // =============================================
 // DATA CHART: PENDAFTARAN 6 BULAN
@@ -687,7 +711,7 @@ foreach ($gender_kohai as $g) {
                 <div class="stat-card blue">
                     <div class="stat-icon-box">🥋</div>
                     <div class="stat-info">
-                        <div class="stat-label">Total MSH Aktif</div>
+                        <div class="stat-label">Total Data MSH</div>
                         <div class="stat-value"><?php echo number_format($total_msh); ?></div>
                         <div class="stat-sub">Majelis Sabuk Hitam</div>
                     </div>
@@ -828,7 +852,7 @@ foreach ($gender_kohai as $g) {
                 <div class="activity-card">
                     <div class="activity-header">
                         <div class="activity-title">📰 Berita Aktif di Guest Dashboard</div>
-                        <a href="laporan_kegiatan.php" class="activity-link" style="pointer-events: auto; color: #3b82f6; text-decoration: none; font-weight: 600;">Kelola Berita →</a>
+                        <a href="pages/laporan/kegiatan.php" class="activity-link" style="pointer-events: auto; color: #3b82f6; text-decoration: none; font-weight: 600;">Kelola Berita →</a>
                     </div>
                     <?php if (count($berita_aktif) > 0): ?>
                     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 16px;">
@@ -907,7 +931,7 @@ foreach ($gender_kohai as $g) {
                 <div class="activity-card">
                     <div class="activity-header">
                         <div class="activity-title">📅 Kegiatan Akan Datang</div>
-                        <a href="laporan_kegiatan.php" class="activity-link">Lihat Semua →</a>
+                        <a href="pages/laporan/kegiatan.php" class="activity-link">Lihat Semua →</a>
                     </div>
                     <?php if (count($upcoming_kegiatan) > 0): ?>
                     <table class="mini-table">
@@ -1183,3 +1207,9 @@ foreach ($gender_kohai as $g) {
 </script>
 </body>
 </html>
+<?php
+// Flush output buffer di akhir file
+if (ob_get_level() > 0) {
+    ob_end_flush();
+}
+?>

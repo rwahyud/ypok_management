@@ -191,10 +191,10 @@ $lokasi_list = $pdo->query("SELECT * FROM lokasi ORDER BY nama_lokasi")->fetchAl
             <div class="modal-content">
                 <div class="modal-header">
                     <h2>📰 Tambah Berita / Kegiatan</h2>
-                    <button class="close-modal" onclick="window.location.href='laporan_kegiatan.php'">×</button>
+                    <button class="close-modal" onclick="window.location.href='../laporan/kegiatan.php'">×</button>
                 </div>
                 
-                <form action="kegiatan_save.php" method="POST" id="formKegiatan" enctype="multipart/form-data">
+                <form action="save.php" method="POST" id="formKegiatan" enctype="multipart/form-data">
                     <div class="form-row">
                         <div class="form-group">
                             <label>Nama Kegiatan <span>*</span></label>
@@ -298,7 +298,7 @@ $lokasi_list = $pdo->query("SELECT * FROM lokasi ORDER BY nama_lokasi")->fetchAl
                     </div>
                     
                     <div class="modal-actions">
-                        <button type="button" class="btn-cancel" onclick="window.location.href='laporan_kegiatan.php'">Batal</button>
+                        <button type="button" class="btn-cancel" onclick="window.location.href='../laporan/kegiatan.php'">Batal</button>
                         <button type="submit" class="btn-submit">Simpan</button>
                     </div>
                 </form>

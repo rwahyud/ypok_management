@@ -1642,7 +1642,7 @@ $kohai_list = $pdo->query("SELECT id, nama, kode_kohai FROM kohai ORDER BY nama"
                 <button class="close-modal" onclick="closeModal()">×</button>
             </div>
             
-            <form action="kegiatan_save.php" method="POST" id="formKegiatan" enctype="multipart/form-data">
+            <form action="../kegiatan/save.php" method="POST" id="formKegiatan" enctype="multipart/form-data">
                 <div class="form-row">
                     <div class="form-group">
                         <label>Nama Kegiatan <span>*</span></label>
@@ -1832,7 +1832,7 @@ $kohai_list = $pdo->query("SELECT id, nama, kode_kohai FROM kohai ORDER BY nama"
                 <button class="close-modal" onclick="closeEditModal()">×</button>
             </div>
             
-            <form action="kegiatan_update.php" method="POST" id="formEdit" enctype="multipart/form-data">
+            <form action="../kegiatan/update.php" method="POST" id="formEdit" enctype="multipart/form-data">
                 <input type="hidden" name="id" id="editId">
                 <input type="hidden" name="foto_lama" id="editFotoLama">
                 
@@ -2257,7 +2257,7 @@ $kohai_list = $pdo->query("SELECT id, nama, kode_kohai FROM kohai ORDER BY nama"
                         document.getElementById('editFotoLama').value = k.foto || '';
                         if (k.foto) {
                             document.getElementById('editCurrentFoto').style.display = 'block';
-                            document.getElementById('editCurrentFotoImg').src = 'uploads/kegiatan/' + k.foto;
+                            document.getElementById('editCurrentFotoImg').src = '../../uploads/kegiatan/' + k.foto;
                         } else {
                             document.getElementById('editCurrentFoto').style.display = 'none';
                         }

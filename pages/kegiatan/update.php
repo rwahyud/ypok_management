@@ -32,7 +32,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $foto_filename = $_POST['foto_lama'] ?? null; // Keep old photo by default
         
         if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
-            $upload_dir = 'uploads/kegiatan/';
+            $upload_dir = '../../uploads/kegiatan/';
             
             // Create directory if not exists
             if (!is_dir($upload_dir)) {
@@ -177,20 +177,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             throw new Exception("Gagal mengupdate data kegiatan");
         }
         
-        header('Location: laporan_kegiatan.php?updated=1');
+        header('Location: ../laporan/kegiatan.php?updated=1');
         exit();
         
     } catch(PDOException $e) {
         error_log("Error updating kegiatan: " . $e->getMessage());
-        header('Location: kegiatan_edit.php?id=' . $_POST['id'] . '&error=' . urlencode($e->getMessage()));
+        header('Location: edit.php?id=' . $_POST['id'] . '&error=' . urlencode($e->getMessage()));
         exit();
     } catch(Exception $e) {
         error_log("Error: " . $e->getMessage());
-        header('Location: kegiatan_edit.php?id=' . $_POST['id'] . '&error=' . urlencode($e->getMessage()));
+        header('Location: edit.php?id=' . $_POST['id'] . '&error=' . urlencode($e->getMessage()));
         exit();
     }
 } else {
-    header('Location: laporan_kegiatan.php');
+    header('Location: ../laporan/kegiatan.php');
     exit();
 }
 ?>

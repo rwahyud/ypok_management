@@ -3,8 +3,8 @@ require_once 'config/supabase.php';
 
 try {
     // Ambil data statistik
-    $total_msh = $pdo->query("SELECT COUNT(*) FROM majelis_sabuk_hitam WHERE status='aktif'")->fetchColumn();
-    $total_kohai = $pdo->query("SELECT COUNT(*) FROM kohai WHERE status='aktif'")->fetchColumn();
+    $total_msh = $pdo->query("SELECT COUNT(*) FROM majelis_sabuk_hitam")->fetchColumn();
+    $total_kohai = $pdo->query("SELECT COUNT(*) FROM kohai WHERE status='Aktif'")->fetchColumn();
     $total_lokasi = $pdo->query("SELECT COUNT(*) FROM lokasi WHERE status='aktif'")->fetchColumn();
     $total_kegiatan = $pdo->query("SELECT COUNT(*) FROM kegiatan")->fetchColumn();
 

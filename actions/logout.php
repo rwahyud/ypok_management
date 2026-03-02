@@ -2,10 +2,12 @@
 // Output buffering to prevent header errors
 ob_start();
 
-// Start session if not already started
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+// Disable error display
+ini_set('display_errors', '0');
+error_reporting(E_ALL);
+
+// Load config untuk BASE_PATH
+require_once '../config/supabase.php';
 
 // Unset all session variables
 $_SESSION = array();
@@ -22,12 +24,11 @@ if (ini_get("session.use_cookies")) {
 // Destroy session completely
 session_destroy();
 
-// Clear any output buffers
-if (ob_get_level()) {
+// Clear ALL output buffers
+while (ob_get_level()) {
     ob_end_clean();
 }
 
 // Redirect to login page
-header('Location: ../index.php?logout=1');
+header('Location: ' . BASE_PATH . '/index.php?logout=1', true, 302);
 exit();
-?>

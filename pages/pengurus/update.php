@@ -31,7 +31,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     // Handle file upload if new file is uploaded
     if(isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
-        $upload_dir = 'uploads/pengurus/';
+        $upload_dir = '../../uploads/pengurus/';
         if(!is_dir($upload_dir)) {
             mkdir($upload_dir, 0777, true);
         }
@@ -48,7 +48,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->execute([$nik, $nama, $tempat_lahir, $tanggal_lahir, $jabatan, $periode, $no_sk, $tanggal_sk, $email, $telepon, $alamat, $pendidikan_terakhir, $foto_url, $status, $id]);
     }
     
-    header('Location: legalitas.php?updated=1');
+    header('Location: ../legalitas/index.php?updated=1');
     exit();
 }
 ?>

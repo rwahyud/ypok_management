@@ -7,7 +7,7 @@ if(!isset($_SESSION['user_id'])) {
 }
 
 if(!isset($_GET['id'])) {
-    header('Location: laporan_kegiatan.php');
+    header('Location: ../laporan/kegiatan.php');
     exit();
 }
 
@@ -19,7 +19,7 @@ $stmt->execute([$id]);
 $kegiatan = $stmt->fetch();
 
 if(!$kegiatan) {
-    header('Location: laporan_kegiatan.php?error=Data tidak ditemukan');
+    header('Location: ../laporan/kegiatan.php?error=Data tidak ditemukan');
     exit();
 }
 
@@ -193,7 +193,7 @@ $status_map = [
                     <h1>✏️ Edit Berita / Kegiatan</h1>
                 </div>
                 
-                <form action="kegiatan_update.php" method="POST" id="formEdit" enctype="multipart/form-data">
+                <form action="update.php" method="POST" id="formEdit" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="<?php echo $kegiatan['id']; ?>">
                     
                     <div class="form-row">
@@ -303,7 +303,7 @@ $status_map = [
                         
                         <?php if (!empty($kegiatan['foto'])): ?>
                             <div style="margin-bottom: 15px;">
-                                <img src="uploads/kegiatan/<?php echo htmlspecialchars($kegiatan['foto']); ?>" 
+                                <img src="../../uploads/kegiatan/<?php echo htmlspecialchars($kegiatan['foto']); ?>" 
                                      alt="Foto Kegiatan" 
                                      style="max-width: 300px; max-height: 200px; border-radius: 4px; border: 1px solid #ddd;">
                                 <div style="margin-top: 5px; font-size: 12px; color: #666;">
@@ -335,7 +335,7 @@ $status_map = [
                     </div>
                     
                     <div class="form-actions">
-                        <a href="laporan_kegiatan.php" class="btn-cancel">Batal</a>
+                        <a href="../laporan/kegiatan.php" class="btn-cancel">Batal</a>
                         <button type="submit" class="btn-submit">Update Data</button>
                     </div>
                 </form>

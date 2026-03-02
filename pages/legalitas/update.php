@@ -66,7 +66,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $allowed_extensions = ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png', 'zip', 'rar'];
         
         if((in_array($file_type, $allowed_types) || in_array($file_extension, $allowed_extensions)) && $file_size <= $max_size) {
-            $upload_dir = 'uploads/dokumen/';
+            $upload_dir = '../../uploads/dokumen/';
             if(!is_dir($upload_dir)) {
                 mkdir($upload_dir, 0777, true);
             }

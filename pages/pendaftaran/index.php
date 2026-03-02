@@ -169,7 +169,7 @@ if($tab == 'msh') {
                 
                 <!-- MSH Form -->
                 <div id="form-msh" class="form-content" style="display: <?php echo $tab == 'msh' ? 'block' : 'none'; ?>;">
-                    <form action="<?php echo $edit_data && $tab == 'msh' ? 'actions/update_pendaftaran_msh.php' : 'actions/save_pendaftaran_msh.php'; ?>" method="POST" enctype="multipart/form-data">
+                    <form action="<?php echo $edit_data && $tab == 'msh' ? '../../actions/update_pendaftaran_msh.php' : '../../actions/save_pendaftaran_msh.php'; ?>" method="POST" enctype="multipart/form-data">
                         <?php if($edit_data && $tab == 'msh'): ?>
                         <input type="hidden" name="id" value="<?php echo $edit_data['id']; ?>">
                         <input type="hidden" name="foto_lama" value="<?php echo htmlspecialchars($edit_data['foto'] ?? ''); ?>">
@@ -265,7 +265,7 @@ if($tab == 'msh') {
                 
                 <!-- Kohai Form -->
                 <div id="form-kohai" class="form-content" style="display: <?php echo $tab == 'kohai' ? 'block' : 'none'; ?>;">
-                    <form action="<?php echo $edit_data && $tab == 'kohai' ? 'actions/update_pendaftaran_kohai.php' : 'actions/save_pendaftaran_kohai.php'; ?>" method="POST" enctype="multipart/form-data">
+                    <form action="<?php echo $edit_data && $tab == 'kohai' ? '../../actions/update_pendaftaran_kohai.php' : '../../actions/save_pendaftaran_kohai.php'; ?>" method="POST" enctype="multipart/form-data">
                         <?php if($edit_data && $tab == 'kohai'): ?>
                         <input type="hidden" name="id" value="<?php echo $edit_data['id']; ?>">
                         <input type="hidden" name="foto_lama" value="<?php echo htmlspecialchars($edit_data['foto'] ?? ''); ?>">

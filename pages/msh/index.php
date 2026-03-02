@@ -36,7 +36,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         // Handle foto upload
         $foto = '';
         if(isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
-            $target_dir = "uploads/msh/";
+            $target_dir = "../../uploads/msh/";
             if(!file_exists($target_dir)) {
                 mkdir($target_dir, 0777, true);
             }
@@ -1951,7 +1951,7 @@ $total_pages = ceil($total / $limit);
         
         function deleteData(id, nama) {
             if(confirm('Apakah Anda yakin ingin menghapus data MSH:\n' + nama + '?')) {
-                window.location.href = 'msh.php?delete=' + id;
+                window.location.href = 'index.php?delete=' + id;
             }
         }
         
