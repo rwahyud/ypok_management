@@ -266,7 +266,7 @@ try {
                         <div class="document-actions">
                             <a href="#" class="action-icon" onclick="viewDokumen(<?php echo htmlspecialchars(json_encode($legal)); ?>); return false;" title="Lihat Detail">👁️</a>
                             <a href="#" class="action-icon" onclick="editDokumen(<?php echo htmlspecialchars(json_encode($legal)); ?>); return false;" title="Edit">✏️</a>
-                            <a href="legalitas_delete.php?id=<?php echo $legal['id']; ?>" class="action-icon" onclick="return confirm('Yakin hapus dokumen ini?')" title="Hapus">🗑️</a>
+                            <a href="/ypok_management/ypok_management/pages/legalitas/delete.php?id=<?php echo $legal['id']; ?>" class="action-icon" onclick="return confirm('Yakin hapus dokumen ini?')" title="Hapus">🗑️</a>
                         </div>
                     </div>
                     <div class="document-number"><?php echo htmlspecialchars($legal['nomor_dokumen']); ?></div>
@@ -337,7 +337,7 @@ try {
                     <div class="pengurus-actions">
                         <a href="#" class="btn-view-small" onclick="viewPengurus(<?php echo htmlspecialchars(json_encode($pengurus)); ?>); return false;" title="Lihat Detail">👁️</a>
                         <a href="#" class="btn-edit-small" onclick="editPengurus(<?php echo htmlspecialchars(json_encode($pengurus)); ?>); return false;" title="Edit">✏️</a>
-                        <a href="pengurus_delete.php?id=<?php echo $pengurus['id']; ?>" class="btn-delete-small" onclick="return confirm('Yakin hapus pengurus ini?')" title="Hapus">🗑️</a>
+                        <a href="/ypok_management/ypok_management/pages/pengurus/delete.php?id=<?php echo $pengurus['id']; ?>" class="btn-delete-small" onclick="return confirm('Yakin hapus pengurus ini?')" title="Hapus">🗑️</a>
                     </div>
                 </div>
                 <?php endforeach; ?>

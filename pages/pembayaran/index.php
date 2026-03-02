@@ -56,7 +56,7 @@ $msh_list = $stmt_msh->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Pembayaran - YPOK Management</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/pembayaran.css">
+    <link rel="stylesheet" href="../../assets/css/pembayaran.css">
 </head>
 <body>
    <?php include '../../components/navbar.php'; ?>

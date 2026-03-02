@@ -56,7 +56,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="container">
             <div class="content-header">
                 <h1>✏️ Edit Data MSH</h1>
-                <button class="btn-primary" onclick="window.location.href='msh.php'">
+                <button class="btn-primary" onclick="window.location.href='index.php'">
                     ← Kembali
                 </button>
             </div>
@@ -118,7 +118,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                     
                     <div style="margin-top: 30px; display: flex; gap: 10px;">
-                        <button type="button" class="btn-cancel" onclick="window.location.href='msh.php'">Batal</button>
+                        <button type="button" class="btn-cancel" onclick="window.location.href='index.php'">Batal</button>
                         <button type="submit" class="btn-submit" style="flex: 2;">💾 Update Data MSH</button>
                     </div>
                 </form>

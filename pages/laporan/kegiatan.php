@@ -1610,7 +1610,7 @@ $kohai_list = $pdo->query("SELECT id, nama, kode_kohai FROM kohai ORDER BY nama"
                             <td>
                                 <a href="javascript:void(0)" onclick="viewDetail(<?php echo $kegiatan['id']; ?>)" class="btn-view" title="Lihat Detail">👁️</a>
                                 <a href="javascript:void(0)" onclick="editKegiatan(<?php echo $kegiatan['id']; ?>)" class="btn-edit" title="Edit">✏️</a>
-                                <a href="kegiatan_delete.php?id=<?php echo $kegiatan['id']; ?>" 
+                                <a href="/ypok_management/ypok_management/pages/kegiatan/delete.php?id=<?php echo $kegiatan['id']; ?>" 
                                    class="btn-delete" 
                                    title="Hapus"
                                    onclick="return confirm('Yakin ingin menghapus kegiatan ini?')">🗑️</a>

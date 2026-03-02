@@ -81,7 +81,7 @@ if($tab == 'msh') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Pendaftaran - YPOK Management</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/pendaftaran.css">
+    <link rel="stylesheet" href="../../assets/css/pendaftaran.css">
 </head>
 <body>
     <?php include '../../components/navbar.php'; ?>
@@ -151,7 +151,7 @@ if($tab == 'msh') {
                     <h3><?php echo $edit_data ? '✏️ Edit' : '📝 Form'; ?> Pendaftaran</h3>
                     <p><?php echo $edit_data ? 'Update data yang sudah ada' : 'Isi data dengan lengkap'; ?></p>
                     <?php if($edit_data): ?>
-                    <a href="pendaftaran.php?tab=<?php echo $tab; ?>" style="display: inline-block; margin-top: 10px; padding: 8px 15px; background: #f1f1f1; border-radius: 6px; text-decoration: none; color: #666; font-size: 13px;">
+                    <a href="index.php?tab=<?php echo $tab; ?>" style="display: inline-block; margin-top: 10px; padding: 8px 15px; background: #f1f1f1; border-radius: 6px; text-decoration: none; color: #666; font-size: 13px;">
                         ❌ Batal Edit
                     </a>
                     <?php endif; ?>

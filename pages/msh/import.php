@@ -469,7 +469,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'import') {
                         
                         <div class="actions">
                             <a href="index.php" class="btn btn-primary">Lihat Data MSH</a>
-                            <a href="import_msh_csv.php" class="btn btn-secondary">Import Lagi</a>
+                            <a href="import.php" class="btn btn-secondary">Import Lagi</a>
                         </div>
                     </div>
                 <?php else: ?>
@@ -477,7 +477,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'import') {
                         <h3>❌ Import Gagal</h3>
                         <p><?= htmlspecialchars($result_message['message']) ?></p>
                         <div class="actions">
-                            <a href="import_msh_csv.php" class="btn btn-secondary">Coba Lagi</a>
+                            <a href="import.php" class="btn btn-secondary">Coba Lagi</a>
                         </div>
                     </div>
                 <?php endif; ?>

@@ -438,7 +438,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="modal-content">
             <div class="modal-header">
                 <h2>➕ Tambah Data MSH</h2>
-                <button class="btn-close" onclick="window.location.href='msh.php'">×</button>
+                <button class="btn-close" onclick="window.location.href='index.php'">×</button>
             </div>
             
             <form method="POST" enctype="multipart/form-data" id="formMSH">
@@ -621,7 +621,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn-cancel" onclick="window.location.href='msh.php'">
+                    <button type="button" class="btn-cancel" onclick="window.location.href='index.php'">
                         Batal
                     </button>
                     <button type="submit" class="btn-submit">

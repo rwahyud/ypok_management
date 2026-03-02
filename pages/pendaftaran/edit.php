@@ -37,7 +37,7 @@ if(!$data) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Pendaftaran <?php echo strtoupper($type); ?> - YPOK Management</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/pendaftaran.css">
+    <link rel="stylesheet" href="../../assets/css/pendaftaran.css">
 </head>
 <body>
     <?php include '../../components/navbar.php'; ?>
@@ -56,7 +56,7 @@ if(!$data) {
                 <div style="margin-bottom: 30px;">
                     <h2 style="color: #2d3748; margin-bottom: 10px;">📝 Edit Data Pendaftaran</h2>
                     <p style="color: #718096;">Update informasi pendaftaran <?php echo strtoupper($type); ?></p>
-                    <a href="pendaftaran.php?tab=<?php echo $type; ?>" style="display: inline-block; margin-top: 10px; color: #4a5fc1; text-decoration: none;">
+                    <a href="index.php?tab=<?php echo $type; ?>" style="display: inline-block; margin-top: 10px; color: #4a5fc1; text-decoration: none;">
                         ← Kembali ke Daftar
                     </a>
                 </div>
@@ -151,7 +151,7 @@ if(!$data) {
                         <button type="submit" class="btn-submit">
                             💾 Update Data MSH
                         </button>
-                        <a href="pendaftaran.php?tab=msh" class="btn-submit" style="background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%); text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center;">
+                        <a href="index.php?tab=msh" class="btn-submit" style="background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%); text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center;">
                             ❌ Batal
                         </a>
                     </div>
@@ -246,7 +246,7 @@ if(!$data) {
                         <button type="submit" class="btn-submit">
                             💾 Update Data Kohai
                         </button>
-                        <a href="pendaftaran.php?tab=kohai" class="btn-submit" style="background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%); text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center;">
+                        <a href="index.php?tab=kohai" class="btn-submit" style="background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%); text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center;">
                             ❌ Batal
                         </a>
                     </div>

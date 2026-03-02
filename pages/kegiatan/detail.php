@@ -198,7 +198,7 @@ $status_display = [
                 <div class="action-buttons">
                     <a href="laporan_kegiatan.php" class="btn-back">← Kembali</a>
                     <a href="kegiatan_edit.php?id=<?php echo $kegiatan['id']; ?>" class="btn-edit">✏️ Edit</a>
-                    <a href="kegiatan_delete.php?id=<?php echo $kegiatan['id']; ?>" 
+                    <a href="/ypok_management/ypok_management/pages/kegiatan/delete.php?id=<?php echo $kegiatan['id']; ?>" 
                        class="btn-delete" 
                        onclick="return confirm('Yakin ingin menghapus kegiatan ini?')">🗑️ Hapus</a>
                 </div>
