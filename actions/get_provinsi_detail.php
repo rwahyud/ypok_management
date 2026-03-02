@@ -49,7 +49,7 @@ try {
         </div>
         <div class="detail-info">
             <h1><?php echo strtoupper(htmlspecialchars($provinsi['nama_provinsi'])); ?></h1>
-            <?php if($provinsi['ibu_kota']): ?>
+            <?php if(!empty($provinsi['ibu_kota'])): ?>
                 <p class="capital-info">
                     <span class="capital-icon">🏛️</span>
                     <span>Ibu Kota: <strong><?php echo htmlspecialchars($provinsi['ibu_kota']); ?></strong></span>
