@@ -81,6 +81,15 @@
             </a>
         </li>
         
+        <div class="menu-section">AKUN</div>
+        
+        <li>
+            <a href="<?php echo BASE_PATH; ?>/pages/pengaturan/" <?php echo strpos($_SERVER['PHP_SELF'], '/pengaturan/') !== false ? 'class="active"' : ''; ?>>
+                <span class="icon">⚙️</span>
+                <span>Pengaturan</span>
+            </a>
+        </li>
+        
         <li>
             <a href="javascript:void(0)" onclick="confirmLogout()" class="logout-menu">
                 <span class="icon">🚪</span>
