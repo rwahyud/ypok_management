@@ -8,7 +8,10 @@ try {
     $total_lokasi = $pdo->query("SELECT COUNT(*) FROM lokasi WHERE status='aktif'")->fetchColumn();
     $total_kegiatan = $pdo->query("SELECT COUNT(*) FROM kegiatan")->fetchColumn();
 
-    // Ambil kegiatan terbaru
+    // Ambil berita yang akan datang (upcoming events) - maksimal 5
+    $berita_upcoming = $pdo->query("SELECT nama_kegiatan, tanggal_kegiatan, keterangan FROM kegiatan WHERE tampil_di_berita = true AND tanggal_kegiatan >= CURRENT_DATE ORDER BY tanggal_kegiatan ASC LIMIT 5")->fetchAll();
+
+    // Ambil kegiatan terbaru untuk section events
     $kegiatan_data = $pdo->query("SELECT nama_kegiatan, tanggal_kegiatan, foto, keterangan FROM kegiatan WHERE tampil_di_berita = true ORDER BY tanggal_kegiatan DESC LIMIT 3")->fetchAll();
     
 } catch(PDOException $e) {
@@ -16,6 +19,7 @@ try {
     $total_kohai = 0;
     $total_lokasi = 0;
     $total_kegiatan = 0;
+    $berita_upcoming = [];
     $kegiatan_data = [];
     error_log("Guest Dashboard Error: " . $e->getMessage());
 }
@@ -264,6 +268,93 @@ try {
         .btn-outline:hover {
             background: var(--white);
             color: var(--primary-color);
+        }
+
+        /* ========== NEWS TICKER/CAROUSEL ========== */
+        .news-ticker-wrapper {
+            background: rgba(245, 158, 11, 0.95);
+            padding: 15px 0;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .news-ticker-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .news-ticker-label {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .news-ticker-content {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            height: 50px;
+        }
+
+        .news-item {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            padding: 5px 0;
+        }
+
+        .news-item.active {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .news-item h4 {
+            color: var(--white);
+            font-size: 18px;
+            margin-bottom: 5px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .news-item .news-date {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .news-dots {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .news-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .news-dot.active {
+            background: var(--white);
+            width: 24px;
+            border-radius: 4px;
         }
 
         /* ========== CONTAINER ========== */
@@ -786,6 +877,35 @@ try {
                 font-size: 16px;
             }
 
+            .news-ticker-wrapper {
+                padding: 12px 0;
+            }
+
+            .news-ticker-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .news-ticker-label {
+                width: 100%;
+                text-align: center;
+                padding: 6px 15px;
+                font-size: 12px;
+            }
+
+            .news-ticker-content {
+                height: 60px;
+                padding: 0 10px;
+            }
+
+            .news-item h4 {
+                font-size: 15px;
+            }
+
+            .news-item .news-date {
+                font-size: 12px;
+            }
+
             .about-content {
                 grid-template-columns: 1fr;
                 gap: 30px;
@@ -900,6 +1020,37 @@ try {
     <!-- ========== HERO SECTION ========== -->
     <section class="hero" id="home">
         <div class="container">
+            <?php if(count($berita_upcoming) > 0): ?>
+            <!-- Berita Yang Akan Datang -->
+            <div class="news-ticker-wrapper">
+                <div class="news-ticker-container">
+                    <div class="news-ticker-label">
+                        📢 Berita
+                    </div>
+                    <div class="news-ticker-content" id="newsTicker">
+                        <?php foreach($berita_upcoming as $index => $berita): ?>
+                            <div class="news-item <?php echo $index === 0 ? 'active' : ''; ?>" data-index="<?php echo $index; ?>">
+                                <h4><?php echo htmlspecialchars($berita['nama_kegiatan']); ?></h4>
+                                <div class="news-date">
+                                    📅 <?php 
+                                        $date = new DateTime($berita['tanggal_kegiatan']);
+                                        echo $date->format('d F Y');
+                                    ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <?php if(count($berita_upcoming) > 1): ?>
+                <div class="news-dots" id="newsDots">
+                    <?php foreach($berita_upcoming as $index => $berita): ?>
+                        <div class="news-dot <?php echo $index === 0 ? 'active' : ''; ?>" onclick="showNews(<?php echo $index; ?>)"></div>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
+
             <div class="hero-content fade-in-up">
                 <h2>Membina Karakter Melalui<br>Seni Bela Diri Karate</h2>
                 <p>Yayasan Pendidikan Olahraga Karate (YPOK) berkomitmen untuk mengembangkan potensi individu melalui pelatihan karate yang berkualitas, membentuk karakter kuat, disiplin, dan sportivitas.</p>
@@ -1352,6 +1503,52 @@ try {
             const newOffset = mshCurrentOffset + mshLimit;
             loadMshData(mshCurrentSearch, newOffset, true);
         });
+
+        // ========== NEWS TICKER AUTO-ROTATE ==========
+        let currentNewsIndex = 0;
+        let newsInterval;
+        const newsItems = document.querySelectorAll('.news-item');
+        const newsDots = document.querySelectorAll('.news-dot');
+        const totalNews = newsItems.length;
+
+        function showNews(index) {
+            if (totalNews === 0) return;
+            
+            // Remove active class from all items
+            newsItems.forEach(item => item.classList.remove('active'));
+            newsDots.forEach(dot => dot.classList.remove('active'));
+            
+            // Add active class to selected item
+            newsItems[index].classList.add('active');
+            if (newsDots[index]) {
+                newsDots[index].classList.add('active');
+            }
+            
+            currentNewsIndex = index;
+        }
+
+        function nextNews() {
+            if (totalNews === 0) return;
+            currentNewsIndex = (currentNewsIndex + 1) % totalNews;
+            showNews(currentNewsIndex);
+        }
+
+        // Auto-rotate every 10 seconds
+        if (totalNews > 1) {
+            newsInterval = setInterval(nextNews, 10000);
+            
+            // Pause on hover
+            const newsTicker = document.getElementById('newsTicker');
+            if (newsTicker) {
+                newsTicker.addEventListener('mouseenter', () => {
+                    clearInterval(newsInterval);
+                });
+                
+                newsTicker.addEventListener('mouseleave', () => {
+                    newsInterval = setInterval(nextNews, 10000);
+                });
+            }
+        }
     </script>
 </body>
 </html>
