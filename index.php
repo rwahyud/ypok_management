@@ -33,7 +33,8 @@ if(isset($_SESSION['user_id'])) {
             <div class="login-box">
                 <div class="logo-section">
                     <img src="assets/images/LOGO YPOK NO BACKGROUND.png" alt="YPOK Logo" class="karate-icon" style="width: 80px; height: 80px; object-fit: contain;">
-                    <h2>YPOK Management</h2>
+                    <h2>Yayasan Pendidikan Olahraga Karate ( YPOK ) </h2>
+                    
                     <p class="subtitle">Silakan login untuk melanjutkan</p>
                 </div>
                 
@@ -111,8 +112,8 @@ if(isset($_SESSION['user_id'])) {
                 </a>
                 
                 <a href="guest_dashboard.php" class="btn-guest" style="display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 12px; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; text-decoration: none; border-radius: 10px; font-weight: 600; transition: all 0.3s; margin-top: 15px;">
-                    <span>🌐</span>
-                    <span>Lihat Profil YPOK</span>
+                    
+                    <span>Login Sebagai Tamu</span>
                 </a>
                 
                 <div class="login-footer">
