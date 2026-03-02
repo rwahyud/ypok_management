@@ -8,9 +8,6 @@ try {
     $total_lokasi = $pdo->query("SELECT COUNT(*) FROM lokasi WHERE status='aktif'")->fetchColumn();
     $total_kegiatan = $pdo->query("SELECT COUNT(*) FROM kegiatan")->fetchColumn();
 
-    // Ambil berita yang akan datang (upcoming events) - maksimal 5
-    $berita_upcoming = $pdo->query("SELECT nama_kegiatan, tanggal_kegiatan, keterangan, foto FROM kegiatan WHERE tampil_di_berita = true AND tanggal_kegiatan >= CURRENT_DATE ORDER BY tanggal_kegiatan ASC LIMIT 5")->fetchAll();
-
     // Ambil kegiatan terbaru untuk section events
     $kegiatan_data = $pdo->query("SELECT nama_kegiatan, tanggal_kegiatan, foto, keterangan FROM kegiatan WHERE tampil_di_berita = true ORDER BY tanggal_kegiatan DESC LIMIT 3")->fetchAll();
     
@@ -19,7 +16,6 @@ try {
     $total_kohai = 0;
     $total_lokasi = 0;
     $total_kegiatan = 0;
-    $berita_upcoming = [];
     $kegiatan_data = [];
     error_log("Guest Dashboard Error: " . $e->getMessage());
 }
@@ -268,151 +264,6 @@ try {
         .btn-outline:hover {
             background: var(--white);
             color: var(--primary-color);
-        }
-
-        /* ========== NEWS TICKER/CAROUSEL ========== */
-        .news-ticker-wrapper {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.98), rgba(217, 119, 6, 0.98));
-            padding: 20px;
-            margin-bottom: 30px;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        .news-ticker-container {
-            display: flex;
-            align-items: stretch;
-            gap: 20px;
-        }
-
-        .news-ticker-label {
-            background: var(--primary-color);
-            color: var(--white);
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            white-space: nowrap;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0, 23, 75, 0.3);
-        }
-
-        .news-ticker-content {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-            min-height: 120px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 15px;
-        }
-
-        .news-item {
-            position: absolute;
-            width: 100%;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            padding: 15px;
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .news-item.active {
-            opacity: 1;
-            z-index: 1;
-        }
-
-        .news-item-image {
-            width: 120px;
-            height: 90px;
-            border-radius: 8px;
-            overflow: hidden;
-            flex-shrink: 0;
-            background: linear-gradient(135deg, var(--primary-color), #1e3a8a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .news-item-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .news-item-image .no-image {
-            color: var(--white);
-            font-size: 36px;
-        }
-
-        .news-item-text {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .news-item h4 {
-            color: var(--white);
-            font-size: 18px;
-            margin-bottom: 8px;
-            font-weight: 600;
-            line-height: 1.4;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .news-item .news-date {
-            color: rgba(255, 255, 255, 0.95);
-            font-size: 13px;
-            font-weight: 500;
-            display: inline-block;
-            background: rgba(0, 23, 75, 0.4);
-            padding: 4px 12px;
-            border-radius: 20px;
-            margin-bottom: 5px;
-        }
-
-        .news-item .news-desc {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
-            line-height: 1.5;
-            margin-top: 5px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-        }
-
-        .news-dots {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 10px;
-        }
-
-        .news-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .news-dot.active {
-            background: var(--white);
-            width: 24px;
-            border-radius: 4px;
         }
 
         /* ========== CONTAINER ========== */
@@ -935,51 +786,6 @@ try {
                 font-size: 16px;
             }
 
-            .news-ticker-wrapper {
-                padding: 15px;
-            }
-
-            .news-ticker-container {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .news-ticker-label {
-                width: 100%;
-                text-align: center;
-                padding: 8px 15px;
-                font-size: 12px;
-            }
-
-            .news-ticker-content {
-                min-height: 140px;
-                padding: 10px;
-            }
-
-            .news-item {
-                flex-direction: column;
-                gap: 10px;
-                padding: 10px;
-            }
-
-            .news-item-image {
-                width: 100%;
-                height: 150px;
-            }
-
-            .news-item h4 {
-                font-size: 15px;
-            }
-
-            .news-item .news-date {
-                font-size: 11px;
-            }
-
-            .news-item .news-desc {
-                font-size: 12px;
-                -webkit-line-clamp: 3;
-            }
-
             .about-content {
                 grid-template-columns: 1fr;
                 gap: 30px;
@@ -1094,49 +900,6 @@ try {
     <!-- ========== HERO SECTION ========== -->
     <section class="hero" id="home">
         <div class="container">
-            <?php if(count($berita_upcoming) > 0): ?>
-            <!-- Berita Yang Akan Datang -->
-            <div class="news-ticker-wrapper">
-                <div class="news-ticker-container">
-                    <div class="news-ticker-label">
-                        📢 Berita
-                    </div>
-                    <div class="news-ticker-content" id="newsTicker">
-                        <?php foreach($berita_upcoming as $index => $berita): ?>
-                            <div class="news-item <?php echo $index === 0 ? 'active' : ''; ?>" data-index="<?php echo $index; ?>">
-                                <div class="news-item-image">
-                                    <?php if(!empty($berita['foto']) && file_exists('uploads/kegiatan/' . $berita['foto'])): ?>
-                                        <img src="uploads/kegiatan/<?php echo htmlspecialchars($berita['foto']); ?>" alt="<?php echo htmlspecialchars($berita['nama_kegiatan']); ?>">
-                                    <?php else: ?>
-                                        <div class="no-image">📰</div>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="news-item-text">
-                                    <div class="news-date">
-                                        📅 <?php 
-                                            $date = new DateTime($berita['tanggal_kegiatan']);
-                                            echo $date->format('d F Y');
-                                        ?>
-                                    </div>
-                                    <h4><?php echo htmlspecialchars($berita['nama_kegiatan']); ?></h4>
-                                    <?php if(!empty($berita['keterangan'])): ?>
-                                        <div class="news-desc"><?php echo htmlspecialchars($berita['keterangan']); ?></div>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-                <?php if(count($berita_upcoming) > 1): ?>
-                <div class="news-dots" id="newsDots">
-                    <?php foreach($berita_upcoming as $index => $berita): ?>
-                        <div class="news-dot <?php echo $index === 0 ? 'active' : ''; ?>" onclick="showNews(<?php echo $index; ?>)"></div>
-                    <?php endforeach; ?>
-                </div>
-                <?php endif; ?>
-            </div>
-            <?php endif; ?>
-
             <div class="hero-content fade-in-up">
                 <h2>Membina Karakter Melalui<br>Seni Bela Diri Karate</h2>
                 <p>Yayasan Pendidikan Olahraga Karate (YPOK) berkomitmen untuk mengembangkan potensi individu melalui pelatihan karate yang berkualitas, membentuk karakter kuat, disiplin, dan sportivitas.</p>
@@ -1589,52 +1352,6 @@ try {
             const newOffset = mshCurrentOffset + mshLimit;
             loadMshData(mshCurrentSearch, newOffset, true);
         });
-
-        // ========== NEWS TICKER AUTO-ROTATE ==========
-        let currentNewsIndex = 0;
-        let newsInterval;
-        const newsItems = document.querySelectorAll('.news-item');
-        const newsDots = document.querySelectorAll('.news-dot');
-        const totalNews = newsItems.length;
-
-        function showNews(index) {
-            if (totalNews === 0) return;
-            
-            // Remove active class from all items
-            newsItems.forEach(item => item.classList.remove('active'));
-            newsDots.forEach(dot => dot.classList.remove('active'));
-            
-            // Add active class to selected item
-            newsItems[index].classList.add('active');
-            if (newsDots[index]) {
-                newsDots[index].classList.add('active');
-            }
-            
-            currentNewsIndex = index;
-        }
-
-        function nextNews() {
-            if (totalNews === 0) return;
-            currentNewsIndex = (currentNewsIndex + 1) % totalNews;
-            showNews(currentNewsIndex);
-        }
-
-        // Auto-rotate every 10 seconds
-        if (totalNews > 1) {
-            newsInterval = setInterval(nextNews, 10000);
-            
-            // Pause on hover
-            const newsTicker = document.getElementById('newsTicker');
-            if (newsTicker) {
-                newsTicker.addEventListener('mouseenter', () => {
-                    clearInterval(newsInterval);
-                });
-                
-                newsTicker.addEventListener('mouseleave', () => {
-                    newsInterval = setInterval(nextNews, 10000);
-                });
-            }
-        }
     </script>
 </body>
 </html>
