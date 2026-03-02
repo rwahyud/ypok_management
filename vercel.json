@@ -4,6 +4,9 @@
     "api/**/*.php": {
       "runtime": "vercel-php@0.6.0"
     },
+    "pages/**/*.php": {
+      "runtime": "vercel-php@0.6.0"
+    },
     "*.php": {
       "runtime": "vercel-php@0.6.0"
     }
@@ -20,6 +23,18 @@
     {
       "src": "/sw.js",
       "dest": "/sw.js"
+    },
+    {
+      "src": "/pages/(msh|kohai|kegiatan|lokasi|pembayaran|pendaftaran|legalitas|toko|laporan|pengurus|surat)/",
+      "dest": "/pages/$1/index.php"
+    },
+    {
+      "src": "/api/(.*)\\.php",
+      "dest": "/api/$1.php"
+    },
+    {
+      "src": "/pages/(.*)\\.php",
+      "dest": "/pages/$1.php"
     },
     {
       "src": "/(.*)\\.php",

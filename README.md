@@ -151,22 +151,51 @@ Dokumentasi lengkap tersedia di folder `docs/`:
 
 ```
 ypok_management/
-├── actions/              # PHP action handlers
-├── assets/              # CSS, JS, images, icons
-├── auth/                # Authentication logic
-├── components/          # Reusable PHP components
-├── config/              # Configuration files
-├── database/            # Database utilities
-├── docs/                # Documentation
-├── export/              # Exported files (gitignored)
-├── googlesheet/         # Google Sheets integration
-├── uploads/             # User uploads (gitignored)
-├── index.php            # Login page
-├── dashboard.php        # Main dashboard
-├── guest_dashboard.php  # Public dashboard
-├── manifest.json        # PWA manifest
-├── sw.js                # Service Worker
-└── .env.example         # Environment template
+├── pages/                  # Halaman aplikasi (modular)
+│   ├── msh/               # Data MSH
+│   │   ├── index.php
+│   │   ├── add.php  
+│   │   ├── edit.php
+│   │   ├── detail.php
+│   │   └── import.php
+│   ├── kohai/             # Data Kohai
+│   ├── kegiatan/          # Kegiatan
+│   ├── lokasi/            # Lokasi & Provinsi
+│   ├── pembayaran/        # Pembayaran
+│   ├── pendaftaran/       # Pendaftaran
+│   ├── legalitas/         # Legalitas
+│   ├── toko/              # Toko
+│   ├── laporan/           # Laporan
+│   ├── pengurus/          # Pengurus
+│   └── surat/             # Surat
+│
+├── api/                    # API Endpoints
+│   ├── msh.php
+│   ├── kohai.php
+│   ├── kegiatan.php
+│   └── ...
+│
+├── actions/                # Action handlers
+├── assets/                 # CSS, JS, images, icons
+├── auth/                   # Authentication logic
+├── components/             # Reusable components (navbar, etc)
+├── config/                 # Configuration files
+├── database/               # Database migrations & schemas
+├── docs/                   # Documentation
+├── export/                 # Exported files (gitignored)
+├── googlesheet/            # Google Sheets integration
+├── uploads/                # User uploads (gitignored)
+│
+├── index.php               # Login page
+├── dashboard.php           # Main dashboard
+├── guest_dashboard.php     # Public dashboard
+├── manifest.json           # PWA manifest
+├── sw.js                   # Service Worker
+├── vercel.json             # Vercel deployment config
+├── package.json            # Project metadata
+├── .gitignore              # Git ignore rules
+├── .env.example            # Environment template
+└── README.md               # This file
 ```
 
 ## 🔧 Konfigurasi Database
