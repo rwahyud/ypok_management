@@ -1,0 +1,59 @@
+# Environment Variables
+.env
+config/supabase.php
+
+# Uploads & User Generated Content
+uploads/*
+!uploads/.gitkeep
+export/*
+!export/.gitkeep
+
+# Test & Debug Files
+test_*.php
+debug_*.php
+check_*.php
+delete_msh_id1.php
+migrate_*.php
+add_tanggal_ujian_column.php
+update_msh_status.php
+
+# XAMPP/Apache Files
+.htaccess
+restart_apache.bat
+enable_postgresql.ps1
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+error_log
+access_log
+
+# Temporary Files
+*.tmp
+*.temp
+*.cache
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Vercel
+.vercel
+
+# Node modules (if any)
+node_modules/
+
+# Composer (if any)
+vendor/
+
+# Backup files
+*.bak
+*.backup
+*_backup.*

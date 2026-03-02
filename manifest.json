@@ -1,0 +1,26 @@
+{
+  "name": "YPOK Management System",
+  "short_name": "YPOK",
+  "description": "Sistem Manajemen YPOK - Yayasan Pengembangan Olahraga Karate",
+  "start_url": "/ypok_management/ypok_management/index.php",
+  "scope": "/ypok_management/ypok_management/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#1e3a8a",
+  "lang": "id",
+  "icons": [
+    {
+      "src": "/ypok_management/ypok_management/assets/icons/icon-192x192.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/ypok_management/ypok_management/assets/icons/icon-512x512.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}

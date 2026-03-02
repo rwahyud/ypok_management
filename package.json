@@ -1,0 +1,19 @@
+{
+  "name": "ypok-management-system",
+  "version": "1.0.0",
+  "description": "YPOK Management System - Platform digital untuk organisasi karate",
+  "author": "YPOK Development Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/ypok-management.git"
+  },
+  "keywords": [
+    "karate",
+    "management",
+    "organization",
+    "pwa",
+    "php",
+    "supabase"
+  ]
+}
