@@ -1,5 +1,5 @@
 <?php
-require_once 'config/supabase.php';
+require_once '../../config/supabase.php';
 
 if(!isset($_SESSION['user_id'])) {
     header('Location: index.php');
@@ -22,6 +22,6 @@ if($file_data && $file_data['file_dokumen'] && file_exists($file_data['file_doku
 $stmt = $pdo->prepare("DELETE FROM legalitas WHERE id = ?");
 $stmt->execute([$id]);
 
-header('Location: legalitas.php?deleted=1#dokumenSection');
+header('Location: index.php?deleted=1#dokumenSection');
 exit();
 ?>

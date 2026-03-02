@@ -6,7 +6,7 @@
     
     <ul class="sidebar-menu">
         <li>
-            <a href="/dashboard.php" <?php echo basename($_SERVER['PHP_SELF']) == 'dashboard.php' ? 'class="active"' : ''; ?>>
+            <a href="dashboard.php" <?php echo basename($_SERVER['PHP_SELF']) == 'dashboard.php' ? 'class="active"' : ''; ?>>
                 <span class="icon">📊</span>
                 <span>Dashboard</span>
             </a>
@@ -15,49 +15,49 @@
         <div class="menu-section">MASTER DATA</div>
         
         <li>
-            <a href="/pages/msh/" <?php echo strpos($_SERVER['PHP_SELF'], '/msh/') !== false ? 'class="active"' : ''; ?>>
+            <a href="pages/msh/" <?php echo strpos($_SERVER['PHP_SELF'], '/msh/') !== false ? 'class="active"' : ''; ?>>
                 <span class="icon">🥋</span>
                 <span>Data MSH</span>
             </a>
         </li>
         
         <li>
-            <a href="/pages/kohai/" <?php echo strpos($_SERVER['PHP_SELF'], '/kohai/') !== false ? 'class="active"' : ''; ?>>
+            <a href="pages/kohai/" <?php echo strpos($_SERVER['PHP_SELF'], '/kohai/') !== false ? 'class="active"' : ''; ?>>
                 <span class="icon">👥</span>
                 <span>Data Kohai</span>
             </a>
         </li>
         
         <li>
-            <a href="/pages/lokasi/" <?php echo strpos($_SERVER['PHP_SELF'], '/lokasi/') !== false ? 'class="active"' : ''; ?>>
+            <a href="pages/lokasi/" <?php echo strpos($_SERVER['PHP_SELF'], '/lokasi/') !== false ? 'class="active"' : ''; ?>>
                 <span class="icon">📍</span>
                 <span>Lokasi</span>
             </a>
         </li>
         
         <li>
-            <a href="/pages/pembayaran/" <?php echo strpos($_SERVER['PHP_SELF'], '/pembayaran/') !== false ? 'class="active"' : ''; ?>>
+            <a href="pages/pembayaran/" <?php echo strpos($_SERVER['PHP_SELF'], '/pembayaran/') !== false ? 'class="active"' : ''; ?>>
                 <span class="icon">💳</span>
                 <span>Pembayaran</span>
             </a>
         </li>
         
         <li>
-            <a href="/pages/legalitas/" <?php echo strpos($_SERVER['PHP_SELF'], '/legalitas/') !== false ? 'class="active"' : ''; ?>>
+            <a href="pages/legalitas/" <?php echo strpos($_SERVER['PHP_SELF'], '/legalitas/') !== false ? 'class="active"' : ''; ?>>
                 <span class="icon">📄</span>
                 <span>Legalitas</span>
             </a>
         </li>
         
         <li>
-            <a href="/pages/pendaftaran/" <?php echo strpos($_SERVER['PHP_SELF'], '/pendaftaran/') !== false ? 'class="active"' : ''; ?>>
+            <a href="pages/pendaftaran/" <?php echo strpos($_SERVER['PHP_SELF'], '/pendaftaran/') !== false ? 'class="active"' : ''; ?>>
                 <span class="icon">📝</span>
                 <span>Pendaftaran</span>
             </a>
         </li>
         
         <li>
-            <a href="/pages/toko/" <?php echo strpos($_SERVER['PHP_SELF'], '/toko/') !== false ? 'class="active"' : ''; ?>>
+            <a href="pages/toko/" <?php echo strpos($_SERVER['PHP_SELF'], '/toko/') !== false ? 'class="active"' : ''; ?>>
                 <span class="icon">🛒</span>
                 <span>Toko</span>
             </a>
@@ -66,7 +66,7 @@
         <div class="menu-section">KELOLA KONTEN</div>
         
         <li>
-            <a href="/pages/laporan/kegiatan.php" <?php echo basename($_SERVER['PHP_SELF']) == 'kegiatan.php' ? 'class="active"' : ''; ?>>
+            <a href="pages/laporan/kegiatan.php" <?php echo basename($_SERVER['PHP_SELF']) == 'kegiatan.php' ? 'class="active"' : ''; ?>>
                 <span class="icon">📰</span>
                 <span>Kelola Berita</span>
             </a>
@@ -75,7 +75,7 @@
         <div class="menu-section">LAPORAN</div>
         
         <li>
-            <a href="/pages/laporan/keuangan.php" <?php echo basename($_SERVER['PHP_SELF']) == 'keuangan.php' ? 'class="active"' : ''; ?>>
+            <a href="pages/laporan/keuangan.php" <?php echo basename($_SERVER['PHP_SELF']) == 'keuangan.php' ? 'class="active"' : ''; ?>>
                 <span class="icon">📊</span>
                 <span>Laporan Keuangan</span>
             </a>

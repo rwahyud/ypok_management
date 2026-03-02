@@ -1,5 +1,5 @@
 <?php
-require_once 'config/supabase.php';
+require_once '../../config/supabase.php';
 
 if(!isset($_SESSION['user_id'])) {
     header('Location: index.php');
@@ -42,7 +42,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <?php include 'components/navbar.php'; ?>
+    <?php include '../../components/navbar.php'; ?>
     
     <div class="main-content">
         <div class="top-bar">

@@ -1,5 +1,5 @@
 <?php
-require_once 'config/supabase.php';
+require_once '../../config/supabase.php';
 
 if(!isset($_SESSION['user_id'])) {
     header('Location: index.php');
@@ -92,7 +92,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->execute([$jenis_dokumen, $nomor_dokumen, $tanggal_terbit, $tanggal_kadaluarsa, $instansi_penerbit, $status, $keterangan, $is_permanent, $id]);
     }
     
-    header('Location: legalitas.php?updated=1#dokumenSection');
+    header('Location: index.php?updated=1#dokumenSection');
     exit();
 }
 ?>

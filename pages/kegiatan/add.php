@@ -1,5 +1,5 @@
 <?php
-require_once 'config/supabase.php';
+require_once '../../config/supabase.php';
 
 if(!isset($_SESSION['user_id'])) {
     header('Location: index.php');
@@ -176,7 +176,7 @@ $lokasi_list = $pdo->query("SELECT * FROM lokasi ORDER BY nama_lokasi")->fetchAl
     </style>
 </head>
 <body>
-    <?php include 'components/navbar.php'; ?>
+    <?php include '../../components/navbar.php'; ?>
     
     <div class="main-content">
         <div class="top-bar">

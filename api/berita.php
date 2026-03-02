@@ -1,5 +1,5 @@
 <?php
-require_once 'config/supabase.php';
+require_once '../config/supabase.php';
 
 // Set header for JSON response
 header('Content-Type: application/json');

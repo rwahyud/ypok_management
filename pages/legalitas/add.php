@@ -1,5 +1,5 @@
 <?php
-require_once 'config/supabase.php';
+require_once '../../config/supabase.php';
 
 if(!isset($_SESSION['user_id'])) {
     header('Location: index.php');
@@ -82,7 +82,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt = $pdo->prepare("INSERT INTO legalitas (jenis_dokumen, nomor_dokumen, tanggal_terbit, tanggal_kadaluarsa, instansi_penerbit, status, keterangan, file_dokumen, is_permanent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->execute([$jenis_dokumen, $nomor_dokumen, $tanggal_terbit, $tanggal_kadaluarsa, $instansi_penerbit, $status, $keterangan, $file_dokumen, $is_permanent]);
     
-    header('Location: legalitas.php?success=1#dokumenSection');
+    header('Location: index.php?success=1#dokumenSection');
     exit();
 }
 ?>

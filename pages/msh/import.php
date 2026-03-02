@@ -6,7 +6,7 @@
  * ke tabel majelis_sabuk_hitam dengan mapping otomatis
  */
 
-require_once 'config/supabase.php';
+require_once '../../config/supabase.php';
 
 // Hanya admin yang bisa import
 if(!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {

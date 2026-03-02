@@ -1,5 +1,5 @@
 <?php
-require_once 'config/supabase.php';
+require_once '../../config/supabase.php';
 
 if(!isset($_SESSION['user_id'])) {
     header('Location: index.php');
@@ -1138,7 +1138,7 @@ $transaksi_list = $pdo->query($transaksi_query)->fetchAll();
     </style>
 </head>
 <body>
-    <?php include 'components/navbar.php'; ?>
+    <?php include '../../components/navbar.php'; ?>
     
     <!-- Toast Notifications -->
     <?php if(isset($_GET['success'])): ?>

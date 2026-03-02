@@ -1,5 +1,5 @@
 <?php
-require_once 'config/supabase.php';
+require_once '../../config/supabase.php';
 
 if(!isset($_SESSION['user_id'])) {
     header('Location: index.php');
@@ -10,7 +10,7 @@ $id = $_GET['id'] ?? 0;
 $type = $_GET['type'] ?? '';
 
 if(!$id || !in_array($type, ['msh', 'kohai'])) {
-    header('Location: pendaftaran.php?error=1&msg=Parameter tidak valid');
+    header('Location: index.php?error=1&msg=Parameter tidak valid');
     exit();
 }
 
@@ -26,7 +26,7 @@ if($type == 'msh') {
 }
 
 if(!$data) {
-    header('Location: pendaftaran.php?tab='.$type.'&error=1&msg=Data tidak ditemukan');
+    header('Location: index.php?tab='.$type.'&error=1&msg=Data tidak ditemukan');
     exit();
 }
 ?>
@@ -40,7 +40,7 @@ if(!$data) {
     <link rel="stylesheet" href="assets/css/pendaftaran.css">
 </head>
 <body>
-    <?php include 'components/navbar.php'; ?>
+    <?php include '../../components/navbar.php'; ?>
     
     <div class="main-content">
         <div class="top-bar">

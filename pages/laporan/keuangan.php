@@ -1,5 +1,5 @@
 <?php
-require_once 'config/supabase.php';
+require_once '../../config/supabase.php';
 
 if(!isset($_SESSION['user_id'])) {
     header('Location: index.php');
@@ -438,7 +438,7 @@ $jml_pengeluaran = $count_pengeluaran->fetchColumn();
     </style>
 </head>
 <body>
-    <?php include 'components/navbar.php'; ?>
+    <?php include '../../components/navbar.php'; ?>
     
     <!-- Toast Notifications -->
     <?php if(isset($_GET['success'])): ?>

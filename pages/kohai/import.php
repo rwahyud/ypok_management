@@ -19,7 +19,7 @@
  * - FOTO → foto
  */
 
-require_once 'config/supabase.php';
+require_once '../../config/supabase.php';
 
 if(!isset($_SESSION['user_id'])) {
     header('Location: index.php');

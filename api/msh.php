@@ -1,5 +1,5 @@
 <?php
-require_once 'config/supabase.php';
+require_once '../config/supabase.php';
 
 if(!isset($_SESSION['user_id']) || !isset($_GET['id'])) {
     http_response_code(403);

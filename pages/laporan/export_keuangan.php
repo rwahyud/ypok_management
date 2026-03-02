@@ -1,5 +1,5 @@
 <?php
-require_once 'config/supabase.php';
+require_once '../../config/supabase.php';
 
 // Check if Dompdf is available
 $use_dompdf = file_exists('vendor/autoload.php');

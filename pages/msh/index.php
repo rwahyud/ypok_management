@@ -1,5 +1,5 @@
 <?php
-require_once 'config/supabase.php';
+require_once '../../config/supabase.php';
 
 if(!isset($_SESSION['user_id'])) {
     header('Location: index.php');
@@ -11,7 +11,7 @@ if(isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $stmt = $pdo->prepare("DELETE FROM majelis_sabuk_hitam WHERE id = ?");
     if($stmt->execute([$id])) {
-        header('Location: msh.php?deleted=1');
+        header('Location: index.php?deleted=1');
         exit();
     }
 }
@@ -108,7 +108,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                     }
                 }
                 
-                header('Location: msh.php?updated=1');
+                header('Location: index.php?updated=1');
                 exit();
             }
         } else {
@@ -147,7 +147,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                     }
                 }
                 
-                header('Location: msh.php?success=1');
+                header('Location: index.php?success=1');
                 exit();
             }
         }
@@ -1286,7 +1286,7 @@ $total_pages = ceil($total / $limit);
     </style>
 </head>
 <body>
-    <?php include 'components/navbar.php'; ?>
+    <?php include '../../components/navbar.php'; ?>
     
     <!-- Toast Notifications -->
     <?php if(isset($_GET['success'])): ?>

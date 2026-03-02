@@ -1,5 +1,5 @@
 <?php
-require_once 'config/supabase.php';
+require_once '../../config/supabase.php';
 
 if(!isset($_SESSION['user_id'])) {
     header('Location: index.php');
@@ -19,7 +19,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt = $pdo->prepare("UPDATE legalitas SET jenis_dokumen=?, nomor_dokumen=?, tanggal_terbit=?, tanggal_kadaluarsa=?, instansi_penerbit=?, status=? WHERE id=?");
     $stmt->execute([$jenis_dokumen, $nomor_dokumen, $tanggal_terbit, $tanggal_kadaluarsa, $instansi_penerbit, $status, $id]);
     
-    header('Location: legalitas.php?updated=1');
+    header('Location: index.php?updated=1');
     exit();
 }
 
@@ -28,7 +28,7 @@ $stmt->execute([$id]);
 $dokumen = $stmt->fetch();
 
 if(!$dokumen) {
-    header('Location: legalitas.php');
+    header('Location: index.php');
     exit();
 }
 ?>
@@ -41,7 +41,7 @@ if(!$dokumen) {
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <?php include 'components/navbar.php'; ?>
+    <?php include '../../components/navbar.php'; ?>
     
     <div class="main-content">
         <div class="top-bar">
