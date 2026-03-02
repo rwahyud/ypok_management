@@ -182,9 +182,27 @@ foreach ($gender_kohai as $g) {
     // Log error untuk debugging
     error_log("Dashboard Error: " . $e->getMessage());
     
-    // Redirect ke login dengan error message
-    header('Location: ' . BASE_PATH . '/index.php?error=db_dashboard');
-    exit();
+    // Set default values instead of redirect to prevent infinite loop
+    $total_msh = $total_kohai = $total_lokasi = $total_pendapatan_bulan = 0;
+    $saldo_keuangan = $total_kegiatan = $total_legalitas = $total_pending = 0;
+    $total_prestasi_msh = $total_prestasi_kohai = 0;
+    $keuangan_bulan = $prestasi_bulan = $pendaftaran_bulan = [];
+    $legalitas_status_raw = $pembayaran_kategori_raw = [];
+    $gender_msh = $gender_kohai = [];
+    $recent_transaksi = $upcoming_kegiatan = $berita_aktif = [];
+    
+    // Set default chart data
+    $chart_keuangan_labels = $chart_keuangan_pemasukan = $chart_keuangan_pengeluaran = '[]';
+    $chart_prestasi_labels = $chart_prestasi_msh = $chart_prestasi_kohai = '[]';
+    $chart_prestasi_pie_labels = '["MSH", "Kohai"]';
+    $chart_prestasi_pie_data = '[0, 0]';
+    $chart_legalitas_labels = $chart_legalitas_data = '[]';
+    $chart_pembayaran_labels = $chart_pembayaran_data = '[]';
+    $chart_pendaftaran_labels = $chart_pendaftaran_msh = $chart_pendaftaran_kohai = '[]';
+    $laki_msh = $perempuan_msh = $laki_kohai = $perempuan_kohai = 0;
+    
+    // Show error banner (will be displayed in HTML)
+    $dashboard_error = "Terjadi kesalahan koneksi database. Silakan refresh halaman atau hubungi administrator.";
 }
 ?>
 <!DOCTYPE html>
@@ -641,6 +659,17 @@ foreach ($gender_kohai as $g) {
         </div>
 
         <div class="dashboard-container">
+
+            <?php if(isset($dashboard_error)): ?>
+            <!-- Error Banner -->
+            <div style="background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); border-left: 4px solid #ef4444; border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; display: flex; align-items: center; gap: 16px; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);">
+                <div style="font-size: 32px;">⚠️</div>
+                <div>
+                    <div style="font-weight: 700; color: #991b1b; font-size: 16px; margin-bottom: 4px;">Database Error</div>
+                    <div style="color: #7f1d1d; font-size: 14px; line-height: 1.5;"><?php echo htmlspecialchars($dashboard_error); ?></div>
+                </div>
+            </div>
+            <?php endif; ?>
 
             <!-- Welcome Banner -->
             <div class="welcome-banner">
