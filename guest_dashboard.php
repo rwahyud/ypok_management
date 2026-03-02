@@ -9,7 +9,7 @@ try {
     $total_kegiatan = $pdo->query("SELECT COUNT(*) FROM kegiatan")->fetchColumn();
 
     // Ambil berita yang akan datang (upcoming events) - maksimal 5
-    $berita_upcoming = $pdo->query("SELECT nama_kegiatan, tanggal_kegiatan, keterangan FROM kegiatan WHERE tampil_di_berita = true AND tanggal_kegiatan >= CURRENT_DATE ORDER BY tanggal_kegiatan ASC LIMIT 5")->fetchAll();
+    $berita_upcoming = $pdo->query("SELECT nama_kegiatan, tanggal_kegiatan, keterangan, foto FROM kegiatan WHERE tampil_di_berita = true AND tanggal_kegiatan >= CURRENT_DATE ORDER BY tanggal_kegiatan ASC LIMIT 5")->fetchAll();
 
     // Ambil kegiatan terbaru untuk section events
     $kegiatan_data = $pdo->query("SELECT nama_kegiatan, tanggal_kegiatan, foto, keterangan FROM kegiatan WHERE tampil_di_berita = true ORDER BY tanggal_kegiatan DESC LIMIT 3")->fetchAll();
@@ -272,38 +272,46 @@ try {
 
         /* ========== NEWS TICKER/CAROUSEL ========== */
         .news-ticker-wrapper {
-            background: rgba(245, 158, 11, 0.95);
-            padding: 15px 0;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.98), rgba(217, 119, 6, 0.98));
+            padding: 20px;
             margin-bottom: 30px;
-            border-radius: 10px;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
         }
 
         .news-ticker-container {
             display: flex;
-            align-items: center;
-            gap: 15px;
+            align-items: stretch;
+            gap: 20px;
         }
 
         .news-ticker-label {
             background: var(--primary-color);
             color: var(--white);
-            padding: 8px 20px;
-            border-radius: 5px;
+            padding: 12px 24px;
+            border-radius: 8px;
             font-weight: 700;
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 1px;
             white-space: nowrap;
             flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 23, 75, 0.3);
         }
 
         .news-ticker-content {
             flex: 1;
             position: relative;
             overflow: hidden;
-            height: 50px;
+            min-height: 120px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
         }
 
         .news-item {
@@ -313,7 +321,10 @@ try {
             left: 0;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
-            padding: 5px 0;
+            padding: 15px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
         }
 
         .news-item.active {
@@ -321,18 +332,65 @@ try {
             z-index: 1;
         }
 
+        .news-item-image {
+            width: 120px;
+            height: 90px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--primary-color), #1e3a8a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .news-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .news-item-image .no-image {
+            color: var(--white);
+            font-size: 36px;
+        }
+
+        .news-item-text {
+            flex: 1;
+            min-width: 0;
+        }
+
         .news-item h4 {
             color: var(--white);
             font-size: 18px;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: 600;
-            line-height: 1.3;
+            line-height: 1.4;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .news-item .news-date {
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.95);
             font-size: 13px;
             font-weight: 500;
+            display: inline-block;
+            background: rgba(0, 23, 75, 0.4);
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 5px;
+        }
+
+        .news-item .news-desc {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-top: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
 
         .news-dots {
@@ -878,24 +936,35 @@ try {
             }
 
             .news-ticker-wrapper {
-                padding: 12px 0;
+                padding: 15px;
             }
 
             .news-ticker-container {
                 flex-direction: column;
-                gap: 10px;
+                gap: 15px;
             }
 
             .news-ticker-label {
                 width: 100%;
                 text-align: center;
-                padding: 6px 15px;
+                padding: 8px 15px;
                 font-size: 12px;
             }
 
             .news-ticker-content {
-                height: 60px;
-                padding: 0 10px;
+                min-height: 140px;
+                padding: 10px;
+            }
+
+            .news-item {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px;
+            }
+
+            .news-item-image {
+                width: 100%;
+                height: 150px;
             }
 
             .news-item h4 {
@@ -903,7 +972,12 @@ try {
             }
 
             .news-item .news-date {
+                font-size: 11px;
+            }
+
+            .news-item .news-desc {
                 font-size: 12px;
+                -webkit-line-clamp: 3;
             }
 
             .about-content {
@@ -1030,12 +1104,24 @@ try {
                     <div class="news-ticker-content" id="newsTicker">
                         <?php foreach($berita_upcoming as $index => $berita): ?>
                             <div class="news-item <?php echo $index === 0 ? 'active' : ''; ?>" data-index="<?php echo $index; ?>">
-                                <h4><?php echo htmlspecialchars($berita['nama_kegiatan']); ?></h4>
-                                <div class="news-date">
-                                    📅 <?php 
-                                        $date = new DateTime($berita['tanggal_kegiatan']);
-                                        echo $date->format('d F Y');
-                                    ?>
+                                <div class="news-item-image">
+                                    <?php if(!empty($berita['foto']) && file_exists('uploads/kegiatan/' . $berita['foto'])): ?>
+                                        <img src="uploads/kegiatan/<?php echo htmlspecialchars($berita['foto']); ?>" alt="<?php echo htmlspecialchars($berita['nama_kegiatan']); ?>">
+                                    <?php else: ?>
+                                        <div class="no-image">📰</div>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="news-item-text">
+                                    <div class="news-date">
+                                        📅 <?php 
+                                            $date = new DateTime($berita['tanggal_kegiatan']);
+                                            echo $date->format('d F Y');
+                                        ?>
+                                    </div>
+                                    <h4><?php echo htmlspecialchars($berita['nama_kegiatan']); ?></h4>
+                                    <?php if(!empty($berita['keterangan'])): ?>
+                                        <div class="news-desc"><?php echo htmlspecialchars($berita['keterangan']); ?></div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         <?php endforeach; ?>
