@@ -79,7 +79,7 @@ function closePembayaranModal() {
 }
 
 function editPembayaran(id) {
-    fetch(`actions/pembayaran_action.php?action=get&id=${id}`)
+    fetch(`../../actions/pembayaran_action.php?action=get&id=${id}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('HTTP error! status: ' + response.status);
@@ -151,7 +151,7 @@ function editPembayaran(id) {
 }
 
 function viewPembayaran(id) {
-    fetch(`actions/pembayaran_action.php?action=get&id=${id}`)
+    fetch(`../../actions/pembayaran_action.php?action=get&id=${id}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('HTTP error! status: ' + response.status);
@@ -281,7 +281,7 @@ function deletePembayaran(id) {
     if(confirm('Apakah Anda yakin ingin menghapus data pembayaran ini?')) {
         const form = document.createElement('form');
         form.method = 'POST';
-        form.action = 'actions/pembayaran_action.php';
+        form.action = '../../actions/pembayaran_action.php';
 
         const actionInput = document.createElement('input');
         actionInput.type = 'hidden';
@@ -302,7 +302,7 @@ function deletePembayaran(id) {
 
 function printInvoice(id) {
     // Open invoice in new window for printing
-    window.open('invoice_pembayaran.php?id=' + id, '_blank', 'width=900,height=700');
+    window.open('invoice.php?id=' + id, '_blank', 'width=900,height=700');
 }
 
 function openExportModal() {

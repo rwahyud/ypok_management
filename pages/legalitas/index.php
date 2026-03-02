@@ -812,7 +812,7 @@ try {
         // Modal Dokumen Functions
         function openModal() {
             document.getElementById('modalDokumenTitle').textContent = '➕ Tambah Dokumen Legalitas';
-            document.getElementById('formDokumen').action = 'legalitas_add.php';
+            document.getElementById('formDokumen').action = 'add.php';
             document.getElementById('formDokumen').reset();
             document.getElementById('dokumen_id').value = '';
             document.getElementById('dokumen_kadaluarsa').disabled = false;
@@ -830,7 +830,7 @@ try {
 
         function editDokumen(data) {
             document.getElementById('modalDokumenTitle').textContent = '✏️ Edit Dokumen Legalitas';
-            document.getElementById('formDokumen').action = 'legalitas_update.php';
+            document.getElementById('formDokumen').action = 'update.php';
             document.getElementById('dokumen_id').value = data.id;
             document.getElementById('dokumen_jenis').value = data.jenis_dokumen;
             document.getElementById('dokumen_nomor').value = data.nomor_dokumen;
