@@ -1,14 +1,9 @@
 <?php
-// Start session first
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+// Output buffering to prevent "headers already sent" errors
+ob_start();
 
+// Load config (includes session_start)
 require_once '../config/supabase.php';
-
-// Enable error reporting for debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = trim($_POST['username'] ?? '');

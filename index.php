@@ -1,8 +1,6 @@
 <?php
-// Start session if not already started
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+// Output buffering to prevent header errors
+ob_start();
 
 // Cek apakah file config ada
 if(!file_exists('config/supabase.php')) {

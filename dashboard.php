@@ -2,6 +2,9 @@
 // =============================================
 // SESSION CHECK - HARUS PALING ATAS!
 // =============================================
+// Output buffering to prevent header errors
+ob_start();
+
 require_once 'config/supabase.php';
 
 // Redirect jika belum login
