@@ -50,7 +50,7 @@ if($date_from && $date_to) {
 
 $transaksi_query .= " ORDER BY t.tanggal DESC";
 $transaksi_list = $pdo->query($transaksi_query)->fetchAll();
-?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -1728,7 +1728,7 @@ $transaksi_list = $pdo->query($transaksi_query)->fetchAll();
         
         // Load kategori list
         function loadKategoriList() {
-            fetch('actions/get_kategori_list.php')
+            fetch('../../actions/get_kategori_list.php')
                 .then(response => response.json())
                 .then(data => {
                     let html = '';
@@ -1767,7 +1767,7 @@ $transaksi_list = $pdo->query($transaksi_query)->fetchAll();
         // Delete kategori
         function deleteKategori(id, nama) {
             if(confirm(`Yakin ingin menghapus kategori "${nama}"?\n\nKategori yang masih digunakan tidak dapat dihapus.`)) {
-                window.location.href = `actions/delete_kategori.php?id=${id}`;
+                window.location.href = `../../actions/delete_kategori.php?id=${id}`;
             }
         }
         
@@ -1931,7 +1931,7 @@ $transaksi_list = $pdo->query($transaksi_query)->fetchAll();
 
         // Produk Functions
         function openBeliProdukModal(id) {
-            fetch(`actions/get_produk.php?id=${id}`)
+            fetch(`../../actions/get_produk.php?id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     // Set produk ID
@@ -2053,7 +2053,7 @@ $transaksi_list = $pdo->query($transaksi_query)->fetchAll();
         
         // View Produk
         function viewProduk(id) {
-            fetch(`actions/get_produk.php?id=${id}`)
+            fetch(`../../actions/get_produk.php?id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     let variasiHTML = '';
@@ -2096,11 +2096,11 @@ $transaksi_list = $pdo->query($transaksi_query)->fetchAll();
         }
         
         function editProduk(id) {
-            fetch(`actions/get_produk.php?id=${id}`)
+            fetch(`../../actions/get_produk.php?id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('edit_id').value = data.id;
-                    fetch('actions/get_kategori_list.php')
+                    fetch('../../actions/get_kategori_list.php')
                         .then(response => response.json())
                         .then(kategoriList => {
                             let kategoriOptions = '<option value="">Pilih Kategori...</option>';
@@ -2179,12 +2179,12 @@ $transaksi_list = $pdo->query($transaksi_query)->fetchAll();
         
         function deleteProduk(id) {
             if(confirm('Yakin ingin menghapus produk ini?')) {
-                window.location.href = `actions/delete_produk.php?id=${id}`;
+                window.location.href = `../../actions/delete_produk.php?id=${id}`;
             }
         }
         
         function viewTransaksi(id) {
-            fetch(`actions/get_transaksi.php?id=${id}`)
+            fetch(`../../actions/get_transaksi.php?id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     const hargaSatuan = data.total_harga / data.jumlah;
@@ -2426,7 +2426,7 @@ $transaksi_list = $pdo->query($transaksi_query)->fetchAll();
                 <h3>➕ Tambah Produk Baru</h3>
                 <span class="close" onclick="closeModal('modalTambahProduk')">&times;</span>
             </div>
-            <form action="actions/add_produk.php" method="POST" enctype="multipart/form-data">
+            <form action="../../actions/add_produk.php" method="POST" enctype="multipart/form-data">
                 <div class="modal-body">
      <!-- Kode & Nama Produk -->
                     <div class="form-row">
@@ -2559,7 +2559,7 @@ $transaksi_list = $pdo->query($transaksi_query)->fetchAll();
                 <h3>🛒 Form Pembelian Produk</h3>
                 <span class="close" onclick="closeModal('modalBeliProduk')">&times;</span>
             </div>
-            <form action="actions/add_transaksi.php" method="POST" id="formBeliProduk">
+            <form action="../../actions/add_transaksi.php" method="POST" id="formBeliProduk">
                 <div class="modal-body">
                     <input type="hidden" name="produk_id" id="beli_produk_id">
                     
@@ -2652,7 +2652,7 @@ $transaksi_list = $pdo->query($transaksi_query)->fetchAll();
                 <h3>✏️ Edit Produk</h3>
                 <span class="close" onclick="closeModal('modalEditProduk')">&times;</span>
             </div>
-            <form action="actions/edit_produk.php" method="POST" enctype="multipart/form-data" id="formEditProduk">
+            <form action="../../actions/edit_produk.php" method="POST" enctype="multipart/form-data" id="formEditProduk">
                 <input type="hidden" name="id" id="edit_id">
                 <div class="modal-body" id="editProdukContent">
                     <!-- Content will be loaded dynamically -->
@@ -2691,7 +2691,7 @@ $transaksi_list = $pdo->query($transaksi_query)->fetchAll();
                 <h3>🏷️ Tambah Kategori Baru</h3>
                 <span class="close" onclick="closeModal('modalTambahKategori')">&times;</span>
             </div>
-            <form action="actions/add_kategori.php" method="POST">
+            <form action="../../actions/add_kategori.php" method="POST">
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Nama Kategori <span class="required">*</span></label>

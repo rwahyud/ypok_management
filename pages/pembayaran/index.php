@@ -266,7 +266,7 @@ $msh_list = $stmt_msh->fetchAll();
                 <h2 id="modalTitle">Tambah Pembayaran</h2>
                 <span class="close" onclick="closePembayaranModal()">&times;</span>
             </div>
-            <form id="pembayaranForm" method="POST" action="actions/pembayaran_action.php">
+            <form id="pembayaranForm" method="POST" action="../../actions/pembayaran_action.php">
                 <input type="hidden" name="action" id="formAction" value="tambah">
                 <input type="hidden" name="id" id="pembayaranId">
                 
@@ -646,7 +646,7 @@ $msh_list = $stmt_msh->fetchAll();
             }
             
             // Open export page in new tab
-            const url = `actions/export_pembayaran.php?${params.toString()}`;
+            const url = `../../actions/export_pembayaran.php?${params.toString()}`;
             window.open(url, '_blank');
             
             // Close modal

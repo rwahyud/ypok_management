@@ -157,7 +157,7 @@ $provinsi_list = $stmt->fetchAll();
                 <button class="close-btn" onclick="closeProvinsiModal()">×</button>
             </div>
             <div class="modal-body">
-                <form id="provinsiForm" action="actions/provinsi_action.php" method="POST" enctype="multipart/form-data">
+                <form id="provinsiForm" action="../../actions/provinsi_action.php" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" id="provinsi_id">
                     <input type="hidden" name="action" id="provinsi_action" value="create">
                     
@@ -214,7 +214,7 @@ $provinsi_list = $stmt->fetchAll();
                 <button class="close-btn" onclick="closeDojoModal()">×</button>
             </div>
             <div class="modal-body">
-                <form id="dojoForm" action="actions/dojo_action.php" method="POST">
+                <form id="dojoForm" action="../../actions/dojo_action.php" method="POST">
                     <input type="hidden" name="id" id="dojo_id">
                     <input type="hidden" name="provinsi_id" id="dojo_provinsi_id">
                     <input type="hidden" name="action" id="dojo_action" value="create">

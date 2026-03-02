@@ -1652,14 +1652,14 @@ $total_pages = ceil($total / $limit);
         function viewDetail(id) {
             const modalDetail = document.getElementById('modalDetail');
             if(!modalDetail) {
-                alert('Modal detail belum tersedia. Silakan buat file kohai_detail.php terlebih dahulu.');
+                alert('Modal detail belum tersedia.');
                 return;
             }
             
             modalDetail.classList.add('active');
             
             // Fetch data via AJAX
-            fetch('kohai_detail.php?id=' + id)
+            fetch('detail.php?id=' + id)
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('detailContent').innerHTML = data;

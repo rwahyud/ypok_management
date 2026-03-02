@@ -353,7 +353,7 @@ try {
                 <h2 id="modalDokumenTitle">➕ Tambah Dokumen Legalitas</h2>
                 <span class="close" onclick="closeModal()">&times;</span>
             </div>
-            <form id="formDokumen" action="legalitas_add.php" method="POST" enctype="multipart/form-data">
+            <form id="formDokumen" action="add.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id" id="dokumen_id">
                 <div class="form-group">
                     <label>Jenis Dokumen *</label>
@@ -488,7 +488,7 @@ try {
                 <h2 id="modalPengurusTitle">👥 Tambah Pengurus</h2>
                 <span class="close" onclick="closePengurusModal()">&times;</span>
             </div>
-            <form id="formPengurus" action="pengurus_add.php" method="POST" enctype="multipart/form-data">
+            <form id="formPengurus" action="../pengurus/add.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id" id="pengurus_id">
                 <div class="form-section">
                     <h3 class="form-section-title">📷 Foto Pengurus</h3>
@@ -962,7 +962,7 @@ try {
         // Modal Pengurus Functions
         function openPengurusModal() {
             document.getElementById('modalPengurusTitle').textContent = '👥 Tambah Pengurus';
-            document.getElementById('formPengurus').action = 'pengurus_add.php';
+            document.getElementById('formPengurus').action = '../pengurus/add.php';
             document.getElementById('formPengurus').reset();
             document.getElementById('pengurus_id').value = '';
             document.getElementById('fotoPreview').innerHTML = '<span class="foto-icon">👤</span>';
@@ -976,7 +976,7 @@ try {
 
         function editPengurus(data) {
             document.getElementById('modalPengurusTitle').textContent = '✏️ Edit Pengurus';
-            document.getElementById('formPengurus').action = 'pengurus_update.php';
+            document.getElementById('formPengurus').action = '../pengurus/update.php';
             document.getElementById('pengurus_id').value = data.id;
             document.getElementById('pengurus_nik').value = data.nik || '';
             document.getElementById('pengurus_nama').value = data.nama;
