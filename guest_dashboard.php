@@ -8,9 +8,6 @@ try {
     $total_lokasi = $pdo->query("SELECT COUNT(*) FROM lokasi WHERE status='aktif'")->fetchColumn();
     $total_kegiatan = $pdo->query("SELECT COUNT(*) FROM kegiatan")->fetchColumn();
 
-    // Ambil data MSH untuk galeri
-    $msh_data = $pdo->query("SELECT nama, foto, tingkat_dan, dojo_cabang FROM majelis_sabuk_hitam WHERE status='aktif' ORDER BY created_at DESC LIMIT 8")->fetchAll();
-
     // Ambil kegiatan terbaru
     $kegiatan_data = $pdo->query("SELECT nama_kegiatan, tanggal_kegiatan, foto, keterangan FROM kegiatan WHERE tampil_di_berita = true ORDER BY tanggal_kegiatan DESC LIMIT 3")->fetchAll();
     
@@ -19,7 +16,6 @@ try {
     $total_kohai = 0;
     $total_lokasi = 0;
     $total_kegiatan = 0;
-    $msh_data = [];
     $kegiatan_data = [];
     error_log("Guest Dashboard Error: " . $e->getMessage());
 }
@@ -503,6 +499,145 @@ try {
             margin-top: 10px;
         }
 
+        /* MSH Search Box */
+        .msh-search-container {
+            max-width: 600px;
+            margin: 30px auto;
+        }
+
+        .msh-search-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .msh-search-input {
+            width: 100%;
+            padding: 15px 60px 15px 20px;
+            background: var(--white);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            color: var(--text-dark);
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .msh-search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0, 23, 75, 0.1);
+        }
+
+        .msh-search-input::placeholder {
+            color: var(--text-light);
+        }
+
+        .msh-search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary-color);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .msh-search-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .msh-search-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--white);
+        }
+
+        .msh-stats {
+            text-align: center;
+            margin: 15px 0;
+            color: var(--text-light);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .msh-loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--primary-color);
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .msh-search-prompt {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+
+        .msh-search-prompt h3 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .msh-search-prompt p {
+            font-size: 16px;
+            line-height: 1.7;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .msh-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+
+        .msh-empty .icon {
+            font-size: 72px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .msh-load-more {
+            text-align: center;
+            margin: 40px 0 20px;
+        }
+
+        .btn-load-more {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 12px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-load-more:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 23, 75, 0.2);
+        }
+
+        .btn-load-more:disabled {
+            background: var(--border-color);
+            cursor: not-allowed;
+            transform: none;
+        }
+
         /* ========== EVENTS SECTION ========== */
         .events {
             background: var(--light-bg);
@@ -872,31 +1007,40 @@ try {
                 <h2>Majelis Sabuk Hitam</h2>
                 <p>Para instruktur bersertifikat dan berpengalaman yang membimbing perjalanan karate Anda</p>
             </div>
-            <div class="team-grid">
-                <?php if(count($msh_data) > 0): ?>
-                    <?php foreach($msh_data as $msh): ?>
-                        <div class="team-member">
-                            <div class="team-photo">
-                                <?php if(!empty($msh['foto']) && file_exists($msh['foto'])): ?>
-                                    <img src="<?php echo htmlspecialchars($msh['foto']); ?>" alt="<?php echo htmlspecialchars($msh['nama']); ?>">
-                                <?php else: ?>
-                                    <?php echo strtoupper(substr($msh['nama'], 0, 1)); ?>
-                                <?php endif; ?>
-                            </div>
-                            <div class="team-info">
-                                <h4><?php echo htmlspecialchars($msh['nama']); ?></h4>
-                                <?php if(!empty($msh['tingkat_dan'])): ?>
-                                    <span class="team-badge"><?php echo htmlspecialchars($msh['tingkat_dan']); ?></span>
-                                <?php endif; ?>
-                                <?php if(!empty($msh['dojo_cabang'])): ?>
-                                    <div class="team-dojo">📍 <?php echo htmlspecialchars($msh['dojo_cabang']); ?></div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p style="text-align: center; grid-column: 1/-1; color: var(--text-light);">Belum ada data Majelis Sabuk Hitam.</p>
-                <?php endif; ?>
+
+            <!-- Search Box -->
+            <div class="msh-search-container fade-in">
+                <div class="msh-search-box">
+                    <input type="text" 
+                           id="mshSearchInput" 
+                           class="msh-search-input" 
+                           placeholder="Cari nama, nomor MSH, dojo, atau tingkat dan...">
+                    <button type="button" class="msh-search-btn" id="mshSearchBtn">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Info -->
+            <div id="mshStats" class="msh-stats" style="display: none;"></div>
+
+            <!-- MSH Gallery Container -->
+            <div id="mshGalleryContainer" class="team-grid">
+                <div class="msh-search-prompt" style="grid-column: 1/-1; text-align: center; padding: 80px 20px;">
+                    <div style="font-size: 72px; margin-bottom: 24px; opacity: 0.6;">🔍</div>
+                    <h3 style="font-size: 24px; font-weight: 600; color: var(--primary-color); margin-bottom: 12px;">Cari Majelis Sabuk Hitam</h3>
+                    <p style="font-size: 16px; line-height: 1.7; max-width: 500px; margin: 0 auto; color: var(--text-light);">
+                        Gunakan form pencarian di atas untuk menemukan profil Majelis Sabuk Hitam YPOK.<br>
+                        Anda dapat mencari berdasarkan nama, nomor MSH, dojo, atau tingkat dan.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div id="mshLoadMore" class="msh-load-more" style="display: none;">
+                <button class="btn-load-more" id="btnLoadMore">Muat Lebih Banyak</button>
             </div>
         </div>
     </section>
@@ -1030,6 +1174,183 @@ try {
                     link.classList.add('active');
                 }
             });
+        });
+
+        // ========== MSH SEARCH FUNCTIONALITY ==========
+        let mshCurrentOffset = 0;
+        let mshCurrentSearch = '';
+        let mshTotalData = 0;
+        const mshLimit = 12;
+        let isLoadingMsh = false;
+
+        // Load MSH data
+        async function loadMshData(search = '', offset = 0, append = false) {
+            if (isLoadingMsh) return;
+            
+            isLoadingMsh = true;
+            const container = document.getElementById('mshGalleryContainer');
+            const statsDiv = document.getElementById('mshStats');
+            const loadMoreDiv = document.getElementById('mshLoadMore');
+            const loadMoreBtn = document.getElementById('btnLoadMore');
+
+            if (!append) {
+                container.innerHTML = '<div class="msh-loading" style="grid-column: 1/-1;">🥋 Memuat data...</div>';
+            } else {
+                loadMoreBtn.disabled = true;
+                loadMoreBtn.textContent = 'Memuat...';
+            }
+
+            try {
+                const response = await fetch(`actions/get_msh_public.php?search=${encodeURIComponent(search)}&limit=${mshLimit}&offset=${offset}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP Error ${response.status}`);
+                }
+                
+                const result = await response.json();
+
+                if (result.success) {
+                    mshTotalData = result.total;
+                    
+                    // Update stats
+                    if (search) {
+                        statsDiv.textContent = `Menampilkan ${result.data.length} dari ${result.total} hasil untuk "${search}"`;
+                    } else {
+                        statsDiv.textContent = `Menampilkan ${Math.min(offset + result.data.length, result.total)} dari ${result.total} Majelis Sabuk Hitam`;
+                    }
+                    statsDiv.style.display = 'block';
+
+                    // Clear container if not appending
+                    if (!append) {
+                        container.innerHTML = '';
+                    } else {
+                        const loadingEl = container.querySelector('.msh-loading');
+                        if (loadingEl) loadingEl.remove();
+                    }
+
+                    // Display data
+                    if (result.data.length === 0 && !append) {
+                        container.innerHTML = `
+                            <div class="msh-empty" style="grid-column: 1/-1;">
+                                <div class="icon">🔍</div>
+                                <p>Tidak ada data Majelis Sabuk Hitam yang ditemukan${search ? ' untuk "' + search + '"' : ''}</p>
+                            </div>
+                        `;
+                        loadMoreDiv.style.display = 'none';
+                    } else {
+                        result.data.forEach(msh => {
+                            const card = createMshCard(msh);
+                            container.appendChild(card);
+                        });
+
+                        // Show/hide load more button
+                        if (offset + result.data.length < result.total) {
+                            loadMoreDiv.style.display = 'block';
+                            loadMoreBtn.disabled = false;
+                            loadMoreBtn.textContent = 'Muat Lebih Banyak';
+                        } else {
+                            loadMoreDiv.style.display = 'none';
+                        }
+                    }
+
+                    mshCurrentOffset = offset;
+                } else {
+                    throw new Error(result.message || 'Gagal memuat data');
+                }
+            } catch (error) {
+                console.error('Error loading MSH data:', error);
+                container.innerHTML = `
+                    <div class="msh-empty" style="grid-column: 1/-1;">
+                        <div class="icon">⚠️</div>
+                        <p>Terjadi kesalahan saat memuat data. Silakan coba lagi.</p>
+                    </div>
+                `;
+                loadMoreDiv.style.display = 'none';
+            }
+
+            isLoadingMsh = false;
+        }
+
+        // Create MSH card element
+        function createMshCard(msh) {
+            const card = document.createElement('div');
+            card.className = 'team-member fade-in';
+            
+            const photoHtml = msh.foto 
+                ? `<img src="${msh.foto}" alt="${msh.nama}" class="team-photo" onerror="this.parentElement.innerHTML='<div class=\\'team-photo\\'>${msh.nama.charAt(0).toUpperCase()}</div>'">`
+                : `<div class="team-photo">${msh.nama.charAt(0).toUpperCase()}</div>`;
+
+            card.innerHTML = `
+                <div class="team-photo">
+                    ${msh.foto ? `<img src="${msh.foto}" alt="${msh.nama}" onerror="this.outerHTML='${msh.nama.charAt(0).toUpperCase()}'">` : msh.nama.charAt(0).toUpperCase()}
+                </div>
+                <div class="team-info">
+                    <h4>${msh.nama}</h4>
+                    ${msh.kode_msh ? `<div style="font-size: 12px; color: var(--text-light); font-weight: 600; margin-bottom: 8px;">📋 No. MSH: ${msh.kode_msh}</div>` : ''}
+                    
+                    <div style="margin: 10px 0;">
+                        ${msh.tingkat_dan ? `<span class="team-badge">${msh.tingkat_dan}</span>` : ''}
+                    </div>
+                    
+                    ${msh.dojo_cabang ? `<div class="team-dojo">📍 ${msh.dojo_cabang}</div>` : ''}
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Search handler
+        function handleMshSearch() {
+            const searchInput = document.getElementById('mshSearchInput');
+            const searchValue = searchInput.value.trim();
+            const container = document.getElementById('mshGalleryContainer');
+            const loadMoreDiv = document.getElementById('mshLoadMore');
+            const statsDiv = document.getElementById('mshStats');
+
+            // If empty search, show prompt again
+            if (!searchValue) {
+                container.innerHTML = `
+                    <div class="msh-search-prompt" style="grid-column: 1/-1; text-align: center; padding: 80px 20px;">
+                        <div style="font-size: 72px; margin-bottom: 24px; opacity: 0.6;">🔍</div>
+                        <h3 style="font-size: 24px; font-weight: 600; color: var(--primary-color); margin-bottom: 12px;">Cari Majelis Sabuk Hitam</h3>
+                        <p style="font-size: 16px; line-height: 1.7; max-width: 500px; margin: 0 auto; color: var(--text-light);">
+                            Gunakan form pencarian di atas untuk menemukan profil Majelis Sabuk Hitam YPOK.<br>
+                            Anda dapat mencari berdasarkan nama, nomor MSH, dojo, atau tingkat dan.
+                        </p>
+                    </div>
+                `;
+                loadMoreDiv.style.display = 'none';
+                statsDiv.style.display = 'none';
+                mshCurrentSearch = '';
+                return;
+            }
+
+            mshCurrentSearch = searchValue;
+            loadMshData(mshCurrentSearch, 0, false);
+        }
+
+        // Event listeners
+        document.getElementById('mshSearchBtn').addEventListener('click', handleMshSearch);
+        
+        document.getElementById('mshSearchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleMshSearch();
+            }
+        });
+
+        // Real-time search with debounce
+        let searchTimeout;
+        document.getElementById('mshSearchInput').addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                handleMshSearch();
+            }, 500);
+        });
+
+        // Load more button
+        document.getElementById('btnLoadMore').addEventListener('click', () => {
+            const newOffset = mshCurrentOffset + mshLimit;
+            loadMshData(mshCurrentSearch, newOffset, true);
         });
     </script>
 </body>
