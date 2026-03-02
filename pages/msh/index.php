@@ -200,7 +200,7 @@ $total_pages = ceil($total / $limit);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data MSH - YPOK Management</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
         .modal-overlay {
             display: none;
@@ -1863,7 +1863,7 @@ $total_pages = ceil($total / $limit);
         </div>
     </div>
     
-    <script src="assets/js/app.js"></script>
+    <script src="../../assets/js/app.js"></script>
     <script>
         let sertifikasiCount = 1;
         let editSertifikasiCount = 0;

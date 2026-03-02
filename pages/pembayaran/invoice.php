@@ -374,7 +374,7 @@ $invoice_no = 'INV/' . date('Y') . '/' . date('m') . '/' . str_pad($pembayaran['
 
         <div class="invoice-header">
             <div class="header-content">
-                <div class="company-name"><img src="assets/images/LOGO YPOK NO BACKGROUND.png" alt="YPOK" style="width: 40px; height: 40px; object-fit: contain; vertical-align: middle; margin-right: 8px;"> YPOK MANAGEMENT</div>
+                <div class="company-name"><img src="../../assets/images/LOGO YPOK NO BACKGROUND.png" alt="YPOK" style="width: 40px; height: 40px; object-fit: contain; vertical-align: middle; margin-right: 8px;"> YPOK MANAGEMENT</div>
                 <div class="company-tagline">Yayasan Pendidikan Olahraga Karate</div>
                 <div class="invoice-title">BUKTI PEMBAYARAN</div>
                 <div class="invoice-number"><?php echo $invoice_no; ?></div>

@@ -73,7 +73,7 @@ $jml_pengeluaran = $count_pengeluaran->fetchColumn();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laporan Keuangan YPOK - YPOK Management</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
         .stats-container {
             display: grid;
@@ -752,7 +752,7 @@ $jml_pengeluaran = $count_pengeluaran->fetchColumn();
             </form>
         </div>
     </div>
-    <script src="assets/js/app.js"></script>
+    <script src="../../assets/js/app.js"></script>
     <script>
         // Auto-submit search with delay
         let searchTimeout;

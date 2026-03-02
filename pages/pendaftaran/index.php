@@ -80,7 +80,7 @@ if($tab == 'msh') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Pendaftaran - YPOK Management</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="assets/css/pendaftaran.css">
 </head>
 <body>
@@ -587,8 +587,8 @@ if($tab == 'msh') {
         </div>
     </div>
     
-    <script src="assets/js/app.js"></script>
-    <script src="assets/js/pendaftaran.js"></script>
+    <script src="../../assets/js/app.js"></script>
+    <script src="../../assets/js/pendaftaran.js"></script>
     <?php if($edit_data): ?>
     <script>
         // Scroll to form when editing

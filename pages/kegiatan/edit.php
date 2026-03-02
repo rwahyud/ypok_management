@@ -50,7 +50,7 @@ $status_map = [
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Berita / Kegiatan - YPOK Management</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
         .edit-container {
             background: white;
@@ -342,7 +342,7 @@ $status_map = [
             </div>
     </div>
 
-    <script src="assets/js/app.js"></script>
+    <script src="../../assets/js/app.js"></script>
     <script>
         const mshOptions = `
             <option value="">Pilih MSH...</option>

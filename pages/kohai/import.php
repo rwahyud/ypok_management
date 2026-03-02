@@ -35,7 +35,7 @@ set_time_limit(600); // 10 menit
 ini_set('memory_limit', '512M');
 ini_set('max_execution_time', 600);
 
-$csvFile = __DIR__ . '/googlesheet/NO.REGISTRASI IJAZAH KYU YPOK - NO.REG IJAZAH.csv';
+$csvFile = __DIR__ . '/../../googlesheet/NO.REGISTRASI IJAZAH KYU YPOK - NO.REG IJAZAH.csv';
 
 // Function untuk parse tanggal Indonesia
 function parseTanggalIndo($str) {
@@ -576,7 +576,7 @@ try {
                     </div>
                 <?php endif; ?>
                 
-                <a href="kohai.php" class="back-link">← Kembali ke Data Kohai</a>
+                <a href="index.php" class="back-link">← Kembali ke Data Kohai</a>
                 
             <?php else: ?>
                 <div class="info-box">
@@ -714,7 +714,7 @@ try {
                     </div>
                 <?php endif; ?>
                 
-                <a href="kohai.php" class="back-link">← Kembali ke Data Kohai</a>
+                <a href="index.php" class="back-link">← Kembali ke Data Kohai</a>
             <?php endif; ?>
         </div>
     </div>

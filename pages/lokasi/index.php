@@ -28,7 +28,7 @@ $provinsi_list = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Lokasi - YPOK Management</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="assets/css/lokasi.css">
     <!-- Remove PWA manifest if not needed -->
 </head>
@@ -278,8 +278,8 @@ $provinsi_list = $stmt->fetchAll();
         </div>
     </div>
     
-    <script src="assets/js/app.js"></script>
-    <script src="assets/js/lokasi.js"></script>
+    <script src="../../assets/js/app.js"></script>
+    <script src="../../assets/js/lokasi.js"></script>
     <script>
         // Clear URL parameters after showing toast
         window.addEventListener('DOMContentLoaded', function() {

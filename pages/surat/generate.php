@@ -326,7 +326,7 @@ if ($kegiatan_id) {
         <div class="letterhead">
             <div class="letterhead-inner">
                 <div class="letterhead-logo">
-                    <img src="assets/images/logo ypok .jpg" alt="Logo YPOK">
+                    <img src="../../assets/images/logo ypok .jpg" alt="Logo YPOK">
                 </div>
                 
                 <div class="letterhead-content">

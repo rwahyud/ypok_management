@@ -55,7 +55,7 @@ $msh_list = $stmt_msh->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Pembayaran - YPOK Management</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="assets/css/pembayaran.css">
 </head>
 <body>
@@ -151,7 +151,7 @@ $msh_list = $stmt_msh->fetchAll();
                 </div>
                 
                 <div class="stat-card stat-card-green">
-                    <img src="assets/images/LOGO YPOK NO BACKGROUND.png" alt="YPOK" class="stat-icon" style="width: 48px; height: 48px; object-fit: contain;">
+                    <img src="../../assets/images/LOGO YPOK NO BACKGROUND.png" alt="YPOK" class="stat-icon" style="width: 48px; height: 48px; object-fit: contain;">
                     <div class="stat-info">
                         <h3>PEMASUKAN KYU</h3>
                         <div class="stat-value">Rp <?php echo number_format($total_kyu, 0, ',', '.'); ?></div>
@@ -469,8 +469,8 @@ $msh_list = $stmt_msh->fetchAll();
     </div>
     
     
-    <script src="assets/js/app.js"></script>
-    <script src="assets/js/pembayaran.js"></script>
+    <script src="../../assets/js/app.js"></script>
+    <script src="../../assets/js/pembayaran.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Auto hide toast after 3 seconds

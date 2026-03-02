@@ -468,7 +468,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'import') {
                         <?php endif; ?>
                         
                         <div class="actions">
-                            <a href="msh.php" class="btn btn-primary">Lihat Data MSH</a>
+                            <a href="index.php" class="btn btn-primary">Lihat Data MSH</a>
                             <a href="import_msh_csv.php" class="btn btn-secondary">Import Lagi</a>
                         </div>
                     </div>
@@ -578,7 +578,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'import') {
                     <input type="hidden" name="action" value="import">
                     <div class="actions">
                         <button type="submit" class="btn btn-primary">🚀 Mulai Import</button>
-                        <a href="msh.php" class="btn btn-secondary">Batal</a>
+                        <a href="index.php" class="btn btn-secondary">Batal</a>
                     </div>
                 </form>
             <?php endif; ?>

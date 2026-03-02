@@ -57,7 +57,7 @@ $transaksi_list = $pdo->query($transaksi_query)->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toko - YPOK Management</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
         .tabs-container {
             display: flex;
@@ -2191,7 +2191,7 @@ $transaksi_list = $pdo->query($transaksi_query)->fetchAll();
                     const content = `
                         <div class="struk-container">
                             <div class="struk-header">
-                                <img src="assets/images/LOGO YPOK NO BACKGROUND.png" alt="YPOK Logo" class="struk-logo" style="width: 60px; height: 60px; object-fit: contain;">
+                                <img src="../../assets/images/LOGO YPOK NO BACKGROUND.png" alt="YPOK Logo" class="struk-logo" style="width: 60px; height: 60px; object-fit: contain;">
                                 <div class="struk-title">YPOK</div>
                                 <div class="struk-subtitle">TOKO YPOK</div>
                                 <div class="struk-subtitle">PERLENGKAPAN KARATE RESMI</div>
@@ -2417,7 +2417,7 @@ $transaksi_list = $pdo->query($transaksi_query)->fetchAll();
         });
     </script>
     
-    <script src="assets/js/app.js"></script>
+    <script src="../../assets/js/app.js"></script>
     
     <!-- Modal Tambah Produk -->
     <div class="modal" id="modalTambahProduk">

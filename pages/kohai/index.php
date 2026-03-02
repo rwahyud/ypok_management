@@ -190,7 +190,7 @@ $total_pages = ceil($total / $limit);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Kohai - YPOK Management</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
         /* Menggunakan style yang sama dari msh.php */
         .modal-overlay {
@@ -1293,7 +1293,7 @@ $total_pages = ceil($total / $limit);
         </div>
     </div>
     
-    <script src="assets/js/app.js"></script>
+    <script src="../../assets/js/app.js"></script>
     <script>
         let sertifikasiCount = 1;
         

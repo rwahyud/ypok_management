@@ -66,7 +66,7 @@ $kohai_list = $pdo->query("SELECT id, nama, kode_kohai FROM kohai ORDER BY nama"
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Berita YPOK - YPOK Management</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
         /* Modal Overlay */
         .modal-overlay {
@@ -2027,7 +2027,7 @@ $kohai_list = $pdo->query("SELECT id, nama, kode_kohai FROM kohai ORDER BY nama"
     </div>
     
     
-    <script src="assets/js/app.js"></script>
+    <script src="../../assets/js/app.js"></script>
     <script>
         // MSH options for dynamic addition
         const mshOptions = `

@@ -386,7 +386,7 @@ $html = '
 
 
     <div class="header">
-        <img src="assets/images/LOGO YPOK NO BACKGROUND.png" alt="YPOK Logo" class="logo" style="width: 60px; height: 60px; object-fit: contain; margin: 0 auto;">
+        <img src="../../assets/images/LOGO YPOK NO BACKGROUND.png" alt="YPOK Logo" class="logo" style="width: 60px; height: 60px; object-fit: contain; margin: 0 auto;">
         <div class="company-name">YAYASAN PENDIDIKAN OLAHRAGA KARATE (YPOK)</div>
         <div style="font-size: 11px; color: #666; margin-top: 5px;">
             Laporan Keuangan Resmi

@@ -497,7 +497,7 @@ try {
             
             <div id="resultMessage"></div>
             
-            <a href="kohai.php" class="back-link">← Kembali ke Data Kohai</a>
+            <a href="index.php" class="back-link">← Kembali ke Data Kohai</a>
         </div>
     </div>
     
