@@ -888,7 +888,7 @@ try {
                     <li><a href="#home" class="active">Beranda</a></li>
                     <li><a href="#about">Tentang</a></li>
                     <li><a href="#features">Pertandingan</a></li>
-                    <li><a href="#team">Majelis</a></li>
+                    <li><a href="#team">MSH</a></li>
                     <li><a href="#events">Kegiatan</a></li>
                     <li><a href="#contact">Kontak</a></li>
                     <li><a href="index.php" class="btn-login">Login</a></li>
@@ -1090,7 +1090,7 @@ try {
                     <h3>Link Penting</h3>
                     <a href="#home">Beranda</a>
                     <a href="#about">Tentang Kami</a>
-                    <a href="#team">Majelis</a>
+                    <a href="#team">MSH</a>
                     <a href="#events">Kegiatan</a>
                     <a href="index.php">Login Admin</a>
                 </div>
