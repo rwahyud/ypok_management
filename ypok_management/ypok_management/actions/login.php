@@ -26,13 +26,15 @@ function setAuthCookie(array $user): void {
         'exp' => time() + 1800,
     ];
     $token = ypok_build_auth_cookie($payload);
-    setcookie('ypok_auth', $token, [
-        'expires' => time() + 1800,
-        'path' => '/',
-        'secure' => $isHttps,
-        'httponly' => true,
-        'samesite' => 'Lax',
-    ]);
+    $cookie = 'ypok_auth=' . rawurlencode($token)
+        . '; Path=/'
+        . '; Max-Age=1800'
+        . '; HttpOnly'
+        . '; SameSite=Lax';
+    if ($isHttps) {
+        $cookie .= '; Secure';
+    }
+    header('Set-Cookie: ' . $cookie, false);
 }
 
 // Disable debug output in production

@@ -11,6 +11,7 @@ if (isset($_COOKIE[session_name()])) {
 
 if (isset($_COOKIE['ypok_auth'])) {
     setcookie('ypok_auth', '', time()-3600, '/');
+    header('Set-Cookie: ypok_auth=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax', false);
 }
 
 // Destroy session
