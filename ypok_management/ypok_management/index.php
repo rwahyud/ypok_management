@@ -10,7 +10,7 @@ require_once __DIR__ . '/config/database.php';
 
 // Redirect if already logged in
 if(isset($_SESSION['user_id'])) {
-    header('Location: pages/dashboard.php');
+    header('Location: /pages/dashboard.php');
     exit();
 }
 ?>
@@ -77,7 +77,7 @@ if(isset($_SESSION['user_id'])) {
                     </div>
                 <?php endif; ?>
                 
-                <form action="actions/login.php" method="POST" class="login-form">
+                <form action="/actions/login.php" method="POST" class="login-form">
                     <div class="form-group">
                         <label for="username">Username</label>
                         <div class="input-wrapper">
