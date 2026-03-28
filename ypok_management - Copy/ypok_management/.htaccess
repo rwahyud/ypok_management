@@ -1,6 +1,0 @@
-DirectoryIndex index.php
-
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /PROJECT/ypok_management/
-</IfModule>
