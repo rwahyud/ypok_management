@@ -16,6 +16,25 @@ function redirectTo(string $path): void {
     exit();
 }
 
+function setAuthCookie(array $user): void {
+    $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+    $payload = [
+        'uid' => (int)$user['id'],
+        'username' => (string)$user['username'],
+        'nama_lengkap' => (string)($user['nama_lengkap'] ?? $user['username']),
+        'role' => (string)($user['role'] ?? 'admin'),
+        'exp' => time() + 1800,
+    ];
+    $token = ypok_build_auth_cookie($payload);
+    setcookie('ypok_auth', $token, [
+        'expires' => time() + 1800,
+        'path' => '/',
+        'secure' => $isHttps,
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
+}
+
 // Disable debug output in production
 // error_reporting(E_ALL);
 // ini_set('display_errors', 1);
@@ -42,6 +61,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['nama_lengkap'] = $user['nama_lengkap'];
                 $_SESSION['role'] = $user['role'];
+                $_SESSION['last_activity'] = time();
+                setAuthCookie($user);
                 
                 redirectTo('/pages/dashboard.php');
                 
@@ -51,6 +72,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['nama_lengkap'] = $user['nama_lengkap'];
                 $_SESSION['role'] = $user['role'];
+                $_SESSION['last_activity'] = time();
+                setAuthCookie($user);
                 
                 // Update to hashed password
                 $hashed = password_hash($password, PASSWORD_DEFAULT);

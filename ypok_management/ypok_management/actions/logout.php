@@ -9,6 +9,10 @@ if (isset($_COOKIE[session_name()])) {
     setcookie(session_name(), '', time()-3600, '/');
 }
 
+if (isset($_COOKIE['ypok_auth'])) {
+    setcookie('ypok_auth', '', time()-3600, '/');
+}
+
 // Destroy session
 session_destroy();
 

@@ -45,6 +45,63 @@ function createPgPdoFromUrl($url, $fallbackUser, $fallbackPass, $hostAddr = '') 
     return new PDO($dsn, $dbUser, $dbPass);
 }
 
+function ypok_auth_secret(): string {
+    $secret = (string)(getenv('APP_KEY') ?: getenv('AUTH_SECRET') ?: '');
+    if ($secret === '') {
+        // Fallback secret for environments where APP_KEY is not configured.
+        $secret = 'ypok-default-auth-secret-change-this';
+    }
+    return $secret;
+}
+
+function ypok_base64url_encode(string $data): string {
+    return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+}
+
+function ypok_base64url_decode(string $data): string|false {
+    $pad = strlen($data) % 4;
+    if ($pad > 0) {
+        $data .= str_repeat('=', 4 - $pad);
+    }
+    return base64_decode(strtr($data, '-_', '+/'));
+}
+
+function ypok_build_auth_cookie(array $payload): string {
+    $payloadJson = json_encode($payload, JSON_UNESCAPED_SLASHES);
+    $encoded = ypok_base64url_encode((string)$payloadJson);
+    $sig = hash_hmac('sha256', $encoded, ypok_auth_secret());
+    return $encoded . '.' . $sig;
+}
+
+function ypok_parse_auth_cookie(string $token): ?array {
+    $parts = explode('.', $token, 2);
+    if (count($parts) !== 2) {
+        return null;
+    }
+
+    [$encoded, $sig] = $parts;
+    $expected = hash_hmac('sha256', $encoded, ypok_auth_secret());
+    if (!hash_equals($expected, $sig)) {
+        return null;
+    }
+
+    $decoded = ypok_base64url_decode($encoded);
+    if ($decoded === false) {
+        return null;
+    }
+
+    $payload = json_decode($decoded, true);
+    if (!is_array($payload)) {
+        return null;
+    }
+
+    if (isset($payload['exp']) && time() > (int)$payload['exp']) {
+        return null;
+    }
+
+    return $payload;
+}
+
 try {
     if (!empty($databaseUrl)) {
         try {
@@ -228,11 +285,26 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Fallback for serverless/session-loss: restore auth state from signed cookie.
+if (!isset($_SESSION['user_id']) && !empty($_COOKIE['ypok_auth'])) {
+    $auth = ypok_parse_auth_cookie((string)$_COOKIE['ypok_auth']);
+    if (is_array($auth) && isset($auth['uid'], $auth['username'])) {
+        $_SESSION['user_id'] = (int)$auth['uid'];
+        $_SESSION['username'] = (string)$auth['username'];
+        $_SESSION['nama_lengkap'] = (string)($auth['nama_lengkap'] ?? $auth['username']);
+        $_SESSION['role'] = (string)($auth['role'] ?? 'admin');
+        $_SESSION['last_activity'] = time();
+    }
+}
+
 // Check session timeout (30 minutes of inactivity)
 if(isset($_SESSION['user_id'])) {
     $timeout = 1800; // 30 minutes
     if(isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
         session_destroy();
+        if (isset($_COOKIE['ypok_auth'])) {
+            setcookie('ypok_auth', '', time() - 3600, '/', '', $isHttps, true);
+        }
         $scriptName = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '');
         $basePath = rtrim(dirname(dirname($scriptName)), '/');
         if ($basePath === '/' || $basePath === '.') {
