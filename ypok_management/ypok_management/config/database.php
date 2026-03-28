@@ -143,9 +143,23 @@ try {
 // Start session only if not already started
 if (session_status() === PHP_SESSION_NONE) {
     // Set secure session configuration
+    $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+
     ini_set('session.gc_maxlifetime', 1800); // 30 minutes
     ini_set('session.cookie_httponly', 1);
     ini_set('session.cookie_samesite', 'Lax');
+    ini_set('session.cookie_path', '/');
+    ini_set('session.cookie_secure', $isHttps ? '1' : '0');
+
+    // Ensure cookie path/domain are consistent across /, /actions, and /pages on Vercel.
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'secure' => $isHttps,
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
+
     session_start();
 }
 
