@@ -160,6 +160,71 @@ if (session_status() === PHP_SESSION_NONE) {
         'samesite' => 'Lax',
     ]);
 
+    // On serverless platforms (e.g. Vercel), file-based PHP sessions may not persist
+    // between requests. Store sessions in DB so login state survives redirects.
+    $useDbSessions = (getenv('SESSION_DRIVER') === 'database') || ((getenv('VERCEL') ?: '') === '1');
+    if ($useDbSessions && $pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'pgsql') {
+        try {
+            $pdo->exec("CREATE TABLE IF NOT EXISTS php_sessions (
+                id VARCHAR(128) PRIMARY KEY,
+                data TEXT NOT NULL,
+                last_access INTEGER NOT NULL
+            )");
+
+            if (!class_exists('YpokPdoSessionHandler')) {
+                class YpokPdoSessionHandler implements SessionHandlerInterface {
+                    private PDO $pdo;
+
+                    public function __construct(PDO $pdo) {
+                        $this->pdo = $pdo;
+                    }
+
+                    public function open($savePath, $sessionName): bool {
+                        return true;
+                    }
+
+                    public function close(): bool {
+                        return true;
+                    }
+
+                    public function read($id): string {
+                        $stmt = $this->pdo->prepare('SELECT data FROM php_sessions WHERE id = :id');
+                        $stmt->execute(['id' => $id]);
+                        $row = $stmt->fetch();
+                        return $row['data'] ?? '';
+                    }
+
+                    public function write($id, $data): bool {
+                        $stmt = $this->pdo->prepare("INSERT INTO php_sessions (id, data, last_access)
+                            VALUES (:id, :data, :last_access)
+                            ON CONFLICT (id) DO UPDATE SET data = EXCLUDED.data, last_access = EXCLUDED.last_access");
+                        return $stmt->execute([
+                            'id' => $id,
+                            'data' => $data,
+                            'last_access' => time(),
+                        ]);
+                    }
+
+                    public function destroy($id): bool {
+                        $stmt = $this->pdo->prepare('DELETE FROM php_sessions WHERE id = :id');
+                        return $stmt->execute(['id' => $id]);
+                    }
+
+                    public function gc($max_lifetime): int|false {
+                        $stmt = $this->pdo->prepare('DELETE FROM php_sessions WHERE last_access < :cutoff');
+                        $stmt->execute(['cutoff' => time() - $max_lifetime]);
+                        return $stmt->rowCount();
+                    }
+                }
+            }
+
+            $handler = new YpokPdoSessionHandler($pdo);
+            session_set_save_handler($handler, true);
+        } catch (Throwable $sessionHandlerError) {
+            // Fallback to default file sessions when DB session setup is unavailable.
+        }
+    }
+
     session_start();
 }
 
