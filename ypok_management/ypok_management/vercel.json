@@ -44,6 +44,10 @@
       "dest": "/manifest.json"
     },
     {
+      "src": "/uploads/(.*)",
+      "dest": "/api/storage_proxy.php?path=uploads/$1"
+    },
+    {
       "src": "/",
       "dest": "/index.php"
     },

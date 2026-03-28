@@ -108,6 +108,7 @@ try {
             if (strpos($msh['foto'], 'uploads/') === false) {
                 $msh['foto'] = 'uploads/msh/' . $msh['foto'];
             }
+            $msh['foto'] = ypok_public_asset_url($msh['foto']);
         } else {
             $msh['foto'] = null;
         }

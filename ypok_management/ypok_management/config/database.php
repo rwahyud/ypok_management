@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/storage.php';
+
 // Database config supports Supabase PostgreSQL (default) and local MySQL fallback.
 $dbDriver = getenv('DB_DRIVER') ?: 'pgsql';
 

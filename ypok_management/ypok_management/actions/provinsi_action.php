@@ -24,11 +24,6 @@ if($action == 'create') {
 
         // Handle file upload
         if(isset($_FILES['logo_provinsi']) && $_FILES['logo_provinsi']['error'] == 0) {
-            $upload_dir = '../uploads/provinsi/';
-            if(!file_exists($upload_dir)) {
-                mkdir($upload_dir, 0777, true);
-            }
-            
             $allowed_types = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'];
             $file_type = $_FILES['logo_provinsi']['type'];
             
@@ -40,9 +35,9 @@ if($action == 'create') {
                 
                 $file_extension = pathinfo($_FILES['logo_provinsi']['name'], PATHINFO_EXTENSION);
                 $file_name = 'provinsi_' . time() . '_' . uniqid() . '.' . $file_extension;
-                $upload_path = $upload_dir . $file_name;
+                $upload_path = 'uploads/provinsi/' . $file_name;
                 
-                if(move_uploaded_file($_FILES['logo_provinsi']['tmp_name'], $upload_path)) {
+                if(ypok_upload_file($_FILES['logo_provinsi']['tmp_name'], $upload_path, $_FILES['logo_provinsi']['type'] ?? 'application/octet-stream')) {
                     $logo_provinsi = 'uploads/provinsi/' . $file_name;
                 } else {
                     throw new Exception('Gagal mengupload file');
@@ -95,11 +90,6 @@ if($action == 'update') {
 
         // Handle file upload
         if(isset($_FILES['logo_provinsi']) && $_FILES['logo_provinsi']['error'] == 0) {
-            $upload_dir = '../uploads/provinsi/';
-            if(!file_exists($upload_dir)) {
-                mkdir($upload_dir, 0777, true);
-            }
-            
             $allowed_types = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'];
             $file_type = $_FILES['logo_provinsi']['type'];
             
@@ -111,12 +101,12 @@ if($action == 'update') {
                 
                 $file_extension = pathinfo($_FILES['logo_provinsi']['name'], PATHINFO_EXTENSION);
                 $file_name = 'provinsi_' . time() . '_' . uniqid() . '.' . $file_extension;
-                $upload_path = $upload_dir . $file_name;
+                $upload_path = 'uploads/provinsi/' . $file_name;
                 
-                if(move_uploaded_file($_FILES['logo_provinsi']['tmp_name'], $upload_path)) {
+                if(ypok_upload_file($_FILES['logo_provinsi']['tmp_name'], $upload_path, $_FILES['logo_provinsi']['type'] ?? 'application/octet-stream')) {
                     // Delete old file if exists and is local
-                    if($logo_provinsi && strpos($logo_provinsi, 'uploads/') === 0 && file_exists('../' . $logo_provinsi)) {
-                        @unlink('../' . $logo_provinsi);
+                    if($logo_provinsi && strpos($logo_provinsi, 'uploads/') === 0) {
+                        ypok_delete_file($logo_provinsi);
                     }
                     $logo_provinsi = 'uploads/provinsi/' . $file_name;
                 } else {
@@ -127,8 +117,8 @@ if($action == 'update') {
             }
         } elseif(!empty($_POST['url_logo_eksternal']) && $_POST['url_logo_eksternal'] != $logo_provinsi) {
             // Delete old file if switching to external URL
-            if($logo_provinsi && strpos($logo_provinsi, 'uploads/') === 0 && file_exists('../' . $logo_provinsi)) {
-                @unlink('../' . $logo_provinsi);
+            if($logo_provinsi && strpos($logo_provinsi, 'uploads/') === 0) {
+                ypok_delete_file($logo_provinsi);
             }
             $logo_provinsi = filter_var($_POST['url_logo_eksternal'], FILTER_SANITIZE_URL);
         }
@@ -166,8 +156,8 @@ if($action == 'delete') {
         }
         
         // Delete logo file if exists and is local
-        if($logo_provinsi && strpos($logo_provinsi, 'uploads/') === 0 && file_exists('../' . $logo_provinsi)) {
-            @unlink('../' . $logo_provinsi);
+        if($logo_provinsi && strpos($logo_provinsi, 'uploads/') === 0) {
+            ypok_delete_file($logo_provinsi);
         }
         
         // Delete all dojo in this province (CASCADE will handle this automatically)

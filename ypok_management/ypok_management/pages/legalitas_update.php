@@ -53,8 +53,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             'image/png',
             'application/zip',
             'application/x-zip-compressed',
-            'application/x-rar-compressed',
-            'application/octet-stream'
+            'application/x-rar-compressed'
         ];
         
         $file_type = $_FILES['file_dokumen']['type'];
@@ -66,23 +65,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $allowed_extensions = ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png', 'zip', 'rar'];
         
         if((in_array($file_type, $allowed_types) || in_array($file_extension, $allowed_extensions)) && $file_size <= $max_size) {
-            $upload_dir = 'uploads/dokumen/';
-            if(!is_dir($upload_dir)) {
-                mkdir($upload_dir, 0777, true);
-            }
-            
             // Delete old file if exists
             $stmt_old = $pdo->prepare("SELECT file_dokumen FROM legalitas WHERE id = ?");
             $stmt_old->execute([$id]);
             $old_file = $stmt_old->fetch();
-            if($old_file && $old_file['file_dokumen'] && file_exists($old_file['file_dokumen'])) {
-                unlink($old_file['file_dokumen']);
+            if($old_file && $old_file['file_dokumen']) {
+                ypok_delete_file($old_file['file_dokumen']);
             }
             
             $file_name = time() . '_' . uniqid() . '.' . $file_extension;
-            $file_path = $upload_dir . $file_name;
+            $file_path = 'uploads/dokumen/' . $file_name;
             
-            if(move_uploaded_file($_FILES['file_dokumen']['tmp_name'], $file_path)) {
+            if(ypok_upload_file($_FILES['file_dokumen']['tmp_name'], $file_path, $_FILES['file_dokumen']['type'] ?? 'application/octet-stream')) {
                 $stmt = $pdo->prepare("UPDATE legalitas SET jenis_dokumen=?, nomor_dokumen=?, tanggal_terbit=?, tanggal_kadaluarsa=?, instansi_penerbit=?, status=?, keterangan=?, file_dokumen=?, is_permanent=? WHERE id=?");
                 $stmt->execute([$jenis_dokumen, $nomor_dokumen, $tanggal_terbit, $tanggal_kadaluarsa, $instansi_penerbit, $status, $keterangan, $file_path, $is_permanent, $id]);
             }

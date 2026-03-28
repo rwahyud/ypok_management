@@ -1193,8 +1193,9 @@ try {
                 <?php foreach($kegiatan_data as $kegiatan): ?>
                     <div class="event-card">
                         <div class="event-image">
-                            <?php if(!empty($kegiatan['foto']) && file_exists('uploads/kegiatan/' . $kegiatan['foto'])): ?>
-                                <img src="uploads/kegiatan/<?php echo htmlspecialchars($kegiatan['foto']); ?>" alt="<?php echo htmlspecialchars($kegiatan['nama_kegiatan']); ?>">
+                            <?php $eventFotoPath = 'uploads/kegiatan/' . ($kegiatan['foto'] ?? ''); ?>
+                            <?php if(!empty($kegiatan['foto']) && ypok_file_exists_compat($eventFotoPath)): ?>
+                                <img src="<?php echo htmlspecialchars(ypok_public_asset_url($eventFotoPath)); ?>" alt="<?php echo htmlspecialchars($kegiatan['nama_kegiatan']); ?>">
                             <?php endif; ?>
                         </div>
                         <div class="event-content">

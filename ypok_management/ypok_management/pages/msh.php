@@ -51,13 +51,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
             if($_FILES['foto']['size'] > 5242880) {
                 throw new Exception('Ukuran file terlalu besar. Maksimal 5MB');
             }
-            
-            $target_dir = "uploads/msh/";
-            if(!file_exists($target_dir)) {
-                mkdir($target_dir, 0755, true);
-            }
-            $foto = $target_dir . time() . '_' . bin2hex(random_bytes(4)) . '.' . $file_ext;
-            if(!move_uploaded_file($_FILES['foto']['tmp_name'], $foto)) {
+
+            $foto = 'uploads/msh/' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $file_ext;
+            if(!ypok_upload_file($_FILES['foto']['tmp_name'], $foto, $_FILES['foto']['type'] ?? 'application/octet-stream')) {
                 throw new Exception('Gagal mengupload file');
             }
         } elseif(!empty($_POST['foto_url'])) {

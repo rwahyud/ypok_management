@@ -32,15 +32,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     // Handle file upload
     if(isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
-        $upload_dir = 'uploads/pengurus/';
-        if(!is_dir($upload_dir)) {
-            mkdir($upload_dir, 0777, true);
-        }
-        
-        $file_name = time() . '_' . $_FILES['foto']['name'];
-        $file_path = $upload_dir . $file_name;
-        
-        if(move_uploaded_file($_FILES['foto']['tmp_name'], $file_path)) {
+        $file_extension = strtolower(pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION));
+        $file_name = time() . '_' . bin2hex(random_bytes(4)) . '.' . $file_extension;
+        $file_path = 'uploads/pengurus/' . $file_name;
+
+        if(ypok_upload_file($_FILES['foto']['tmp_name'], $file_path, $_FILES['foto']['type'] ?? 'application/octet-stream')) {
             $foto = $file_path;
         }
     }

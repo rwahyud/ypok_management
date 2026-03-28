@@ -36,20 +36,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Handle gambar jika ada upload baru
         $gambar = null;
         if (!empty($_FILES['gambar']['name'])) {
-            $target_dir = "../uploads/produk/";
-            if (!file_exists($target_dir)) {
-                mkdir($target_dir, 0777, true);
-            }
             $file_extension = pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION);
             $new_filename = uniqid() . '.' . $file_extension;
-            $target_file = $target_dir . $new_filename;
-            
-            if (move_uploaded_file($_FILES['gambar']['tmp_name'], $target_file)) {
+            $relative_path = 'uploads/produk/' . $new_filename;
+
+            if (ypok_upload_file($_FILES['gambar']['tmp_name'], $relative_path, $_FILES['gambar']['type'] ?? 'application/octet-stream')) {
                 $old = $pdo->prepare("SELECT gambar FROM produk_toko WHERE id = ?");
                 $old->execute([$id]);
                 $old_data = $old->fetch();
-                if ($old_data && $old_data['gambar'] && file_exists('../' . $old_data['gambar'])) {
-                    unlink('../' . $old_data['gambar']);
+                if ($old_data && $old_data['gambar']) {
+                    ypok_delete_file($old_data['gambar']);
                 }
                 $gambar = 'uploads/produk/' . $new_filename;
             }

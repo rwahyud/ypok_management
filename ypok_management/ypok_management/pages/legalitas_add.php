@@ -65,18 +65,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $allowed_extensions = ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png', 'zip', 'rar'];
         
         if((in_array($file_type, $allowed_types) || in_array($file_extension, $allowed_extensions)) && $file_size <= $max_size) {
-            $upload_dir = 'uploads/dokumen/';
-            if(!is_dir($upload_dir)) {
-                mkdir($upload_dir, 0755, true); // Fixed: Changed from 0777 (world-writable) to 0755
-            }
-            
             $file_name = time() . '_' . uniqid() . '.' . $file_extension;
-            $file_path = $upload_dir . $file_name;
-            
-            if(move_uploaded_file($_FILES['file_dokumen']['tmp_name'], $file_path)) {
+            $file_path = 'uploads/dokumen/' . $file_name;
+
+            if(ypok_upload_file($_FILES['file_dokumen']['tmp_name'], $file_path, $_FILES['file_dokumen']['type'] ?? 'application/octet-stream')) {
                 $file_dokumen = $file_path;
-                // Set proper file permissions
-                chmod($file_path, 0644); // File readable but not world-writable
             }
         }
     }
