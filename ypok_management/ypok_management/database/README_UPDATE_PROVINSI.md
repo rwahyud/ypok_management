@@ -20,7 +20,7 @@ Update ini menambahkan kolom agregat ke tabel `provinsi` untuk menyimpan statist
 ### Opsi 1: Via Browser (Recommended)
 1. Buka browser dan akses:
    ```
-   http://localhost/PROJECT/ypok_management/database/run_update_provinsi_agregat.php
+   http://localhost/ypok_management/ypok_management/database/run_update_provinsi_agregat.php
    ```
 2. Script akan otomatis menjalankan semua update dan menampilkan hasilnya
 3. Verifikasi data provinsi yang ditampilkan di akhir halaman

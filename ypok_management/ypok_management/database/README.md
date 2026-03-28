@@ -33,7 +33,7 @@ File SQL untuk menambahkan fitur agregat statistik provinsi.
 - Berisi triggers untuk auto-update statistik
 
 **Cara Menggunakan:**
-1. Akses via browser: `http://localhost/PROJECT/ypok_management/database/run_update_provinsi_agregat.php`
+1. Akses via browser: `http://localhost/ypok_management/ypok_management/database/run_update_provinsi_agregat.php`
 2. Atau import manual melalui phpMyAdmin
 
 ### update_pembayaran_struktur.sql
@@ -43,7 +43,7 @@ File migration untuk update struktur tabel pembayaran.
 
 ### run_update_provinsi_agregat.php
 Script PHP untuk menjalankan `update_provinsi_agregat.sql` secara otomatis.
-- Akses: `http://localhost/PROJECT/ypok_management/database/run_update_provinsi_agregat.php`
+- Akses: `http://localhost/ypok_management/ypok_management/database/run_update_provinsi_agregat.php`
 
 ---
 
