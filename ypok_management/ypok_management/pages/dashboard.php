@@ -1,10 +1,56 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
 
+function dashboardBasePath(): string {
+    $scriptName = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '');
+    $basePath = rtrim(dirname(dirname($scriptName)), '/');
+    if ($basePath === '/' || $basePath === '.') {
+        return '';
+    }
+    return $basePath;
+}
+
 if(!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
+    header('Location: ' . dashboardBasePath() . '/index.php');
     exit();
 }
+
+// Safe defaults so dashboard still renders even if one DB query fails on production.
+$total_msh = 0;
+$total_kohai = 0;
+$total_lokasi = 0;
+$total_pendapatan_bulan = 0;
+$saldo_keuangan = 0;
+$total_kegiatan = 0;
+$total_legalitas = 0;
+$keuangan_bulan = [];
+$total_prestasi_msh = 0;
+$total_prestasi_kohai = 0;
+$prestasi_bulan = [];
+$legalitas_status_raw = [];
+$pembayaran_kategori_raw = [];
+$gender_msh = [];
+$gender_kohai = [];
+$recent_transaksi = [];
+$upcoming_kegiatan = [];
+$chart_keuangan_labels = json_encode([]);
+$chart_keuangan_pemasukan = json_encode([]);
+$chart_keuangan_pengeluaran = json_encode([]);
+$chart_prestasi_labels = json_encode([]);
+$chart_prestasi_msh = json_encode([]);
+$chart_prestasi_kohai = json_encode([]);
+$chart_prestasi_pie_labels = json_encode(['MSH', 'Kohai']);
+$chart_prestasi_pie_data = json_encode([0, 0]);
+$chart_legalitas_labels = json_encode([]);
+$chart_legalitas_data = json_encode([]);
+$chart_pembayaran_labels = json_encode([]);
+$chart_pembayaran_data = json_encode([]);
+$laki_msh = 0;
+$perempuan_msh = 0;
+$laki_kohai = 0;
+$perempuan_kohai = 0;
+
+try {
 
 // =============================================
 // STATISTIK UTAMA
@@ -142,6 +188,9 @@ $laki_kohai = 0; $perempuan_kohai = 0;
 foreach ($gender_kohai as $g) {
     if ($g['jenis_kelamin'] === 'L') $laki_kohai = (int)$g['jumlah'];
     else $perempuan_kohai = (int)$g['jumlah'];
+}
+} catch (Throwable $e) {
+    error_log('Dashboard data load error: ' . $e->getMessage());
 }
 ?>
 <!DOCTYPE html>
@@ -1180,8 +1229,7 @@ foreach ($gender_kohai as $g) {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
             const appBasePath = window.location.pathname
-                .replace(/\/pages\/[^\/]*$/, '')
-                .replace(/\/[^\/]*$/, '');
+                                .replace(/\/pages\/[^\/]*$/, '');
             navigator.serviceWorker.register((appBasePath || '') + '/sw.js')
                 .catch(() => {});
     });
