@@ -5,8 +5,7 @@
  */
 
 header('Content-Type: application/json');
-error_reporting(E_ALL);
-ini_set('display_errors', 0); // Don't display errors, only log them
+ini_set('display_errors', 0);
 
 error_log("=== MSH Public API Called ===");
 error_log("GET params: " . json_encode($_GET));
