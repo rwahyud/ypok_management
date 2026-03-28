@@ -110,7 +110,8 @@ try {
     }
 } catch(PDOException $e) {
     // In production, show generic error. In development, show actual error.
-    if(getenv('APP_ENV') === 'development' || $_SERVER['REMOTE_ADDR'] === '127.0.0.1') {
+    $remoteAddr = $_SERVER['REMOTE_ADDR'] ?? '';
+    if(getenv('APP_ENV') === 'development' || $remoteAddr === '127.0.0.1') {
         die("Connection failed: " . $e->getMessage());
     } else {
         die("Database connection error. Please contact the system administrator.");
