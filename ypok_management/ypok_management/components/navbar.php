@@ -111,11 +111,8 @@ function confirmLogout() {
         const toggleLogo = document.getElementById('toggleLogo');
         const mainContent = document.querySelector('.main-content');
         
-        // Debug: log if main-content found
         if (!mainContent) {
-            console.error('Main content element not found!');
-        } else {
-            console.log('Main content found:', mainContent);
+            return;
         }
 
     // Check if mobile device

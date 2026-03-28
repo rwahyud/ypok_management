@@ -1,8 +1,7 @@
 // Register Service Worker
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/ypok_management/sw.js')
-        .then(reg => console.log('Service Worker registered'))
-        .catch(err => console.log('Service Worker registration failed'));
+    navigator.serviceWorker.register('/ypok_management/ypok_management/sw.js')
+    .catch(() => {});
 }
 
 function toggleNav() {
