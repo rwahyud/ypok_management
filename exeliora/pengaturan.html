@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan - Exeliora</title>
+    <link rel="stylesheet" href="Assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>EXELIORA</h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="sensor.html" class="nav-item">
+                    <i class="fas fa-microchip"></i>
+                    <span>Sensor</span>
+                </a>
+                <a href="notifikasi.html" class="nav-item">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifikasi</span>
+                </a>
+                <a href="pengaturan.html" class="nav-item active">
+                    <i class="fas fa-cog"></i>
+                    <span>Pengaturan</span>
+                </a>
+                <a href="login.html" class="nav-item logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Keluar</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <h1>Pengaturan</h1>
+                <div class="user-info">
+                    <span>Admin</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <div class="settings-container">
+                    <!-- Pengaturan Akun -->
+                    <div class="settings-section">
+                        <h3><i class="fas fa-user-cog"></i> Klik Pengaturan Akun</h3>
+                        <div class="settings-form">
+                            <div class="form-group">
+                                <label><i class="fas fa-user"></i> Input Nama Pengguna</label>
+                                <input type="text" id="nama-pengguna" value="Admin" placeholder="Masukkan nama pengguna" required>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-envelope"></i> Input Email</label>
+                                <input type="email" id="email" value="admin@exeliora.com" placeholder="Masukkan email" required>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-lock"></i> Input Password Lama</label>
+                                <input type="password" id="password-lama" placeholder="Masukkan password lama" required>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-key"></i> Input Password Baru</label>
+                                <input type="password" id="password-baru" placeholder="Masukkan password baru">
+                            </div>
+                            <button class="btn-save" onclick="simpanPerubahan()">
+                                <i class="fas fa-save"></i> Klik Button Simpan Perubahan
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Pengaturan Notifikasi -->
+                    <div class="settings-section">
+                        <h3><i class="fas fa-bell"></i> Klik Pengaturan Notifikasi</h3>
+                        <div class="settings-form">
+                            <div class="form-group">
+                                <label><i class="fas fa-microchip"></i> Input ID Sensor</label>
+                                <input type="text" id="sensor-id" placeholder="Masukkan ID Sensor (contoh: SENSOR001)" required>
+                                <small class="form-hint">Masukkan ID sensor untuk menerima notifikasi khusus</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Daftar Sensor Terdaftar</label>
+                                <div class="sensor-list">
+                                    <div class="sensor-item">
+                                        <span class="sensor-id-badge">DHT001</span>
+                                        <span class="sensor-name">Sensor Suhu - Ruang Tamu</span>
+                                        <button class="btn-remove-sensor" onclick="hapusSensorNotif('DHT001')">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <div class="sensor-item">
+                                        <span class="sensor-id-badge">LDR001</span>
+                                        <span class="sensor-name">Sensor Cahaya - Garasi</span>
+                                        <button class="btn-remove-sensor" onclick="hapusSensorNotif('LDR001')">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn-save" onclick="tambahSensorNotif()">
+                                <i class="fas fa-plus"></i> Tambah Sensor Notifikasi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="Assets/js/pengaturan.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+

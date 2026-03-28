@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cahaya - Exeliora</title>
+    <link rel="stylesheet" href="Assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>EXELIORA</h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="sensor.html" class="nav-item">
+                    <i class="fas fa-microchip"></i>
+                    <span>Sensor</span>
+                </a>
+                <a href="cahaya.html" class="nav-item active">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Cahaya</span>
+                </a>
+                <a href="notifikasi.html" class="nav-item">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifikasi</span>
+                </a>
+                <a href="pengaturan.html" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Pengaturan</span>
+                </a>
+                <a href="login.html" class="nav-item logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Keluar</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <h1>Pengaturan Cahaya</h1>
+                <div class="user-info">
+                    <span>Admin</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <div class="light-control-panel">
+                    <!-- Ruang Tamu -->
+                    <div class="light-control-card">
+                        <div class="light-header">
+                            <h3>Ruang Tamu</h3>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="light1" checked>
+                                <label for="light1"></label>
+                            </div>
+                        </div>
+                        <div class="light-body">
+                            <div class="brightness-control">
+                                <label>Kecerahan</label>
+                                <input type="range" min="0" max="100" value="75" class="brightness-slider">
+                                <span class="brightness-value">75%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kamar Tidur -->
+                    <div class="light-control-card">
+                        <div class="light-header">
+                            <h3>Kamar Tidur</h3>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="light2" checked>
+                                <label for="light2"></label>
+                            </div>
+                        </div>
+                        <div class="light-body">
+                            <div class="brightness-control">
+                                <label>Kecerahan</label>
+                                <input type="range" min="0" max="100" value="50" class="brightness-slider">
+                                <span class="brightness-value">50%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dapur -->
+                    <div class="light-control-card">
+                        <div class="light-header">
+                            <h3>Dapur</h3>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="light3">
+                                <label for="light3"></label>
+                            </div>
+                        </div>
+                        <div class="light-body">
+                            <div class="brightness-control">
+                                <label>Kecerahan</label>
+                                <input type="range" min="0" max="100" value="0" class="brightness-slider" disabled>
+                                <span class="brightness-value">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Teras -->
+                    <div class="light-control-card">
+                        <div class="light-header">
+                            <h3>Teras</h3>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="light4">
+                                <label for="light4"></label>
+                            </div>
+                        </div>
+                        <div class="light-body">
+                            <div class="brightness-control">
+                                <label>Kecerahan</label>
+                                <input type="range" min="0" max="100" value="0" class="brightness-slider" disabled>
+                                <span class="brightness-value">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="Assets/js/cahaya.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+ 
+
+{shop_url}
+
+Halo,
+
+Anda telah menerima permintaan pengembalian baru untuk {shop_name}.
+
+Return Details
+
+Order: {order_name} Pada tanggal {date}
+
+Pelanggan: {firstname} {lastname}, ({email})
+
+Referensi	Produk	Jumlah   {items}
+
+Alamat pengiriman
+
+{delivery_block_html}
+
+Alamat tagihan
+
+{invoice_block_html}
+
+Pesan dari pelanggan:
+
+{message}
+
+[{shop_name}]({shop_url})
+
+Powered by [PrestaShop](https://www.prestashop-project.org/)

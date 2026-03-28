@@ -1,0 +1,58 @@
+/* index.css - styles moved from index.php */   
+body {
+  background-color: #e3f2fd;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+.card {
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Additional styles moved from inline attributes */
+.main-container {
+  margin-top: 20px;
+}
+
+.sensor-row {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sensor-card {
+  width: 30%;
+  min-width: 220px;
+}
+
+.card-header-suhu {
+  font-size: 22px;
+  font-weight: bold;
+  background-color: red;
+  color: white;
+}
+.card-header-kelembapan {
+  font-size: 22px;
+  font-weight: bold;
+  background-color: blue;
+  color: white;
+}
+.card-header-ldr {
+  font-size: 22px;
+  font-weight: bold;
+  background-color: #bebb04;
+  color: white;
+}
+
+.sensor-image-wrap {
+  padding-top: 50px;
+}
+
+.sensor-image {
+  width: 300px;
+}

@@ -1,0 +1,177 @@
+// ============================================
+// EXELIORA SMART HOME SYSTEM - DATABASE SCHEMA
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+// ============================================
+
+// USER MANAGEMENT
+Table users {
+  id integer [primary key, increment]
+  username varchar(100) [not null, unique]
+  email varchar(255) [not null, unique]
+  password varchar(255) [not null]
+  role varchar(50) [default: 'user']
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  
+  Indexes {
+    email
+    username
+  }
+}
+
+// SENSOR MANAGEMENT
+Table sensors {
+  id integer [primary key, increment]
+  sensor_name varchar(100) [not null]
+  sensor_type varchar(50) [not null, note: 'temperature, light, humidity, motion']
+  status varchar(20) [default: 'active', note: 'active, inactive, error']
+  location varchar(255)
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  
+  Indexes {
+    sensor_type
+    status
+  }
+}
+
+Table temperature_sensors {
+  id integer [primary key, increment]
+  sensor_id integer [not null, unique]
+  temperature decimal(5,2)
+  min_threshold decimal(5,2) [default: 20.00]
+  max_threshold decimal(5,2) [default: 30.00]
+  unit varchar(10) [default: 'celsius']
+  last_reading timestamp
+  
+  Indexes {
+    sensor_id
+  }
+}
+
+Table light_sensors {
+  id integer [primary key, increment]
+  sensor_id integer [not null, unique]
+  light_intensity decimal(10,2) [note: 'in Lux']
+  material_id varchar(100)
+  room_id integer
+  unit varchar(10) [default: 'lux']
+  last_reading timestamp
+  
+  Indexes {
+    sensor_id
+    room_id
+  }
+}
+
+Table sensor_readings {
+  id integer [primary key, increment]
+  sensor_id integer [not null]
+  value decimal(10,2) [not null]
+  reading_time timestamp [default: `now()`]
+  
+  Indexes {
+    sensor_id
+    reading_time
+  }
+}
+
+// ROOM AND LIGHT CONTROL
+Table rooms {
+  id integer [primary key, increment]
+  room_name varchar(100) [not null]
+  sensor_id integer
+  created_at timestamp [default: `now()`]
+  
+  Indexes {
+    room_name
+  }
+}
+
+Table lights {
+  id integer [primary key, increment]
+  room_id integer [not null]
+  light_name varchar(100)
+  status boolean [default: false, note: 'true=on, false=off']
+  brightness integer [default: 0, note: '0-100']
+  last_update timestamp [default: `now()`]
+  
+  Indexes {
+    room_id
+    status
+  }
+}
+
+// NOTIFICATION SYSTEM
+Table notifications {
+  id integer [primary key, increment]
+  user_id integer [not null]
+  title varchar(255) [not null]
+  message text [not null]
+  type varchar(50) [note: 'info, warning, success, error']
+  priority varchar(20) [default: 'normal', note: 'low, normal, high']
+  is_read boolean [default: false]
+  created_at timestamp [default: `now()`]
+  
+  Indexes {
+    user_id
+    is_read
+    created_at
+  }
+}
+
+Table notification_settings {
+  id integer [primary key, increment]
+  user_id integer [not null, unique]
+  email_enabled boolean [default: true]
+  push_enabled boolean [default: true]
+  sensor_alerts_enabled boolean [default: true]
+  updated_at timestamp [default: `now()`]
+}
+
+// SYSTEM CONFIGURATION
+Table system_settings {
+  id integer [primary key, increment]
+  user_id integer [not null, unique]
+  auto_mode boolean [default: false]
+  eco_mode boolean [default: false]
+  language varchar(10) [default: 'id']
+  timezone varchar(50) [default: 'Asia/Jakarta']
+  updated_at timestamp [default: `now()`]
+}
+
+Table dashboard_widgets {
+  id integer [primary key, increment]
+  user_id integer [not null]
+  widget_type varchar(50) [not null, note: 'sensor_card, light_control, graph, status']
+  widget_data json
+  position integer [default: 0]
+  is_active boolean [default: true]
+  created_at timestamp [default: `now()`]
+  
+  Indexes {
+    user_id
+    widget_type
+  }
+}
+
+// ============================================
+// RELATIONSHIPS
+// ============================================
+
+// Sensor relationships
+Ref: temperature_sensors.sensor_id > sensors.id [delete: cascade]
+Ref: light_sensors.sensor_id > sensors.id [delete: cascade]
+Ref: sensor_readings.sensor_id > sensors.id [delete: cascade]
+
+// Room and Light relationships
+Ref: rooms.sensor_id > light_sensors.sensor_id [delete: set null]
+Ref: lights.room_id > rooms.id [delete: cascade]
+Ref: light_sensors.room_id > rooms.id [delete: set null]
+
+// User relationships
+Ref: notifications.user_id > users.id [delete: cascade]
+Ref: notification_settings.user_id > users.id [delete: cascade]
+Ref: system_settings.user_id > users.id [delete: cascade]
+Ref: dashboard_widgets.user_id > users.id [delete: cascade]

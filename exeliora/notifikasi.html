@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifikasi - Exeliora</title>
+    <link rel="stylesheet" href="Assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>EXELIORA</h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="sensor.html" class="nav-item">
+                    <i class="fas fa-microchip"></i>
+                    <span>Sensor</span>
+                </a>
+                <a href="notifikasi.html" class="nav-item active">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifikasi</span>
+                </a>
+                <a href="pengaturan.html" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Pengaturan</span>
+                </a>
+                <a href="login.html" class="nav-item logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Keluar</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <h1>Notifikasi</h1>
+                <div class="user-info">
+                    <span>Admin</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <div class="notification-container">
+                    <div class="notification-item unread">
+                        <div class="notification-icon warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>Suhu Tinggi Terdeteksi</h4>
+                            <p>Sensor suhu mendeteksi suhu di atas normal (28°C)</p>
+                            <span class="notification-time">5 menit yang lalu</span>
+                        </div>
+                    </div>
+
+                    <div class="notification-item unread">
+                        <div class="notification-icon info">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>Lampu Ruang Tamu Menyala</h4>
+                            <p>Lampu ruang tamu telah dinyalakan secara otomatis</p>
+                            <span class="notification-time">15 menit yang lalu</span>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-icon success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>Sistem Berjalan Normal</h4>
+                            <p>Semua sensor dan perangkat berfungsi dengan baik</p>
+                            <span class="notification-time">1 jam yang lalu</span>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-icon warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>Kelembaban Rendah</h4>
+                            <p>Sensor kelembaban mendeteksi kelembaban di bawah 40%</p>
+                            <span class="notification-time">3 jam yang lalu</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

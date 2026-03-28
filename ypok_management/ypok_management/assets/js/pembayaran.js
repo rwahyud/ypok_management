@@ -302,7 +302,7 @@ function deletePembayaran(id) {
 
 function printInvoice(id) {
     // Open invoice in new window for printing
-    window.open('../export/invoice_pembayaran.php?id=' + id, '_blank', 'width=900,height=700');
+    window.open('/export/invoice_pembayaran.php?id=' + id, '_blank', 'width=900,height=700');
 }
 
 function openExportModal() {
