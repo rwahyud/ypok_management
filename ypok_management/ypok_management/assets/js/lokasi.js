@@ -54,7 +54,7 @@ function closeProvinsiModal() {
 
 function editProvinsi(id) {
     console.log('editProvinsi called with id:', id);
-    fetch(`actions/get_provinsi.php?id=${id}`)
+    fetch(`/actions/get_provinsi.php?id=${id}`)
         .then(response => {
             console.log('Response status:', response.status);
             if (!response.ok) {
@@ -97,7 +97,7 @@ function editProvinsi(id) {
 function deleteProvinsi(id) {
     console.log('deleteProvinsi called with id:', id);
     if(confirm('⚠️ PERINGATAN!\n\nApakah Anda yakin ingin menghapus provinsi ini?\n\nSemua dojo dan data terkait di provinsi ini juga akan terhapus secara permanen!\n\nTindakan ini tidak dapat dibatalkan.')) {
-        window.location.href = `actions/provinsi_action.php?action=delete&id=${id}`;
+        window.location.href = `/actions/provinsi_action.php?action=delete&id=${id}`;
     }
 }
 
@@ -117,7 +117,7 @@ function viewProvinsiDetail(id) {
     
     document.getElementById('detailProvinsiContent').innerHTML = '<div style="text-align: center; padding: 40px;"><div class="spinner"></div><p>Memuat data...</p></div>';
     
-    fetch(`actions/get_provinsi_detail.php?id=${id}`)
+    fetch(`/actions/get_provinsi_detail.php?id=${id}`)
         .then(response => {
             console.log('Detail response status:', response.status);
             return response.text();
@@ -177,7 +177,7 @@ function closeDojoModal() {
 
 function editDojo(id) {
     console.log('editDojo called with id:', id);
-    fetch(`actions/get_dojo.php?id=${id}`)
+    fetch(`/actions/get_dojo.php?id=${id}`)
         .then(response => {
             console.log('Dojo response status:', response.status);
             if (!response.ok) {
@@ -227,7 +227,7 @@ function editDojo(id) {
 function deleteDojo(id, provinsiId) {
     console.log('deleteDojo called with id:', id, 'provinsiId:', provinsiId);
     if(confirm('⚠️ Apakah Anda yakin ingin menghapus dojo ini?\n\nData dojo akan dihapus secara permanen!')) {
-        window.location.href = `actions/dojo_action.php?action=delete&id=${id}&provinsi_id=${provinsiId}`;
+        window.location.href = `/actions/dojo_action.php?action=delete&id=${id}&provinsi_id=${provinsiId}`;
     }
 }
 

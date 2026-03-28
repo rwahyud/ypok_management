@@ -1558,7 +1558,7 @@ try {
             }
 
             // Open export in new window
-            window.open('../actions/export_transaksi_laporan.php?' + params.toString(), '_blank');
+            window.open('/actions/export_transaksi_laporan.php?' + params.toString(), '_blank');
 
             // Close modal
             closeExportModalTransaksi();
@@ -1753,7 +1753,7 @@ try {
         
         // Load kategori list
         function loadKategoriList() {
-            fetch('actions/get_kategori_list.php')
+            fetch('/actions/get_kategori_list.php')
                 .then(response => response.json())
                 .then(data => {
                     let html = '';
@@ -1792,7 +1792,7 @@ try {
         // Delete kategori
         function deleteKategori(id, nama) {
             if(confirm(`Yakin ingin menghapus kategori "${nama}"?\n\nKategori yang masih digunakan tidak dapat dihapus.`)) {
-                window.location.href = `../actions/delete_kategori.php?id=${id}`;
+                window.location.href = `/actions/delete_kategori.php?id=${id}`;
             }
         }
         
@@ -1956,7 +1956,7 @@ try {
 
         // Produk Functions
         function openBeliProdukModal(id) {
-            fetch(`actions/get_produk.php?id=${id}`)
+            fetch(`/actions/get_produk.php?id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     // Set produk ID
@@ -2078,7 +2078,7 @@ try {
         
         // View Produk
         function viewProduk(id) {
-            fetch(`actions/get_produk.php?id=${id}`)
+            fetch(`/actions/get_produk.php?id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     let variasiHTML = '';
@@ -2121,11 +2121,11 @@ try {
         }
         
         function editProduk(id) {
-            fetch(`actions/get_produk.php?id=${id}`)
+            fetch(`/actions/get_produk.php?id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('edit_id').value = data.id;
-                    fetch('actions/get_kategori_list.php')
+                    fetch('/actions/get_kategori_list.php')
                         .then(response => response.json())
                         .then(kategoriList => {
                             let kategoriOptions = '<option value="">Pilih Kategori...</option>';
@@ -2204,12 +2204,12 @@ try {
         
         function deleteProduk(id) {
             if(confirm('Yakin ingin menghapus produk ini?')) {
-                window.location.href = `../actions/delete_produk.php?id=${id}`;
+                window.location.href = `/actions/delete_produk.php?id=${id}`;
             }
         }
         
         function viewTransaksi(id) {
-            fetch(`actions/get_transaksi.php?id=${id}`)
+            fetch(`/actions/get_transaksi.php?id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     const hargaSatuan = data.total_harga / data.jumlah;
@@ -2390,12 +2390,12 @@ try {
         
         function deleteTransaksi(id) {
             if(confirm('Yakin ingin menghapus transaksi ini?')) {
-                window.location.href = `../actions/delete_transaksi.php?id=${id}`;
+                window.location.href = `/actions/delete_transaksi.php?id=${id}`;
             }
         }
         
         function exportPDF() {
-            window.open('../actions/export_transaksi_laporan.php', '_blank');
+            window.open('/actions/export_transaksi_laporan.php', '_blank');
         }
         
        
