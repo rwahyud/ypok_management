@@ -39,12 +39,12 @@ if($action == 'create') {
             $total_anggota, $anggota_aktif, $anggota_non_aktif, $status
         ]);
         
-        header('Location: ../lokasi.php?success=1&msg=' . urlencode('Dojo berhasil ditambahkan'));
+        header('Location: ../pages/lokasi.php?success=1&msg=' . urlencode('Dojo berhasil ditambahkan'));
         exit();
         
     } catch(Exception $e) {
         error_log('Error creating dojo: ' . $e->getMessage());
-        header('Location: ../lokasi.php?error=1&msg=' . urlencode($e->getMessage()));
+        header('Location: ../pages/lokasi.php?error=1&msg=' . urlencode($e->getMessage()));
         exit();
     }
 }
@@ -80,12 +80,12 @@ if($action == 'update') {
             $total_anggota, $anggota_aktif, $anggota_non_aktif, $status, $id
         ]);
         
-        header('Location: ../lokasi.php?updated=1&msg=' . urlencode('Dojo berhasil diupdate'));
+        header('Location: ../pages/lokasi.php?updated=1&msg=' . urlencode('Dojo berhasil diupdate'));
         exit();
         
     } catch(Exception $e) {
         error_log('Error updating dojo: ' . $e->getMessage());
-        header('Location: ../lokasi.php?error=1&msg=' . urlencode($e->getMessage()));
+        header('Location: ../pages/lokasi.php?error=1&msg=' . urlencode($e->getMessage()));
         exit();
     }
 }
@@ -102,16 +102,16 @@ if($action == 'delete') {
         $stmt = $pdo->prepare("DELETE FROM dojo WHERE id = ?");
         $stmt->execute([$id]);
         
-        header('Location: ../lokasi.php?deleted=1&msg=' . urlencode('Dojo berhasil dihapus'));
+        header('Location: ../pages/lokasi.php?deleted=1&msg=' . urlencode('Dojo berhasil dihapus'));
         exit();
         
     } catch(Exception $e) {
         error_log('Error deleting dojo: ' . $e->getMessage());
-        header('Location: ../lokasi.php?error=1&msg=' . urlencode($e->getMessage()));
+        header('Location: ../pages/lokasi.php?error=1&msg=' . urlencode($e->getMessage()));
         exit();
     }
 }
 
-header('Location: ../lokasi.php?error=1&msg=' . urlencode('Aksi tidak valid'));
+header('Location: ../pages/lokasi.php?error=1&msg=' . urlencode('Aksi tidak valid'));
 exit();
 ?>

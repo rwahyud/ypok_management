@@ -54,7 +54,7 @@ if($action == 'create') {
         $stmt->execute([$nama_provinsi, $ibu_kota, $logo_provinsi]);
         
         // Redirect with success message
-        header('Location: ../lokasi.php?success=1');
+        header('Location: ../pages/lokasi.php?success=1');
         exit();
         
     } catch(Exception $e) {
@@ -62,7 +62,7 @@ if($action == 'create') {
         error_log('Error creating provinsi: ' . $e->getMessage());
         
         // Redirect with error message
-        header('Location: ../lokasi.php?error=1');
+        header('Location: ../pages/lokasi.php?error=1');
         exit();
     }
 }
@@ -127,12 +127,12 @@ if($action == 'update') {
         $stmt = $pdo->prepare("UPDATE provinsi SET nama_provinsi = ?, ibu_kota = ?, logo_provinsi = ?, updated_at = NOW() WHERE id = ?");
         $stmt->execute([$nama_provinsi, $ibu_kota, $logo_provinsi, $id]);
         
-        header('Location: ../lokasi.php?updated=1');
+        header('Location: ../pages/lokasi.php?updated=1');
         exit();
         
     } catch(Exception $e) {
         error_log('Error updating provinsi: ' . $e->getMessage());
-        header('Location: ../lokasi.php?error=1');
+        header('Location: ../pages/lokasi.php?error=1');
         exit();
     }
 }
@@ -167,17 +167,17 @@ if($action == 'delete') {
         $stmt = $pdo->prepare("DELETE FROM provinsi WHERE id = ?");
         $stmt->execute([$id]);
         
-        header('Location: ../lokasi.php?deleted=1');
+        header('Location: ../pages/lokasi.php?deleted=1');
         exit();
         
     } catch(Exception $e) {
         error_log('Error deleting provinsi: ' . $e->getMessage());
-        header('Location: ../lokasi.php?error=1');
+        header('Location: ../pages/lokasi.php?error=1');
         exit();
     }
 }
 
 // Invalid action
-header('Location: ../lokasi.php?error=1');
+header('Location: ../pages/lokasi.php?error=1');
 exit();
 ?>

@@ -1,13 +1,11 @@
 <?php
 require_once __DIR__ . '/storage.php';
 
-// Database config supports Supabase PostgreSQL (default) and local MySQL fallback.
-$dbDriver = getenv('DB_DRIVER') ?: 'pgsql';
-
-$host = getenv('DB_HOST') ?: 'localhost';
-$port = getenv('DB_PORT') ?: ($dbDriver === 'pgsql' ? '5432' : '3306');
-$dbname = getenv('DB_NAME') ?: 'ypok_management';
-$username = getenv('DB_USER') ?: 'root';
+// Supabase/PostgreSQL-first configuration.
+$host = getenv('DB_HOST') ?: '';
+$port = getenv('DB_PORT') ?: '5432';
+$dbname = getenv('DB_NAME') ?: 'postgres';
+$username = getenv('DB_USER') ?: '';
 $password = getenv('DB_PASSWORD') ?: '';
 
 $databaseUrl = getenv('DATABASE_URL') ?: '';
@@ -15,7 +13,7 @@ $databaseUrl = getenv('DATABASE_URL') ?: '';
 try {
     if (!empty($databaseUrl)) {
         // Support both DSN form (pgsql:...) and URL form (postgresql://...)
-        if (stripos($databaseUrl, 'pgsql:') === 0 || stripos($databaseUrl, 'mysql:') === 0) {
+        if (stripos($databaseUrl, 'pgsql:') === 0) {
             $pdo = new PDO($databaseUrl);
         } else {
             $parts = parse_url($databaseUrl);
@@ -25,7 +23,7 @@ try {
 
             $scheme = strtolower($parts['scheme'] ?? 'postgresql');
             $dbHost = $parts['host'];
-            $dbPort = $parts['port'] ?? (($scheme === 'mysql') ? 3306 : 5432);
+            $dbPort = $parts['port'] ?? 5432;
             $dbName = ltrim($parts['path'] ?? '', '/');
             $dbUser = $parts['user'] ?? $username;
             $dbPass = $parts['pass'] ?? $password;
@@ -34,19 +32,17 @@ try {
                 throw new PDOException('DATABASE_URL must include database name in path.');
             }
 
-            if ($scheme === 'mysql') {
-                $dsn = "mysql:host={$dbHost};port={$dbPort};dbname={$dbName};charset=utf8mb4";
-            } else {
-                // Supabase PostgreSQL requires SSL
-                $dsn = "pgsql:host={$dbHost};port={$dbPort};dbname={$dbName};sslmode=require";
+            if ($scheme !== 'postgresql' && $scheme !== 'postgres') {
+                throw new PDOException('DATABASE_URL must use postgresql:// scheme for Supabase deployment.');
             }
+
+            // Supabase PostgreSQL requires SSL
+            $dsn = "pgsql:host={$dbHost};port={$dbPort};dbname={$dbName};sslmode=require";
 
             $pdo = new PDO($dsn, $dbUser, $dbPass);
         }
-    } elseif ($dbDriver === 'pgsql') {
-        $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require", $username, $password);
     } else {
-        $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4", $username, $password);
+        $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require", $username, $password);
     }
 
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
