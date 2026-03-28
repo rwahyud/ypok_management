@@ -2,10 +2,10 @@
 require_once __DIR__ . '/../config/database.php';
 
 // Check if Dompdf is available
-$use_dompdf = file_exists('../vendor/autoload.php');
+$use_dompdf = file_exists(__DIR__ . '/../vendor/autoload.php');
 
 if ($use_dompdf) {
-    require_once '../vendor/autoload.php';
+    require_once __DIR__ . '/../vendor/autoload.php';
 }
 
 if(!isset($_SESSION['user_id'])) {

@@ -2,13 +2,13 @@
 require_once __DIR__ . '/../config/database.php';
 
 if(!isset($_SESSION['user_id'])) {
-    header('Location: index.php');
+    header('Location: ../index.php');
     exit();
 }
 
 // Get payment ID from URL
 if(!isset($_GET['id'])) {
-    header('Location: pembayaran.php');
+    header('Location: ../pages/pembayaran.php');
     exit();
 }
 
@@ -20,7 +20,7 @@ $stmt->execute([$id]);
 $pembayaran = $stmt->fetch();
 
 if(!$pembayaran) {
-    header('Location: pembayaran.php?error=1&msg=Data tidak ditemukan');
+    header('Location: ../pages/pembayaran.php?error=1&msg=Data tidak ditemukan');
     exit();
 }
 
