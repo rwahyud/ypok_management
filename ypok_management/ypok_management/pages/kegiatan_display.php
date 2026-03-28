@@ -9,8 +9,15 @@ if(!isset($_SESSION['user_id'])) {
 // Check if database columns exist
 $column_exists = false;
 try {
-    $columns = $pdo->query("SHOW COLUMNS FROM kegiatan LIKE 'tampil_di_berita'")->fetchAll();
-    $column_exists = !empty($columns);
+    $driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+    if ($driver === 'pgsql') {
+        $checkStmt = $pdo->prepare("SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'kegiatan' AND column_name = 'tampil_di_berita' LIMIT 1");
+        $checkStmt->execute();
+        $column_exists = (bool)$checkStmt->fetchColumn();
+    } else {
+        $columns = $pdo->query("SHOW COLUMNS FROM kegiatan LIKE 'tampil_di_berita'")->fetchAll();
+        $column_exists = !empty($columns);
+    }
 } catch(Exception $e) {
     // leave as false
 }
@@ -472,8 +479,16 @@ if($column_exists) {
                                 <td><?php echo htmlspecialchars($k['jenis_kegiatan'] ?? '-'); ?></td>
                                 <td>
                                     <?php 
-                                    $status_class = $k['status'] === 'Terlaksana' ? 'success' : 
-                                                   ($k['status'] === 'Akan Datang' ? 'warning' : 'danger');
+                                    $status_raw = strtolower(trim((string)$k['status']));
+                                    $status_norm = str_replace(' ', '_', $status_raw);
+
+                                    if (in_array($status_norm, ['terlaksana', 'selesai', 'berlangsung'], true)) {
+                                        $status_class = 'success';
+                                    } elseif (in_array($status_norm, ['akan_datang', 'dijadwalkan'], true)) {
+                                        $status_class = 'warning';
+                                    } else {
+                                        $status_class = 'danger';
+                                    }
                                     ?>
                                     <span class="badge badge-<?php echo $status_class; ?>">
                                         <?php echo htmlspecialchars($k['status']); ?>

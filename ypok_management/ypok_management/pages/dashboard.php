@@ -23,7 +23,7 @@ $total_pendapatan_bulan = $pdo->query("
 $saldo_row = $pdo->query("SELECT COALESCE(SUM(CASE WHEN jenis='pemasukan' THEN jumlah ELSE 0 END),0) - COALESCE(SUM(CASE WHEN jenis='pengeluaran' THEN jumlah ELSE 0 END),0) as saldo FROM transaksi")->fetch();
 $saldo_keuangan = $saldo_row['saldo'] ?? 0;
 
-$total_kegiatan  = $pdo->query("SELECT COUNT(*) FROM kegiatan WHERE status='Akan Datang'")->fetchColumn();
+$total_kegiatan  = $pdo->query("SELECT COUNT(*) FROM kegiatan WHERE LOWER(REPLACE(status, ' ', '_')) IN ('akan_datang', 'dijadwalkan')")->fetchColumn();
 $total_legalitas = $pdo->query("SELECT COUNT(*) FROM legalitas WHERE status='Aktif'")->fetchColumn();
 
 // =============================================
@@ -110,7 +110,7 @@ $recent_transaksi = $pdo->query("SELECT * FROM transaksi ORDER BY created_at DES
 // =============================================
 // UPCOMING KEGIATAN
 // =============================================
-$upcoming_kegiatan = $pdo->query("SELECT k.*, l.nama_lokasi FROM kegiatan k LEFT JOIN lokasi l ON k.lokasi_id = l.id WHERE k.status='dijadwalkan' ORDER BY k.tanggal_kegiatan ASC LIMIT 5")->fetchAll();
+$upcoming_kegiatan = $pdo->query("SELECT k.*, l.nama_lokasi FROM kegiatan k LEFT JOIN lokasi l ON k.lokasi_id = l.id WHERE LOWER(REPLACE(k.status, ' ', '_')) IN ('akan_datang', 'dijadwalkan') ORDER BY k.tanggal_kegiatan ASC LIMIT 5")->fetchAll();
 
 // =============================================
 // ENCODE JSON untuk Chart.js

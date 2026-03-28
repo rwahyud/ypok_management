@@ -41,9 +41,9 @@ $kegiatan_list = $stmt->fetchAll();
 // Get statistics
 $stats_query = "SELECT
     COUNT(*) as total_kegiatan,
-    SUM(CASE WHEN status = 'selesai' THEN 1 ELSE 0 END) as selesai,
-    SUM(CASE WHEN status = 'berlangsung' THEN 1 ELSE 0 END) as berlangsung,
-    SUM(CASE WHEN status = 'dijadwalkan' THEN 1 ELSE 0 END) as dijadwalkan
+    SUM(CASE WHEN LOWER(REPLACE(status, ' ', '_')) IN ('terlaksana', 'selesai') THEN 1 ELSE 0 END) as selesai,
+    SUM(CASE WHEN LOWER(REPLACE(status, ' ', '_')) = 'berlangsung' THEN 1 ELSE 0 END) as berlangsung,
+    SUM(CASE WHEN LOWER(REPLACE(status, ' ', '_')) IN ('akan_datang', 'dijadwalkan') THEN 1 ELSE 0 END) as dijadwalkan
     FROM kegiatan";
 $stats = $pdo->query($stats_query)->fetch();
 

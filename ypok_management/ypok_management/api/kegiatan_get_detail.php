@@ -26,10 +26,16 @@ try {
         exit();
     }
     
-    // Map status
+    // Normalize and map status for backward compatibility.
+    $status_norm = strtolower(trim((string)$kegiatan['status']));
+    $status_norm = str_replace(' ', '_', $status_norm);
+
     $status_display = [
         'terlaksana' => 'Selesai',
+        'selesai' => 'Selesai',
+        'berlangsung' => 'Selesai',
         'akan_datang' => 'Dijadwalkan',
+        'dijadwalkan' => 'Dijadwalkan',
         'dibatalkan' => 'Dibatalkan'
     ];
     
@@ -44,7 +50,7 @@ try {
     $tanggal_formatted = $date->format('d') . ' ' . $bulan[(int)$date->format('n')] . ' ' . $date->format('Y');
     
     // Add formatted data
-    $kegiatan['status_display'] = $status_display[$kegiatan['status']] ?? $kegiatan['status'];
+    $kegiatan['status_display'] = $status_display[$status_norm] ?? $kegiatan['status'];
     $kegiatan['tanggal_formatted'] = $tanggal_formatted;
     
     echo json_encode([

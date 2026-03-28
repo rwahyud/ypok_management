@@ -21,14 +21,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $lokasi_nama = $lokasi; // Store lokasi name
         $keterangan = isset($_POST['deskripsi']) ? trim($_POST['deskripsi']) : '';
         
-        // Map status dari form ke database ENUM
+        // Map status form ke format status terstandar di database.
         $status_form = $_POST['status'];
         $status_map = [
-            'Selesai' => 'Terlaksana',
-            'Berlangsung' => 'Terlaksana',
-            'Dijadwalkan' => 'Akan Datang'
+            'Selesai' => 'terlaksana',
+            'Berlangsung' => 'terlaksana',
+            'Dijadwalkan' => 'akan_datang'
         ];
-        $status = $status_map[$status_form] ?? 'Akan Datang';
+        $status = $status_map[$status_form] ?? 'akan_datang';
         
         // Check if lokasi exists, if not create it
         $stmt = $pdo->prepare("SELECT id FROM lokasi WHERE nama_lokasi = ?");

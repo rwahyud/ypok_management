@@ -42,11 +42,26 @@ $stmt = $pdo->prepare($query);
 $stmt->execute($params);
 $kegiatan_list = $stmt->fetchAll();
 
+$normalizeStatus = function($status) {
+    $normalized = strtolower(trim((string)$status));
+    $normalized = str_replace(' ', '_', $normalized);
+
+    if ($normalized === 'selesai' || $normalized === 'berlangsung') {
+        return 'terlaksana';
+    }
+
+    if ($normalized === 'dijadwalkan') {
+        return 'akan_datang';
+    }
+
+    return $normalized;
+};
+
 // Calculate statistics
 $total_kegiatan = count($kegiatan_list);
-$selesai = count(array_filter($kegiatan_list, fn($k) => $k['status'] === 'terlaksana'));
-$dijadwalkan = count(array_filter($kegiatan_list, fn($k) => $k['status'] === 'akan_datang'));
-$dibatalkan = count(array_filter($kegiatan_list, fn($k) => $k['status'] === 'dibatalkan'));
+$selesai = count(array_filter($kegiatan_list, fn($k) => $normalizeStatus($k['status']) === 'terlaksana'));
+$dijadwalkan = count(array_filter($kegiatan_list, fn($k) => $normalizeStatus($k['status']) === 'akan_datang'));
+$dibatalkan = count(array_filter($kegiatan_list, fn($k) => $normalizeStatus($k['status']) === 'dibatalkan'));
 
 // Handle CSV Export
 if ($format === 'csv') {
@@ -73,8 +88,9 @@ if ($format === 'csv') {
     // Data rows
     $no = 1;
     foreach($kegiatan_list as $k) {
-        $status_text = $k['status'] === 'terlaksana' ? 'Selesai' : 
-                      ($k['status'] === 'akan_datang' ? 'Dijadwalkan' : 'Dibatalkan');
+        $status_normalized = $normalizeStatus($k['status']);
+        $status_text = $status_normalized === 'terlaksana' ? 'Selesai' : 
+                      ($status_normalized === 'akan_datang' ? 'Dijadwalkan' : 'Dibatalkan');
         fputcsv($output, [
             $no++,
             date('d/m/Y', strtotime($k['tanggal_kegiatan'])),
@@ -121,8 +137,9 @@ if ($format === 'csv') {
     
     $no = 1;
     foreach($kegiatan_list as $k) {
-        $status_text = $k['status'] === 'terlaksana' ? 'Selesai' : 
-                      ($k['status'] === 'akan_datang' ? 'Dijadwalkan' : 'Dibatalkan');
+        $status_normalized = $normalizeStatus($k['status']);
+        $status_text = $status_normalized === 'terlaksana' ? 'Selesai' : 
+                      ($status_normalized === 'akan_datang' ? 'Dijadwalkan' : 'Dibatalkan');
         echo '<tr>';
         echo '<td>' . $no++ . '</td>';
         echo '<td>' . date('d/m/Y', strtotime($k['tanggal_kegiatan'])) . '</td>';
