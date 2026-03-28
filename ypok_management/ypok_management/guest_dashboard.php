@@ -27,7 +27,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Yayasan Pendidikan Olahraga Karate - Membina karakter melalui seni bela diri karate">
     <title>YPOK - Yayasan Pendidikan Olahraga Karate</title>
-    <link rel="icon" type="image/jpeg" href="assets/icons/icon-192x192.jpg">
+    <link rel="icon" type="image/svg+xml" href="assets/icons/icon-192x192.svg">
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
