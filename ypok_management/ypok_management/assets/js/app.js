@@ -1,8 +1,102 @@
-// Register Service Worker
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
-    .catch(() => {});
+function getAppBasePath() {
+    const pathname = window.location.pathname;
+    if (/\/pages\/[^/]+$/.test(pathname)) {
+        return pathname.replace(/\/pages\/[^/]+$/, '');
+    }
+    return pathname.replace(/\/[^/]+$/, '') || '';
 }
+
+function isStandalonePwa() {
+    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+
+function setupLaunchSplash() {
+    if (!isStandalonePwa()) {
+        return;
+    }
+
+    const styleId = 'ypok-pwa-splash-style';
+    if (!document.getElementById(styleId)) {
+        const style = document.createElement('style');
+        style.id = styleId;
+        style.textContent = `
+            .ypok-pwa-splash {
+                position: fixed;
+                inset: 0;
+                background: linear-gradient(180deg, #ffffff 0%, #f3f7ff 100%);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                z-index: 99999;
+                opacity: 1;
+                transition: opacity .28s ease;
+            }
+            .ypok-pwa-splash.hide {
+                opacity: 0;
+                pointer-events: none;
+            }
+            .ypok-pwa-splash .logo-wrap {
+                width: 112px;
+                height: 112px;
+                border-radius: 24px;
+                background: #ffffff;
+                box-shadow: 0 10px 32px rgba(30, 58, 138, 0.18);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 16px;
+            }
+            .ypok-pwa-splash img {
+                width: 86px;
+                height: 86px;
+                object-fit: contain;
+            }
+            .ypok-pwa-splash .text {
+                font-weight: 700;
+                color: #1e3a8a;
+                letter-spacing: .2px;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    if (document.querySelector('.ypok-pwa-splash')) {
+        return;
+    }
+
+    const basePath = getAppBasePath();
+    const splash = document.createElement('div');
+    splash.className = 'ypok-pwa-splash';
+    splash.innerHTML = `
+        <div class="logo-wrap">
+            <img src="${basePath}/assets/images/LOGO YPOK NO BACKGROUND.png" alt="YPOK Logo">
+        </div>
+        <div class="text">YPOK Management</div>
+    `;
+    document.body.appendChild(splash);
+
+    const startAt = Date.now();
+    const hideSplash = () => {
+        const elapsed = Date.now() - startAt;
+        const delay = Math.max(0, 650 - elapsed);
+        setTimeout(() => {
+            splash.classList.add('hide');
+            setTimeout(() => splash.remove(), 320);
+        }, delay);
+    };
+
+    window.addEventListener('load', hideSplash, { once: true });
+}
+
+// Register Service Worker with base path awareness.
+if ('serviceWorker' in navigator) {
+    const basePath = getAppBasePath();
+    navigator.serviceWorker.register((basePath || '') + '/sw.js')
+        .catch(() => {});
+}
+
+document.addEventListener('DOMContentLoaded', setupLaunchSplash);
 
 function toggleNav() {
     const navMenu = document.getElementById('navMenu');

@@ -12,25 +12,13 @@ if(isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1e3a8a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="YPOK">
     <title>Registrasi - YPOK Management System</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="assets/images/LOGO YPOK NO BACKGROUND.png">
     <link rel="stylesheet" href="assets/css/login.css">
-    <script>
-        // PWA Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                const appBasePath = window.location.pathname.replace(/\/[^\/]*$/, '');
-                navigator.serviceWorker.register((appBasePath || '') + '/sw.js')
-                    .then(registration => {
-                        console.log('Service Worker registered:', registration);
-                    })
-                    .catch(error => {
-                        console.log('Service Worker registration failed:', error);
-                    });
-            });
-        }
-    </script>
 </head>
 <body>
     <div class="login-wrapper">
@@ -123,6 +111,7 @@ if(isset($_SESSION['user_id'])) {
         </div>
     </div>
     
+    <script src="assets/js/app.js"></script>
     <script>
         function togglePassword(id) {
             const passwordField = document.getElementById(id);
