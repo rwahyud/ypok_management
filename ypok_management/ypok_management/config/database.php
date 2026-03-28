@@ -12,15 +12,100 @@ $databaseUrl = getenv('DATABASE_URL') ?: '';
 
 try {
     if (!empty($databaseUrl)) {
-        $pdo = new PDO($databaseUrl);
+        // Support both DSN form (pgsql:...) and URL form (postgresql://...)
+        if (stripos($databaseUrl, 'pgsql:') === 0 || stripos($databaseUrl, 'mysql:') === 0) {
+            $pdo = new PDO($databaseUrl);
+        } else {
+            $parts = parse_url($databaseUrl);
+            if ($parts === false || empty($parts['host'])) {
+                throw new PDOException('Invalid DATABASE_URL format.');
+            }
+
+            $scheme = strtolower($parts['scheme'] ?? 'postgresql');
+            $dbHost = $parts['host'];
+            $dbPort = $parts['port'] ?? (($scheme === 'mysql') ? 3306 : 5432);
+            $dbName = ltrim($parts['path'] ?? '', '/');
+            $dbUser = $parts['user'] ?? $username;
+            $dbPass = $parts['pass'] ?? $password;
+
+            if ($dbName === '') {
+                throw new PDOException('DATABASE_URL must include database name in path.');
+            }
+
+            if ($scheme === 'mysql') {
+                $dsn = "mysql:host={$dbHost};port={$dbPort};dbname={$dbName};charset=utf8mb4";
+            } else {
+                // Supabase PostgreSQL requires SSL
+                $dsn = "pgsql:host={$dbHost};port={$dbPort};dbname={$dbName};sslmode=require";
+            }
+
+            $pdo = new PDO($dsn, $dbUser, $dbPass);
+        }
     } elseif ($dbDriver === 'pgsql') {
-        $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
+        $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require", $username, $password);
     } else {
         $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4", $username, $password);
     }
 
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+    // Auto-create MySQL compatibility functions for PostgreSQL/Supabase.
+    // This keeps legacy queries (DATE_FORMAT, MONTH, YEAR, CURDATE) working.
+    $autoCompat = getenv('PGSQL_AUTO_COMPAT') ?: '1';
+    if ($autoCompat === '1') {
+        $driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+        if ($driver === 'pgsql') {
+            $compatSql = "
+                CREATE OR REPLACE FUNCTION month(ts timestamp)
+                RETURNS integer LANGUAGE sql IMMUTABLE AS $$
+                    SELECT EXTRACT(MONTH FROM ts)::integer;
+                $$;
+
+                CREATE OR REPLACE FUNCTION month(ts date)
+                RETURNS integer LANGUAGE sql IMMUTABLE AS $$
+                    SELECT EXTRACT(MONTH FROM ts)::integer;
+                $$;
+
+                CREATE OR REPLACE FUNCTION year(ts timestamp)
+                RETURNS integer LANGUAGE sql IMMUTABLE AS $$
+                    SELECT EXTRACT(YEAR FROM ts)::integer;
+                $$;
+
+                CREATE OR REPLACE FUNCTION year(ts date)
+                RETURNS integer LANGUAGE sql IMMUTABLE AS $$
+                    SELECT EXTRACT(YEAR FROM ts)::integer;
+                $$;
+
+                CREATE OR REPLACE FUNCTION curdate()
+                RETURNS date LANGUAGE sql STABLE AS $$
+                    SELECT CURRENT_DATE;
+                $$;
+
+                CREATE OR REPLACE FUNCTION date_format(ts timestamp, fmt text)
+                RETURNS text LANGUAGE sql IMMUTABLE AS $$
+                    SELECT to_char(
+                        ts,
+                        replace(replace(replace(fmt, '%Y', 'YYYY'), '%m', 'MM'), '%d', 'DD')
+                    );
+                $$;
+
+                CREATE OR REPLACE FUNCTION date_format(ts date, fmt text)
+                RETURNS text LANGUAGE sql IMMUTABLE AS $$
+                    SELECT to_char(
+                        ts,
+                        replace(replace(replace(fmt, '%Y', 'YYYY'), '%m', 'MM'), '%d', 'DD')
+                    );
+                $$;
+            ";
+
+            try {
+                $pdo->exec($compatSql);
+            } catch (PDOException $compatError) {
+                // Non-fatal: app may still work if functions already exist or privileges are limited.
+            }
+        }
+    }
 } catch(PDOException $e) {
     // In production, show generic error. In development, show actual error.
     if(getenv('APP_ENV') === 'development' || $_SERVER['REMOTE_ADDR'] === '127.0.0.1') {
