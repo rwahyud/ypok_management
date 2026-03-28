@@ -24,6 +24,20 @@ if(isset($_SESSION['user_id'])) {
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="assets/images/LOGO YPOK NO BACKGROUND.png">
     <link rel="stylesheet" href="assets/css/login.css">
+    <script>
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registered:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
 </head> 
 <body>
     <div class="login-wrapper">
