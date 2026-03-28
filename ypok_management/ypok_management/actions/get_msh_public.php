@@ -11,7 +11,7 @@ ini_set('display_errors', 0); // Don't display errors, only log them
 error_log("=== MSH Public API Called ===");
 error_log("GET params: " . json_encode($_GET));
 
-require_once '../config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 try {
     error_log("Database connection successful");

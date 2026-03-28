@@ -1,5 +1,5 @@
 <?php
-require_once '../config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nama_lengkap = trim($_POST['nama_lengkap'] ?? '');

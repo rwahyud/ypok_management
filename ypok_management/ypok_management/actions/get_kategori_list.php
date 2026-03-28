@@ -1,5 +1,5 @@
 <?php
-require_once '../config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 try {
     $stmt = $pdo->query("SELECT * FROM kategori_produk ORDER BY nama_kategori");

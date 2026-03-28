@@ -1,5 +1,5 @@
 <?php
-require_once '../config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 // Check if Dompdf is available
 $use_dompdf = file_exists('../vendor/autoload.php');

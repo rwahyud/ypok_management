@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 
 try {
-    require_once '../config/database.php';
+    require_once __DIR__ . '/../config/database.php';
 
     $driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
     $status = [

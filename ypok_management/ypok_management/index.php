@@ -2,11 +2,11 @@
 session_start();
 
 // Cek apakah file config ada
-if(!file_exists('config/database.php')) {
+if(!file_exists(__DIR__ . '/config/database.php')) {
     die('Error: File config/database.php tidak ditemukan. Silakan buat folder "config" dan file "database.php" terlebih dahulu.');
 }
 
-require_once 'config/database.php';
+require_once __DIR__ . '/config/database.php';
 
 // Redirect if already logged in
 if(isset($_SESSION['user_id'])) {

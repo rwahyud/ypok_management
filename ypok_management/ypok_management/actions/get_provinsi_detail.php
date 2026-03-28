@@ -1,5 +1,5 @@
 <?php
-require_once '../config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 if(!isset($_SESSION['user_id'])) {
     exit('<div style="text-align: center; padding: 40px; color: red;">Unauthorized</div>');
