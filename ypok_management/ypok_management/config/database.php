@@ -297,6 +297,40 @@ if (!isset($_SESSION['user_id']) && !empty($_COOKIE['ypok_auth'])) {
     }
 }
 
+// Additional serverless-safe fallback: restore auth from DB by PHPSESSID.
+if (!isset($_SESSION['user_id']) && $pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'pgsql') {
+    try {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS ypok_auth_sessions (
+            session_id VARCHAR(128) PRIMARY KEY,
+            uid INTEGER NOT NULL,
+            username TEXT NOT NULL,
+            nama_lengkap TEXT NOT NULL,
+            role TEXT NOT NULL,
+            exp INTEGER NOT NULL
+        )");
+
+        $sid = session_id();
+        if (!empty($sid)) {
+            $stmt = $pdo->prepare('SELECT uid, username, nama_lengkap, role FROM ypok_auth_sessions WHERE session_id = :sid AND exp >= :now');
+            $stmt->execute([
+                'sid' => $sid,
+                'now' => time(),
+            ]);
+            $row = $stmt->fetch();
+
+            if ($row) {
+                $_SESSION['user_id'] = (int)$row['uid'];
+                $_SESSION['username'] = (string)$row['username'];
+                $_SESSION['nama_lengkap'] = (string)$row['nama_lengkap'];
+                $_SESSION['role'] = (string)$row['role'];
+                $_SESSION['last_activity'] = time();
+            }
+        }
+    } catch (Throwable $authSessionError) {
+        // Non-fatal fallback.
+    }
+}
+
 // Check session timeout (30 minutes of inactivity)
 if(isset($_SESSION['user_id'])) {
     $timeout = 1800; // 30 minutes

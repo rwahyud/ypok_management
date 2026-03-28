@@ -37,6 +37,48 @@ function setAuthCookie(array $user): void {
     header('Set-Cookie: ' . $cookie, false);
 }
 
+function persistAuthSession(PDO $pdo, array $user): void {
+    try {
+        if ($pdo->getAttribute(PDO::ATTR_DRIVER_NAME) !== 'pgsql') {
+            return;
+        }
+
+        $pdo->exec("CREATE TABLE IF NOT EXISTS ypok_auth_sessions (
+            session_id VARCHAR(128) PRIMARY KEY,
+            uid INTEGER NOT NULL,
+            username TEXT NOT NULL,
+            nama_lengkap TEXT NOT NULL,
+            role TEXT NOT NULL,
+            exp INTEGER NOT NULL
+        )");
+
+        $sid = session_id();
+        if (empty($sid)) {
+            return;
+        }
+
+        $stmt = $pdo->prepare("INSERT INTO ypok_auth_sessions (session_id, uid, username, nama_lengkap, role, exp)
+            VALUES (:session_id, :uid, :username, :nama_lengkap, :role, :exp)
+            ON CONFLICT (session_id) DO UPDATE SET
+                uid = EXCLUDED.uid,
+                username = EXCLUDED.username,
+                nama_lengkap = EXCLUDED.nama_lengkap,
+                role = EXCLUDED.role,
+                exp = EXCLUDED.exp");
+
+        $stmt->execute([
+            'session_id' => $sid,
+            'uid' => (int)$user['id'],
+            'username' => (string)$user['username'],
+            'nama_lengkap' => (string)($user['nama_lengkap'] ?? $user['username']),
+            'role' => (string)($user['role'] ?? 'admin'),
+            'exp' => time() + 1800,
+        ]);
+    } catch (Throwable $persistError) {
+        // Non-fatal fallback.
+    }
+}
+
 // Disable debug output in production
 // error_reporting(E_ALL);
 // ini_set('display_errors', 1);
@@ -65,6 +107,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['role'] = $user['role'];
                 $_SESSION['last_activity'] = time();
                 setAuthCookie($user);
+                persistAuthSession($pdo, $user);
                 
                 redirectTo('/pages/dashboard.php');
                 
@@ -76,6 +119,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['role'] = $user['role'];
                 $_SESSION['last_activity'] = time();
                 setAuthCookie($user);
+                persistAuthSession($pdo, $user);
                 
                 // Update to hashed password
                 $hashed = password_hash($password, PASSWORD_DEFAULT);
