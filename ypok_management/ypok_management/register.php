@@ -20,7 +20,8 @@ if(isset($_SESSION['user_id'])) {
         // PWA Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
+                const appBasePath = window.location.pathname.replace(/\/[^\/]*$/, '');
+                navigator.serviceWorker.register((appBasePath || '') + '/sw.js')
                     .then(registration => {
                         console.log('Service Worker registered:', registration);
                     })

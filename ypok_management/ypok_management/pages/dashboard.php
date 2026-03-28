@@ -1179,7 +1179,10 @@ foreach ($gender_kohai as $g) {
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-                        navigator.serviceWorker.register('/sw.js')
+            const appBasePath = window.location.pathname
+                .replace(/\/pages\/[^\/]*$/, '')
+                .replace(/\/[^\/]*$/, '');
+            navigator.serviceWorker.register((appBasePath || '') + '/sw.js')
                 .catch(() => {});
     });
   }

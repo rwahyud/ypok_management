@@ -1,6 +1,21 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
 
+function appBasePathFromScriptName(): string {
+    $scriptName = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '');
+    $basePath = rtrim(dirname(dirname($scriptName)), '/');
+    if ($basePath === '/' || $basePath === '.') {
+        return '';
+    }
+    return $basePath;
+}
+
+function redirectTo(string $path): void {
+    $basePath = appBasePathFromScriptName();
+    header('Location: ' . $basePath . $path);
+    exit();
+}
+
 // Disable debug output in production
 // error_reporting(E_ALL);
 // ini_set('display_errors', 1);
@@ -10,8 +25,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = trim($_POST['password'] ?? '');
     
     if(empty($username) || empty($password)) {
-        header('Location: /index.php?error=empty');
-        exit();
+        redirectTo('/index.php?error=empty');
     }
     
     try {
@@ -29,8 +43,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['nama_lengkap'] = $user['nama_lengkap'];
                 $_SESSION['role'] = $user['role'];
                 
-                header('Location: /pages/dashboard.php');
-                exit();
+                redirectTo('/pages/dashboard.php');
                 
             } elseif($password === $user['password']) {
                 // Password is plain text (legacy support - will upgrade)
@@ -44,26 +57,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $updateStmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
                 $updateStmt->execute([$hashed, $user['id']]);
                 
-                header('Location: /pages/dashboard.php');
-                exit();
+                redirectTo('/pages/dashboard.php');
                 
             } else {
-                header('Location: /index.php?error=wrong');
-                exit();
+                redirectTo('/index.php?error=wrong');
             }
         } else {
-            header('Location: /index.php?error=notfound');
-            exit();
+            redirectTo('/index.php?error=notfound');
         }
         
     } catch(PDOException $e) {
         // Log error securely, don't expose in UI
         error_log("Database error during login: " . $e->getMessage());
-        header('Location: /index.php?error=db');
-        exit();
+        redirectTo('/index.php?error=db');
     }
 } else {
-    header('Location: /index.php');
-    exit();
+    redirectTo('/index.php');
 }
 ?>

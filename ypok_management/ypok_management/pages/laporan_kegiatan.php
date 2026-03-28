@@ -1810,7 +1810,7 @@ $kohai_list = $pdo->query("SELECT id, nama, kode_kohai FROM kohai ORDER BY nama"
             }
 
             // Open export in new window
-            window.open('/actions/export_kegiatan.php?' + params.toString(), '_blank');
+            window.open('../actions/export_kegiatan.php?' + params.toString(), '_blank');
 
             // Close modal
             closeExportModal();

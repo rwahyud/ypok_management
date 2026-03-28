@@ -8,6 +8,35 @@ if ($use_dompdf) {
     require_once __DIR__ . '/../vendor/autoload.php';
 }
 
+$dompdfOptionsClass = '\\Dompdf\\Options';
+$dompdfClass = '\\Dompdf\\Dompdf';
+$dompdfAvailable = $use_dompdf && class_exists($dompdfOptionsClass) && class_exists($dompdfClass);
+
+function getYpokLogoDataUri(): string {
+    $logoCandidates = [
+        __DIR__ . '/../assets/images/LOGO YPOK NO BACKGROUND.png',
+        __DIR__ . '/../assets/images/logo ypok .jpg',
+    ];
+
+    foreach ($logoCandidates as $logoPath) {
+        if (!file_exists($logoPath)) {
+            continue;
+        }
+
+        $raw = @file_get_contents($logoPath);
+        if ($raw === false || $raw === '') {
+            continue;
+        }
+
+        $mime = @mime_content_type($logoPath) ?: 'image/png';
+        return 'data:' . $mime . ';base64,' . base64_encode($raw);
+    }
+
+    return '';
+}
+
+$logoDataUri = getYpokLogoDataUri();
+
 if(!isset($_SESSION['user_id'])) {
     header('Location: ../index.php');
     exit();
@@ -234,8 +263,12 @@ $html = '
             padding-bottom: 20px;
         }
         .logo {
-            font-size: 48px;
             margin-bottom: 10px;
+        }
+        .logo img {
+            max-height: 68px;
+            width: auto;
+            object-fit: contain;
         }
         .company-name {
             font-size: 24px;
@@ -386,7 +419,7 @@ $html = '
 
 
     <div class="header">
-        <div class="logo">🥋</div>
+        ' . ($logoDataUri !== '' ? '<div class="logo"><img src="' . $logoDataUri . '" alt="Logo YPOK"></div>' : '<div class="logo">YPOK</div>') . '
         <div class="company-name">YAYASAN PENDIDIKAN OLAHRAGA KARATE (YPOK)</div>
         <div style="font-size: 11px; color: #666; margin-top: 5px;">
             Laporan Keuangan Resmi
@@ -476,13 +509,13 @@ $html .= '
 </html>';
 
 // If Dompdf is available, use it. Otherwise, display HTML with print button
-if ($use_dompdf && $format === 'pdf') {
-    $options = new \Dompdf\Options();
+if ($dompdfAvailable && $format === 'pdf') {
+    $options = new $dompdfOptionsClass();
     $options->set('isHtml5ParserEnabled', true);
     $options->set('isRemoteEnabled', true);
     $options->set('defaultFont', 'Arial');
 
-    $dompdf = new \Dompdf\Dompdf($options);
+    $dompdf = new $dompdfClass($options);
     $dompdf->loadHtml($html);
     $dompdf->setPaper('A4', 'portrait');
     $dompdf->render();

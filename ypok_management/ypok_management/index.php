@@ -8,9 +8,15 @@ if(!file_exists(__DIR__ . '/config/database.php')) {
 
 require_once __DIR__ . '/config/database.php';
 
+// Build app base path dynamically so redirects/forms work on both root and subfolder deployments.
+$appBasePath = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/');
+if ($appBasePath === '/' || $appBasePath === '.') {
+    $appBasePath = '';
+}
+
 // Redirect if already logged in
 if(isset($_SESSION['user_id'])) {
-    header('Location: /pages/dashboard.php');
+    header('Location: ' . $appBasePath . '/pages/dashboard.php');
     exit();
 }
 ?>
@@ -28,7 +34,8 @@ if(isset($_SESSION['user_id'])) {
         // PWA Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
+                const appBasePath = <?php echo json_encode($appBasePath); ?>;
+                navigator.serviceWorker.register((appBasePath || '') + '/sw.js')
                     .then(registration => {
                         console.log('Service Worker registered:', registration);
                     })
@@ -91,7 +98,7 @@ if(isset($_SESSION['user_id'])) {
                     </div>
                 <?php endif; ?>
                 
-                <form action="/actions/login.php" method="POST" class="login-form">
+                <form action="<?php echo htmlspecialchars(($appBasePath ?: '') . '/actions/login.php'); ?>" method="POST" class="login-form">
                     <div class="form-group">
                         <label for="username">Username</label>
                         <div class="input-wrapper">
@@ -163,14 +170,5 @@ if(isset($_SESSION['user_id'])) {
             });
         }, 5000);
     </script>
-
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-                        navigator.serviceWorker.register('/sw.js')
-                .catch(() => {});
-    });
-  }
-</script>
 </body>
 </html>
