@@ -9,40 +9,66 @@ $username = getenv('DB_USER') ?: '';
 $password = getenv('DB_PASSWORD') ?: '';
 
 $databaseUrl = getenv('DATABASE_URL') ?: '';
+$databasePoolerUrl = getenv('DATABASE_POOLER_URL') ?: (getenv('SUPABASE_POOLER_URL') ?: '');
+$hostAddr = getenv('DB_HOSTADDR') ?: '';
+
+function createPgPdoFromUrl($url, $fallbackUser, $fallbackPass, $hostAddr = '') {
+    if (stripos($url, 'pgsql:') === 0) {
+        return new PDO($url);
+    }
+
+    $parts = parse_url($url);
+    if ($parts === false || empty($parts['host'])) {
+        throw new PDOException('Invalid DATABASE_URL format.');
+    }
+
+    $scheme = strtolower($parts['scheme'] ?? 'postgresql');
+    $dbHost = $parts['host'];
+    $dbPort = $parts['port'] ?? 5432;
+    $dbName = ltrim($parts['path'] ?? '', '/');
+    $dbUser = $parts['user'] ?? $fallbackUser;
+    $dbPass = $parts['pass'] ?? $fallbackPass;
+
+    if ($dbName === '') {
+        throw new PDOException('DATABASE_URL must include database name in path.');
+    }
+
+    if ($scheme !== 'postgresql' && $scheme !== 'postgres') {
+        throw new PDOException('DATABASE_URL must use postgresql:// scheme for Supabase deployment.');
+    }
+
+    $dsn = "pgsql:host={$dbHost};port={$dbPort};dbname={$dbName};sslmode=require;connect_timeout=10";
+    if (!empty($hostAddr)) {
+        $dsn .= ";hostaddr={$hostAddr}";
+    }
+
+    return new PDO($dsn, $dbUser, $dbPass);
+}
 
 try {
     if (!empty($databaseUrl)) {
-        // Support both DSN form (pgsql:...) and URL form (postgresql://...)
-        if (stripos($databaseUrl, 'pgsql:') === 0) {
-            $pdo = new PDO($databaseUrl);
-        } else {
-            $parts = parse_url($databaseUrl);
-            if ($parts === false || empty($parts['host'])) {
-                throw new PDOException('Invalid DATABASE_URL format.');
+        try {
+            $pdo = createPgPdoFromUrl($databaseUrl, $username, $password, $hostAddr);
+        } catch (PDOException $primaryConnectionError) {
+            $errorMessage = $primaryConnectionError->getMessage();
+            $ipv6NetworkError = (
+                stripos($errorMessage, 'Cannot assign requested address') !== false ||
+                stripos($errorMessage, 'Network is unreachable') !== false
+            );
+
+            if ($ipv6NetworkError && !empty($databasePoolerUrl)) {
+                $pdo = createPgPdoFromUrl($databasePoolerUrl, $username, $password, $hostAddr);
+            } else {
+                throw $primaryConnectionError;
             }
-
-            $scheme = strtolower($parts['scheme'] ?? 'postgresql');
-            $dbHost = $parts['host'];
-            $dbPort = $parts['port'] ?? 5432;
-            $dbName = ltrim($parts['path'] ?? '', '/');
-            $dbUser = $parts['user'] ?? $username;
-            $dbPass = $parts['pass'] ?? $password;
-
-            if ($dbName === '') {
-                throw new PDOException('DATABASE_URL must include database name in path.');
-            }
-
-            if ($scheme !== 'postgresql' && $scheme !== 'postgres') {
-                throw new PDOException('DATABASE_URL must use postgresql:// scheme for Supabase deployment.');
-            }
-
-            // Supabase PostgreSQL requires SSL
-            $dsn = "pgsql:host={$dbHost};port={$dbPort};dbname={$dbName};sslmode=require";
-
-            $pdo = new PDO($dsn, $dbUser, $dbPass);
         }
     } else {
-        $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require", $username, $password);
+        $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require;connect_timeout=10";
+        if (!empty($hostAddr)) {
+            $dsn .= ";hostaddr={$hostAddr}";
+        }
+
+        $pdo = new PDO($dsn, $username, $password);
     }
 
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
