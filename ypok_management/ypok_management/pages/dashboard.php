@@ -1,5 +1,19 @@
 <?php
+
+session_start();
 require_once __DIR__ . '/../config/database.php';
+
+// Fallback: jika session kosong, coba isi dari cookie ypok_auth (hasil login AJAX)
+if (!isset($_SESSION['user_id']) && isset($_COOKIE['ypok_auth'])) {
+    $payload = ypok_parse_auth_cookie($_COOKIE['ypok_auth']);
+    if (is_array($payload) && isset($payload['uid'])) {
+        $_SESSION['user_id'] = $payload['uid'];
+        $_SESSION['username'] = $payload['username'] ?? '';
+        $_SESSION['nama_lengkap'] = $payload['nama_lengkap'] ?? '';
+        $_SESSION['role'] = $payload['role'] ?? 'admin';
+    }
+}
+
 
 function dashboardBasePath(): string {
     $scriptName = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '');
