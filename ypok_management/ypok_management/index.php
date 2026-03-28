@@ -157,6 +157,52 @@ if(isset($_SESSION['user_id'])) {
                 toggleBtn.textContent = '👁️';
             }
         }
+
+        // Fallback login flow for serverless environments: set signed auth cookie from browser.
+        (function () {
+            const form = document.querySelector('form.login-form');
+            if (!form || !window.fetch) return;
+
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const submitLabel = submitBtn ? submitBtn.querySelector('span:first-child') : null;
+
+                if (submitBtn) submitBtn.disabled = true;
+                if (submitLabel) submitLabel.textContent = 'Memproses...';
+
+                try {
+                    const response = await fetch(form.action + '?ajax=1', {
+                        method: 'POST',
+                        body: new FormData(form),
+                        credentials: 'same-origin',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    const data = await response.json();
+                    if (response.ok && data && data.success) {
+                        if (data.token) {
+                            let cookie = 'ypok_auth=' + encodeURIComponent(data.token) + '; path=/; max-age=1800; SameSite=Lax';
+                            if (location.protocol === 'https:') cookie += '; Secure';
+                            document.cookie = cookie;
+                        }
+                        window.location.href = data.redirect || '<?php echo htmlspecialchars(($appBasePath ?: '') . '/pages/dashboard.php', ENT_QUOTES, 'UTF-8'); ?>';
+                        return;
+                    }
+
+                    const err = (data && data.error) ? data.error : 'wrong';
+                    window.location.href = '<?php echo htmlspecialchars(($appBasePath ?: '') . '/index.php', ENT_QUOTES, 'UTF-8'); ?>?error=' + encodeURIComponent(err);
+                } catch (error) {
+                    // Let the browser do regular submit if fetch/login API fails.
+                    form.submit();
+                } finally {
+                    if (submitBtn) submitBtn.disabled = false;
+                    if (submitLabel) submitLabel.textContent = 'Login';
+                }
+            });
+        })();
         
         // Auto hide alert after 5 seconds
         setTimeout(() => {

@@ -16,6 +16,32 @@ function redirectTo(string $path): void {
     exit();
 }
 
+function jsonResponse(array $data, int $status = 200): void {
+    http_response_code($status);
+    header('Content-Type: application/json');
+    echo json_encode($data);
+    exit();
+}
+
+function isAjaxLogin(): bool {
+    if (($_GET['ajax'] ?? '') === '1') {
+        return true;
+    }
+    $accept = strtolower((string)($_SERVER['HTTP_ACCEPT'] ?? ''));
+    return strpos($accept, 'application/json') !== false;
+}
+
+function buildAuthToken(array $user): string {
+    $payload = [
+        'uid' => (int)$user['id'],
+        'username' => (string)$user['username'],
+        'nama_lengkap' => (string)($user['nama_lengkap'] ?? $user['username']),
+        'role' => (string)($user['role'] ?? 'admin'),
+        'exp' => time() + 1800,
+    ];
+    return ypok_build_auth_cookie($payload);
+}
+
 function setAuthCookie(array $user): void {
     $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
     $payload = [
@@ -88,6 +114,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = trim($_POST['password'] ?? '');
     
     if(empty($username) || empty($password)) {
+        if (isAjaxLogin()) {
+            jsonResponse(['success' => false, 'error' => 'empty']);
+        }
         redirectTo('/index.php?error=empty');
     }
     
@@ -108,6 +137,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['last_activity'] = time();
                 setAuthCookie($user);
                 persistAuthSession($pdo, $user);
+
+                if (isAjaxLogin()) {
+                    jsonResponse([
+                        'success' => true,
+                        'redirect' => appBasePathFromScriptName() . '/pages/dashboard.php',
+                        'token' => buildAuthToken($user),
+                    ]);
+                }
                 
                 redirectTo('/pages/dashboard.php');
                 
@@ -120,6 +157,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['last_activity'] = time();
                 setAuthCookie($user);
                 persistAuthSession($pdo, $user);
+
+                if (isAjaxLogin()) {
+                    jsonResponse([
+                        'success' => true,
+                        'redirect' => appBasePathFromScriptName() . '/pages/dashboard.php',
+                        'token' => buildAuthToken($user),
+                    ]);
+                }
                 
                 // Update to hashed password
                 $hashed = password_hash($password, PASSWORD_DEFAULT);
@@ -129,18 +174,30 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 redirectTo('/pages/dashboard.php');
                 
             } else {
+                if (isAjaxLogin()) {
+                    jsonResponse(['success' => false, 'error' => 'wrong']);
+                }
                 redirectTo('/index.php?error=wrong');
             }
         } else {
+            if (isAjaxLogin()) {
+                jsonResponse(['success' => false, 'error' => 'notfound']);
+            }
             redirectTo('/index.php?error=notfound');
         }
         
     } catch(PDOException $e) {
         // Log error securely, don't expose in UI
         error_log("Database error during login: " . $e->getMessage());
+        if (isAjaxLogin()) {
+            jsonResponse(['success' => false, 'error' => 'db'], 500);
+        }
         redirectTo('/index.php?error=db');
     }
 } else {
+    if (isAjaxLogin()) {
+        jsonResponse(['success' => false, 'error' => 'method'], 405);
+    }
     redirectTo('/index.php');
 }
 ?>
