@@ -1,7 +1,7 @@
 <?php
 /**
  * Script untuk import dummy data ke database YPOK
- * Jalankan melalui browser: http://localhost/ypok_management/ypok_management/database/import_dummy_data.php
+ * Jalankan melalui browser: /database/import_dummy_data.php
  */
 
 error_reporting(E_ALL);
@@ -12,9 +12,8 @@ require_once __DIR__ . '/../config/database.php';
 $output = [];
 
 try {
-    // Connect ke database
-    $conn = new PDO('mysql:host=localhost;dbname=ypok_management', 'root', '');
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Reuse shared DB connection (supports Supabase PostgreSQL and MySQL fallback)
+    $conn = $pdo;
     
     $output[] = "✓ Database Connection Successful<br>";
     

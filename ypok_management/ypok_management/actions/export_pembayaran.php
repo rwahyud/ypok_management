@@ -20,10 +20,10 @@ $params = [];
 $periode_text = "Semua Data";
 
 if ($periode === 'month') {
-    $where = "MONTH(tanggal_bayar) = MONTH(CURRENT_DATE()) AND YEAR(tanggal_bayar) = YEAR(CURRENT_DATE())";
+    $where = "MONTH(tanggal_bayar) = MONTH(CURRENT_DATE) AND YEAR(tanggal_bayar) = YEAR(CURRENT_DATE)";
     $periode_text = "Bulan " . date('F Y');
 } elseif ($periode === 'last_month') {
-    $where = "MONTH(tanggal_bayar) = MONTH(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) AND YEAR(tanggal_bayar) = YEAR(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))";
+    $where = "MONTH(tanggal_bayar) = MONTH(CURRENT_DATE - INTERVAL '1 month') AND YEAR(tanggal_bayar) = YEAR(CURRENT_DATE - INTERVAL '1 month')";
     $periode_text = "Bulan " . date('F Y', strtotime('-1 month'));
 } elseif ($periode === 'custom' && $dari_tanggal && $sampai_tanggal) {
     $where = "tanggal_bayar BETWEEN :dari_tanggal AND :sampai_tanggal";

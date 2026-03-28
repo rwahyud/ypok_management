@@ -153,7 +153,7 @@ if(isset($_SESSION['user_id'])) {
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/ypok_management/ypok_management/sw.js')
+                        navigator.serviceWorker.register('/sw.js')
                 .catch(() => {});
     });
   }

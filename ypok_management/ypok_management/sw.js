@@ -1,10 +1,10 @@
 const CACHE_NAME = 'ypok-v2'; // Updated cache version to force refresh
 const urlsToCache = [
-  '/ypok_management/ypok_management/',
-  '/ypok_management/ypok_management/index.php',
-  '/ypok_management/ypok_management/pages/dashboard.php',
-  '/ypok_management/ypok_management/assets/css/style.css',
-  '/ypok_management/ypok_management/assets/js/app.js'
+  '/',
+  '/index.php',
+  '/pages/dashboard.php',
+  '/assets/css/style.css',
+  '/assets/js/app.js'
 ];
 
 self.addEventListener('install', event => {

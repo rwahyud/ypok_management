@@ -1,7 +1,7 @@
 <?php
 /**
  * Script untuk menjalankan update database provinsi dengan kolom agregat
- * Jalankan file ini di browser: http://localhost/ypok_management/ypok_management/database/run_update_provinsi_agregat.php
+ * Jalankan file ini di browser: /database/run_update_provinsi_agregat.php
  */
 
 require_once '../config/database.php';

@@ -1,11 +1,24 @@
 <?php
-$host = 'localhost';
-$dbname = 'ypok_management';
-$username = 'root';
-$password = '';
+// Database config supports Supabase PostgreSQL (default) and local MySQL fallback.
+$dbDriver = getenv('DB_DRIVER') ?: 'pgsql';
+
+$host = getenv('DB_HOST') ?: 'localhost';
+$port = getenv('DB_PORT') ?: ($dbDriver === 'pgsql' ? '5432' : '3306');
+$dbname = getenv('DB_NAME') ?: 'ypok_management';
+$username = getenv('DB_USER') ?: 'root';
+$password = getenv('DB_PASSWORD') ?: '';
+
+$databaseUrl = getenv('DATABASE_URL') ?: '';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    if (!empty($databaseUrl)) {
+        $pdo = new PDO($databaseUrl);
+    } elseif ($dbDriver === 'pgsql') {
+        $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
+    } else {
+        $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4", $username, $password);
+    }
+
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch(PDOException $e) {
@@ -31,7 +44,7 @@ if(isset($_SESSION['user_id'])) {
     $timeout = 1800; // 30 minutes
     if(isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
         session_destroy();
-        header('Location: index.php?error=session_timeout');
+        header('Location: /index.php?error=session_timeout');
         exit();
     }
     $_SESSION['last_activity'] = time();

@@ -1,6 +1,6 @@
 // Register Service Worker
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/ypok_management/ypok_management/sw.js')
+    navigator.serviceWorker.register('/sw.js')
     .catch(() => {});
 }
 

@@ -1179,10 +1179,11 @@ foreach ($gender_kohai as $g) {
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/ypok_management/ypok_management/sw.js')
+                        navigator.serviceWorker.register('/sw.js')
                 .catch(() => {});
     });
   }
+  
 </script>
 </body>
 </html>
