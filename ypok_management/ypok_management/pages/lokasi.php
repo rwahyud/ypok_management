@@ -33,7 +33,7 @@ $provinsi_list = $stmt->fetchAll();
     <!-- Remove PWA manifest if not needed -->
 </head>
 <body>
-    <?php include '../components/navbar.php'; ?>
+    <?php include __DIR__ . '/../components/navbar.php'; ?>
     
     <!-- Toast Notifications -->
     <?php if(isset($_GET['success'])): ?>

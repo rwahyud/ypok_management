@@ -917,7 +917,7 @@ $kohai_list = $pdo->query("SELECT id, nama, kode_kohai FROM kohai ORDER BY nama"
     </style>
 </head>
 <body>
-    <?php include '../components/navbar.php'; ?>
+    <?php include __DIR__ . '/../components/navbar.php'; ?>
     
     <!-- Toast Notifications -->
     <?php if(isset($_GET['success'])): ?>

@@ -45,7 +45,7 @@ $existing_categories = $stmt_kategori->fetchAll(PDO::FETCH_COLUMN);
     <link rel="stylesheet" href="../assets/css/pembayaran.css">
 </head>
 <body>
-   <?php include '../components/navbar.php'; ?>
+    <?php include __DIR__ . '/../components/navbar.php'; ?>
     
     <!-- Toast Notifications -->
     <?php if(isset($_GET['success'])): ?>
