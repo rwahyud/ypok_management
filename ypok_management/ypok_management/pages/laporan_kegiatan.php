@@ -495,6 +495,11 @@ $kohai_list = $pdo->query("SELECT id, nama, kode_kohai FROM kohai ORDER BY nama"
             background: #fee2e2;
             color: #991b1b;
         }
+
+        .status-badge.status-dibatalkan {
+            background: #fee2e2;
+            color: #991b1b;
+        }
         
         /* Scrollbar Styling */
         .modal-content::-webkit-scrollbar,
@@ -1085,15 +1090,26 @@ $kohai_list = $pdo->query("SELECT id, nama, kode_kohai FROM kohai ORDER BY nama"
                                 ?>
                             </td>
                             <td>
-                                <span class="status-badge status-<?php echo $kegiatan['status']; ?>">
-                                    <?php 
-                                    $status_display = [
-                                        'selesai' => 'Selesai',
-                                        'dijadwalkan' => 'Dijadwalkan',
-                                        'berlangsung' => 'Berlangsung'
-                                    ];
-                                    echo $status_display[$kegiatan['status']] ?? $kegiatan['status'];
-                                    ?>
+                                <?php
+                                $status_norm = strtolower(trim((string)$kegiatan['status']));
+                                $status_norm = str_replace(' ', '_', $status_norm);
+
+                                if (in_array($status_norm, ['terlaksana', 'selesai', 'berlangsung'], true)) {
+                                    $status_class = 'selesai';
+                                    $status_text = 'Selesai';
+                                } elseif (in_array($status_norm, ['akan_datang', 'dijadwalkan'], true)) {
+                                    $status_class = 'dijadwalkan';
+                                    $status_text = 'Dijadwalkan';
+                                } elseif ($status_norm === 'dibatalkan') {
+                                    $status_class = 'dibatalkan';
+                                    $status_text = 'Dibatalkan';
+                                } else {
+                                    $status_class = 'berlangsung';
+                                    $status_text = ucfirst((string)$kegiatan['status']);
+                                }
+                                ?>
+                                <span class="status-badge status-<?php echo $status_class; ?>">
+                                    <?php echo htmlspecialchars($status_text); ?>
                                 </span>
                             </td>
                             <td>
@@ -1190,6 +1206,7 @@ $kohai_list = $pdo->query("SELECT id, nama, kode_kohai FROM kohai ORDER BY nama"
                         <option value="Dijadwalkan">Dijadwalkan</option>
                         <option value="Berlangsung">Berlangsung</option>
                         <option value="Selesai">Selesai</option>
+                        <option value="Dibatalkan">Dibatalkan</option>
                     </select>
                 </div>
                 
@@ -1353,6 +1370,7 @@ $kohai_list = $pdo->query("SELECT id, nama, kode_kohai FROM kohai ORDER BY nama"
                         <option value="Dijadwalkan">Dijadwalkan</option>
                         <option value="Berlangsung">Berlangsung</option>
                         <option value="Selesai">Selesai</option>
+                        <option value="Dibatalkan">Dibatalkan</option>
                     </select>
                 </div>
                 
@@ -1660,12 +1678,16 @@ $kohai_list = $pdo->query("SELECT id, nama, kode_kohai FROM kohai ORDER BY nama"
                         document.getElementById('editDeskripsi').value = k.keterangan || '';
                         
                         // Set status
-                        const statusMap = {
-                            'selesai': 'Selesai',
-                            'dijadwalkan': 'Dijadwalkan',
-                            'berlangsung': 'Berlangsung'
-                        };
-                        document.getElementById('editStatus').value = statusMap[k.status] || 'Dijadwalkan';
+                        const statusRaw = String(k.status || '').toLowerCase().trim().replace(/\s+/g, '_');
+                        let mappedStatus = 'Dijadwalkan';
+                        if (['terlaksana', 'selesai', 'berlangsung'].includes(statusRaw)) {
+                            mappedStatus = 'Selesai';
+                        } else if (['akan_datang', 'dijadwalkan'].includes(statusRaw)) {
+                            mappedStatus = 'Dijadwalkan';
+                        } else if (statusRaw === 'dibatalkan') {
+                            mappedStatus = 'Dibatalkan';
+                        }
+                        document.getElementById('editStatus').value = mappedStatus;
                         
                         // Reset peserta containers
                         document.getElementById('editPesertaMSHContainer').innerHTML = `

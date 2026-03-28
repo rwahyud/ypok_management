@@ -388,13 +388,16 @@ if ($format === 'csv') {
                     <td><?php echo htmlspecialchars($k['nama_lokasi'] ?? '-'); ?></td>
                     <td><?php echo htmlspecialchars($k['pic'] ?? '-'); ?></td>
                     <td>
+                        <?php
+                        $status_normalized = $normalizeStatus($k['status']);
+                        $badgeClass = $status_normalized === 'terlaksana' ? 'success' : ($status_normalized === 'akan_datang' ? 'warning' : 'danger');
+                        $status_text = $status_normalized === 'terlaksana' ? 'Selesai' : ($status_normalized === 'akan_datang' ? 'Dijadwalkan' : 'Dibatalkan');
+                        ?>
                         <span class="badge badge-<?php 
-                            echo $k['status'] === 'terlaksana' ? 'success' : 
-                                ($k['status'] === 'akan_datang' ? 'warning' : 'danger'); 
+                            echo $badgeClass;
                         ?>">
                             <?php 
-                            echo $k['status'] === 'terlaksana' ? 'Selesai' : 
-                                ($k['status'] === 'akan_datang' ? 'Dijadwalkan' : 'Dibatalkan');
+                            echo $status_text;
                             ?>
                         </span>
                     </td>

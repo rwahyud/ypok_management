@@ -26,7 +26,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $status_map = [
             'Selesai' => 'terlaksana',
             'Berlangsung' => 'terlaksana',
-            'Dijadwalkan' => 'akan_datang'
+            'Dijadwalkan' => 'akan_datang',
+            'Dibatalkan' => 'dibatalkan'
         ];
         $status = $status_map[$status_form] ?? 'akan_datang';
         

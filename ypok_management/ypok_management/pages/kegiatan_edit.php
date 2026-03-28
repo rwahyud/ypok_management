@@ -43,6 +43,15 @@ $status_map = [
     'akan_datang' => 'Dijadwalkan',
     'dibatalkan' => 'Dibatalkan'
 ];
+
+$status_norm = strtolower(trim((string)$kegiatan['status']));
+$status_norm = str_replace(' ', '_', $status_norm);
+
+if ($status_norm === 'selesai' || $status_norm === 'berlangsung') {
+    $status_norm = 'terlaksana';
+} elseif ($status_norm === 'dijadwalkan') {
+    $status_norm = 'akan_datang';
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -251,9 +260,10 @@ $status_map = [
                     <div class="form-group">
                         <label>Status <span>*</span></label>
                         <select name="status" required>
-                            <option value="Dijadwalkan" <?php echo $kegiatan['status'] == 'dijadwalkan' ? 'selected' : ''; ?>>Dijadwalkan</option>
-                            <option value="Berlangsung" <?php echo $kegiatan['status'] == 'berlangsung' ? 'selected' : ''; ?>>Berlangsung</option>
-                            <option value="Selesai" <?php echo $kegiatan['status'] == 'selesai' ? 'selected' : ''; ?>>Selesai</option>
+                            <option value="Dijadwalkan" <?php echo $status_norm === 'akan_datang' ? 'selected' : ''; ?>>Dijadwalkan</option>
+                            <option value="Berlangsung" <?php echo $status_norm === 'berlangsung' ? 'selected' : ''; ?>>Berlangsung</option>
+                            <option value="Selesai" <?php echo $status_norm === 'terlaksana' ? 'selected' : ''; ?>>Selesai</option>
+                            <option value="Dibatalkan" <?php echo $status_norm === 'dibatalkan' ? 'selected' : ''; ?>>Dibatalkan</option>
                         </select>
                     </div>
                     
