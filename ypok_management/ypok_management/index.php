@@ -40,7 +40,8 @@ if(isset($_SESSION['user_id'])) {
     <link rel="apple-touch-startup-image" href="assets/splash/apple-splash-1179x2556.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)">
     <link rel="apple-touch-startup-image" href="assets/splash/apple-splash-1242x2688.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)">
     <link rel="apple-touch-startup-image" href="assets/splash/apple-splash-1290x2796.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)">
-    <link rel="stylesheet" href="assets/css/login.css">
+    <!-- Gunakan file minified untuk performa lebih baik -->
+    <link rel="stylesheet" href="assets/css/login.min.css">
 </head> 
 <body>
     <div class="login-wrapper">
@@ -48,7 +49,7 @@ if(isset($_SESSION['user_id'])) {
             <div class="login-box">
                 <div class="logo-section">
                     <div class="logo">
-                        <img src="assets/images/LOGO YPOK NO BACKGROUND.png" alt="YPOK Logo">
+                        <img src="assets/images/LOGO YPOK NO BACKGROUND.png" alt="YPOK Logo" loading="lazy">
                     </div>
                     <h2>YPOK Management</h2>
                     <p class="subtitle">Silakan login untuk melanjutkan</p>
@@ -143,7 +144,21 @@ if(isset($_SESSION['user_id'])) {
         </div>
     </div>
     
-    <script src="assets/js/app.js"></script>
+    <!-- Gunakan file minified untuk performa lebih baik -->
+    <script src="assets/js/app.min.js"></script>
+            <!--
+            Untuk cache-control asset statis, tambahkan aturan berikut di .htaccess (jika pakai Apache):
+            <IfModule mod_expires.c>
+                ExpiresActive On
+                ExpiresByType image/png "access plus 1 year"
+                ExpiresByType image/jpeg "access plus 1 year"
+                ExpiresByType image/svg+xml "access plus 1 year"
+                ExpiresByType text/css "access plus 1 month"
+                ExpiresByType application/javascript "access plus 1 month"
+            </IfModule>
+    
+            Untuk performa lebih baik, gunakan CDN untuk file di folder assets/ (misal jsDelivr, Cloudflare, atau BunnyCDN).
+            -->
     <script>
         function togglePassword(id) {
             const passwordField = document.getElementById(id);

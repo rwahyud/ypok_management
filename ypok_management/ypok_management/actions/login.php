@@ -64,6 +64,7 @@ function setAuthCookie(array $user): void {
 }
 
 function persistAuthSession(PDO $pdo, array $user): void {
+    $startTime = microtime(true);
     try {
         if ($pdo->getAttribute(PDO::ATTR_DRIVER_NAME) !== 'pgsql') {
             return;
@@ -139,6 +140,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 persistAuthSession($pdo, $user);
 
                 if (isAjaxLogin()) {
+                    // Delay minimum 500ms agar UX loading terasa natural
+                    $elapsed = microtime(true) - $startTime;
+                    if ($elapsed < 0.5) usleep((int)((0.5 - $elapsed) * 1e6));
                     jsonResponse([
                         'success' => true,
                         'redirect' => appBasePathFromScriptName() . '/pages/dashboard.php',
@@ -159,6 +163,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 persistAuthSession($pdo, $user);
 
                 if (isAjaxLogin()) {
+                    $elapsed = microtime(true) - $startTime;
+                    if ($elapsed < 0.5) usleep((int)((0.5 - $elapsed) * 1e6));
                     jsonResponse([
                         'success' => true,
                         'redirect' => appBasePathFromScriptName() . '/pages/dashboard.php',
@@ -175,13 +181,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 
             } else {
                 if (isAjaxLogin()) {
-                    jsonResponse(['success' => false, 'error' => 'wrong']);
+                    $elapsed = microtime(true) - $startTime;
+                    if ($elapsed < 0.5) usleep((int)((0.5 - $elapsed) * 1e6));
+                    jsonResponse(['success' => false, 'error' => 'Password salah. Silakan coba lagi.']);
                 }
                 redirectTo('/index.php?error=wrong');
             }
         } else {
             if (isAjaxLogin()) {
-                jsonResponse(['success' => false, 'error' => 'notfound']);
+                $elapsed = microtime(true) - $startTime;
+                if ($elapsed < 0.5) usleep((int)((0.5 - $elapsed) * 1e6));
+                jsonResponse(['success' => false, 'error' => 'Username tidak ditemukan.']);
             }
             redirectTo('/index.php?error=notfound');
         }
@@ -190,13 +200,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Log error securely, don't expose in UI
         error_log("Database error during login: " . $e->getMessage());
         if (isAjaxLogin()) {
-            jsonResponse(['success' => false, 'error' => 'db'], 500);
+            $elapsed = microtime(true) - $startTime;
+            if ($elapsed < 0.5) usleep((int)((0.5 - $elapsed) * 1e6));
+            jsonResponse(['success' => false, 'error' => 'Terjadi kesalahan database. Silakan coba lagi.'], 500);
         }
         redirectTo('/index.php?error=db');
     }
 } else {
     if (isAjaxLogin()) {
-        jsonResponse(['success' => false, 'error' => 'method'], 405);
+        jsonResponse(['success' => false, 'error' => 'Metode tidak diizinkan.'], 405);
     }
     redirectTo('/index.php');
 }

@@ -1,3 +1,15 @@
+# Saran Optimasi Performa
+
+Untuk performa maksimal, gunakan CDN (Content Delivery Network) untuk file statis di folder assets/ seperti gambar, CSS, dan JS. Contoh CDN yang bisa digunakan: jsDelivr, Cloudflare, BunnyCDN, atau layanan CDN lain.
+
+Langkah umum:
+- Upload file assets ke CDN
+- Ganti URL asset di HTML/PHP menjadi URL CDN
+
+Manfaat:
+- Akses lebih cepat dari berbagai lokasi
+- Mengurangi beban server utama
+- Caching otomatis di edge server CDN
 # 📁 YPOK Management System - Struktur Folder
 
 ## 🏗️ Struktur Direktori
