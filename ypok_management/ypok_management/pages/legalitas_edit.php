@@ -15,10 +15,35 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $tanggal_kadaluarsa = $_POST['tanggal_kadaluarsa'];
     $instansi_penerbit = $_POST['instansi_penerbit'];
     $status = $_POST['status'];
-    
-    $stmt = $pdo->prepare("UPDATE legalitas SET jenis_dokumen=?, nomor_dokumen=?, tanggal_terbit=?, tanggal_kadaluarsa=?, instansi_penerbit=?, status=? WHERE id=?");
-    $stmt->execute([$jenis_dokumen, $nomor_dokumen, $tanggal_terbit, $tanggal_kadaluarsa, $instansi_penerbit, $status, $id]);
-    
+
+    // Handle file upload
+    $file_dokumen = $dokumen['file_dokumen']; // default: file lama
+    if(isset($_FILES['file_dokumen']) && $_FILES['file_dokumen']['error'] == 0) {
+        $allowed_types = [
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'image/jpeg', 'image/jpg', 'image/png',
+            'application/zip', 'application/x-zip-compressed', 'application/x-rar-compressed'
+        ];
+        $file_type = $_FILES['file_dokumen']['type'];
+        $file_size = $_FILES['file_dokumen']['size'];
+        $max_size = 10 * 1024 * 1024;
+        $file_extension = strtolower(pathinfo($_FILES['file_dokumen']['name'], PATHINFO_EXTENSION));
+        $allowed_extensions = ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png', 'zip', 'rar'];
+        if((in_array($file_type, $allowed_types) || in_array($file_extension, $allowed_extensions)) && $file_size <= $max_size) {
+            $file_name = time() . '_' . uniqid() . '.' . $file_extension;
+            $file_path = 'uploads/dokumen/' . $file_name;
+            require_once __DIR__ . '/../config/storage.php';
+            if(ypok_upload_file($_FILES['file_dokumen']['tmp_name'], $file_path, $_FILES['file_dokumen']['type'] ?? 'application/octet-stream')) {
+                $file_dokumen = $file_path;
+            }
+        }
+    }
+
+    $stmt = $pdo->prepare("UPDATE legalitas SET jenis_dokumen=?, nomor_dokumen=?, tanggal_terbit=?, tanggal_kadaluarsa=?, instansi_penerbit=?, status=?, file_dokumen=? WHERE id=?");
+    $stmt->execute([$jenis_dokumen, $nomor_dokumen, $tanggal_terbit, $tanggal_kadaluarsa, $instansi_penerbit, $status, $file_dokumen, $id]);
+
     header('Location: legalitas.php?updated=1');
     exit();
 }
@@ -54,7 +79,7 @@ if(!$dokumen) {
         
         <div class="container">
             <div class="form-container">
-                <form action="" method="POST">
+                <form action="" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label>Jenis Dokumen *</label>
                         <input type="text" name="jenis_dokumen" value="<?php echo htmlspecialchars($dokumen['jenis_dokumen']); ?>" required>
@@ -85,6 +110,16 @@ if(!$dokumen) {
                             <option value="Dalam Proses" <?php echo $dokumen['status'] == 'Dalam Proses' ? 'selected' : ''; ?>>Dalam Proses</option>
                             <option value="Kadaluarsa" <?php echo $dokumen['status'] == 'Kadaluarsa' ? 'selected' : ''; ?>>Kadaluarsa</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label>File Dokumen (PDF/DOC/Gambar/ZIP/RAR, max 10MB)</label>
+                        <?php if (!empty($dokumen['file_dokumen'])): ?>
+                            <div style="margin-bottom:8px;">
+                                <a href="../<?php echo htmlspecialchars($dokumen['file_dokumen']); ?>" target="_blank">Lihat/Download File Lama</a>
+                            </div>
+                        <?php endif; ?>
+                        <input type="file" name="file_dokumen" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip,.rar">
+                        <small>Biarkan kosong jika tidak ingin mengganti file.</small>
                     </div>
                     <div class="form-actions">
                         <a href="legalitas.php" class="btn-secondary">Batal</a>
