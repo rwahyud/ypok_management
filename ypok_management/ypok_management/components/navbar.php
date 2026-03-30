@@ -15,7 +15,7 @@
     
     <ul class="sidebar-menu">
         <li>
-            <a href="dashboard.php" <?php echo basename($_SERVER['PHP_SELF']) == 'dashboard.php' ? 'class="active"' : ''; ?>>
+            <a href="index2.php" <?php echo basename($_SERVER['PHP_SELF']) == 'index2.php' ? 'class="active"' : ''; ?>>
                 <span class="icon">📊</span>
                 <span>Dashboard</span>
             </a>

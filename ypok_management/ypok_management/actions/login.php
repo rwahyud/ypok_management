@@ -145,12 +145,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                     if ($elapsed < 0.5) usleep((int)((0.5 - $elapsed) * 1e6));
                     jsonResponse([
                         'success' => true,
-                        'redirect' => appBasePathFromScriptName() . '/pages/dashboard.php',
+                        'redirect' => appBasePathFromScriptName() . '/pages/index2.php',
                         'token' => buildAuthToken($user),
                     ]);
                 }
                 
-                redirectTo('/pages/dashboard.php');
+                redirectTo('/pages/index2.php');
                 
             } elseif($password === $user['password']) {
                 // Password is plain text (legacy support - will upgrade)
@@ -167,7 +167,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                     if ($elapsed < 0.5) usleep((int)((0.5 - $elapsed) * 1e6));
                     jsonResponse([
                         'success' => true,
-                        'redirect' => appBasePathFromScriptName() . '/pages/dashboard.php',
+                        'redirect' => appBasePathFromScriptName() . '/pages/index2.php',
                         'token' => buildAuthToken($user),
                     ]);
                 }
@@ -177,7 +177,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $updateStmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
                 $updateStmt->execute([$hashed, $user['id']]);
                 
-                redirectTo('/pages/dashboard.php');
+                redirectTo('/pages/index2.php');
                 
             } else {
                 if (isAjaxLogin()) {

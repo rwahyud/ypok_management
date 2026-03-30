@@ -2,7 +2,7 @@ const CACHE_NAME = 'ypok-v2'; // Updated cache version to force refresh
 const urlsToCache = [
   '/',
   '/index.php',
-  '/pages/dashboard.php',
+  '/pages/index2.php',
   '/assets/css/style.css',
   '/assets/js/app.js'
 ];

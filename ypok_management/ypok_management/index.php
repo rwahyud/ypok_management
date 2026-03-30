@@ -16,7 +16,7 @@ if ($appBasePath === '/' || $appBasePath === '.') {
 
 // Redirect if already logged in
 if(isset($_SESSION['user_id'])) {
-    header('Location: ' . $appBasePath . '/pages/dashboard.php');
+    header('Location: ' . $appBasePath . '/pages/index2.php');
     exit();
 }
 ?>
@@ -203,7 +203,7 @@ if(isset($_SESSION['user_id'])) {
                             if (location.protocol === 'https:') cookie += '; Secure';
                             document.cookie = cookie;
                         }
-                        window.location.href = data.redirect || '<?php echo htmlspecialchars(($appBasePath ?: '') . '/pages/dashboard.php', ENT_QUOTES, 'UTF-8'); ?>';
+                        window.location.href = data.redirect || '<?php echo htmlspecialchars(($appBasePath ?: '') . '/pages/index2.php', ENT_QUOTES, 'UTF-8'); ?>';
                         return;
                     }
 
