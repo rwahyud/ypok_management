@@ -761,6 +761,7 @@ $total_pages = ceil($total / $limit);
             border-radius: 3px;
         }
     </style>
+    <?php include __DIR__ . '/../components/analytics.php'; ?>
 </head>
 <body>
     <?php include __DIR__ . '/../components/navbar.php'; ?>

@@ -994,6 +994,7 @@ try {
             display: flex;
         }
     </style>
+    <?php include __DIR__ . '/components/analytics.php'; ?>
 </head>
 <body>
     <!-- ========== TOPBAR ========== -->

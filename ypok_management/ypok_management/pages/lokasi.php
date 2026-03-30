@@ -31,6 +31,7 @@ $provinsi_list = $stmt->fetchAll();
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/lokasi.css">
     <!-- Remove PWA manifest if not needed -->
+    <?php include __DIR__ . '/../components/analytics.php'; ?>
 </head>
 <body>
     <?php include __DIR__ . '/../components/navbar.php'; ?>

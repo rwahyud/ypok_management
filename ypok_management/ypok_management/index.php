@@ -42,6 +42,7 @@ if(isset($_SESSION['user_id'])) {
     <link rel="apple-touch-startup-image" href="assets/splash/apple-splash-1290x2796.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)">
     <!-- Gunakan file minified untuk performa lebih baik -->
     <link rel="stylesheet" href="assets/css/login.min.css">
+    <?php include __DIR__ . '/components/analytics.php'; ?>
 </head> 
 <body>
     <div class="login-wrapper">

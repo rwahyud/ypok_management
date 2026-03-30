@@ -1,0 +1,95 @@
+# Vercel Web Analytics Implementation
+
+## Summary
+Successfully installed and configured Vercel Web Analytics for the YPOK Management System PHP project.
+
+## What Was Implemented
+
+### 1. Created Reusable Analytics Component
+- **File**: `components/analytics.php`
+- **Purpose**: Centralized Vercel Analytics script that can be included across all pages
+- **Implementation**: Used the plain HTML/JavaScript approach from official Vercel documentation since this is a PHP project without Node.js/npm
+
+### 2. Added Analytics to Main Pages
+Analytics tracking has been added to the following pages:
+
+**Root Level Pages:**
+- `index.php` - Login page (main entry point)
+- `register.php` - Registration page
+- `guest_dashboard.php` - Public guest dashboard
+
+**Admin Pages (pages/ directory):**
+- `pages/dashboard.php` - Main admin dashboard
+- `pages/msh.php` - Master Sabuk Hitam data
+- `pages/kohai.php` - Kohai data management
+- `pages/lokasi.php` - Location management
+- `pages/pembayaran.php` - Payment management
+- `pages/legalitas.php` - Legal documents
+- `pages/laporan_kegiatan.php` - Activity reports
+- `pages/laporan_keuangan.php` - Financial reports
+
+## Implementation Details
+
+### Why This Approach?
+This project is a PHP-based web application without a Node.js package manager (no package.json). Therefore, instead of installing the `@vercel/analytics` npm package, I used the plain HTML/JavaScript implementation as documented in the official Vercel Analytics quickstart guide.
+
+### How It Works
+1. The analytics component includes the Vercel Analytics initialization script
+2. Each page includes this component via PHP's `include` statement before the closing `</head>` tag
+3. The script path `/_vercel/insights/script.js` is automatically provided by Vercel when the site is deployed
+
+### Code Structure
+```php
+<!-- components/analytics.php -->
+<script>
+  window.va = window.va || function () { 
+    (window.vaq = window.vaq || []).push(arguments); 
+  };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+```
+
+Each page includes it like:
+```php
+<?php include __DIR__ . '/components/analytics.php'; ?>
+</head>
+```
+
+Or for pages in subdirectories:
+```php
+<?php include __DIR__ . '/../components/analytics.php'; ?>
+</head>
+```
+
+## Next Steps
+
+To complete the setup:
+
+1. **Enable Analytics in Vercel Dashboard**
+   - Go to your Vercel project dashboard
+   - Navigate to the Analytics tab
+   - Click "Enable" to activate Web Analytics
+
+2. **Deploy the Changes**
+   - Push these changes to your repository
+   - Vercel will automatically deploy the updates
+   - Analytics will start collecting data once deployed
+
+3. **Verify Installation**
+   - After deployment, visit your site
+   - Open browser DevTools > Network tab
+   - Look for requests to `/_vercel/insights/script.js`
+   - If present, analytics is working correctly
+
+4. **View Analytics Data**
+   - Return to the Analytics tab in your Vercel dashboard
+   - Data will appear after users start visiting your site
+   - View page views, visitors, and other metrics
+
+## Notes
+
+- Analytics script is loaded with `defer` attribute for optimal performance
+- No external dependencies or npm packages required
+- Works seamlessly with the existing PHP application structure
+- All pages now have consistent analytics tracking
+- The implementation follows Vercel's official documentation for plain HTML projects
