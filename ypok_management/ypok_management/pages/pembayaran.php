@@ -43,6 +43,7 @@ $existing_categories = $stmt_kategori->fetchAll(PDO::FETCH_COLUMN);
     <title>Data Pembayaran - YPOK Management</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/pembayaran.css">
+    <?php include __DIR__ . '/../components/analytics.php'; ?>
 </head>
 <body>
     <?php include __DIR__ . '/../components/navbar.php'; ?>

@@ -915,6 +915,7 @@ $kohai_list = $pdo->query("SELECT id, nama, kode_kohai FROM kohai ORDER BY nama"
             background: linear-gradient(135deg, #2563eb, #1d4ed8);
         }
     </style>
+    <?php include __DIR__ . '/../components/analytics.php'; ?>
 </head>
 <body>
     <?php include __DIR__ . '/../components/navbar.php'; ?>

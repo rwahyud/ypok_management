@@ -704,6 +704,7 @@ foreach ($gender_kohai as $g) {
         }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
+    <?php include __DIR__ . '/../components/analytics.php'; ?>
 </head>
 <body>
     <?php include __DIR__ . '/../components/navbar.php'; ?>
