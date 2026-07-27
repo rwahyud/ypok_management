@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D'Farm Dream — RTW Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .gradient-blobs .blob { opacity: 0.04; }
+    .bg-shape { opacity: 0.06; }
+
+    .project-hero {
+      padding: 140px 24px 60px;
+      max-width: 1000px;
+      margin: 0 auto;
+      border-bottom: 1px solid rgba(34,211,238,0.1);
+      position: relative;
+      z-index: 2;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 32px;
+      transition: 0.2s;
+    }
+    .back-link:hover { color: #22d3ee; }
+    .project-hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .project-meta {
+      display: flex;
+      gap: 24px;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 24px;
+    }
+    .project-meta span { color: #a855f7; text-shadow: 0 0 12px rgba(168,85,247,0.3); }
+    .project-hero p {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.55);
+      max-width: 600px;
+      line-height: 1.8;
+    }
+
+    .project-section {
+      padding: 64px 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+      border-bottom: 1px solid rgba(34,211,238,0.06);
+      position: relative;
+      z-index: 2;
+    }
+    .section-num {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: #a855f7;
+      margin-bottom: 8px;
+      display: block;
+      text-shadow: 0 0 12px rgba(168,85,247,0.4);
+    }
+    .project-section h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+    .project-section p {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.8;
+      max-width: 640px;
+    }
+
+    .approach-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .approach-card {
+      padding: 24px;
+      background: rgba(15,15,25,0.6);
+      border: 1px solid rgba(34,211,238,0.1);
+      transition: 0.3s;
+    }
+    .approach-card:hover {
+      border-color: rgba(34,211,238,0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .approach-card h3 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .approach-card p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+    }
+
+    .qa-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .qa-step {
+      padding: 20px;
+      background: rgba(15,15,25,0.6);
+      border: 1px solid rgba(34,211,238,0.1);
+      border-left: 2px solid #22d3ee;
+      transition: 0.3s;
+    }
+    .qa-step:hover {
+      transform: translateY(-2px);
+      border-color: rgba(34,211,238,0.25);
+    }
+    .step-num {
+      font-family: var(--mono);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #22d3ee;
+      margin-bottom: 8px;
+      text-shadow: 0 0 16px rgba(34,211,238,0.4);
+    }
+    .qa-step h3 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+    .qa-step p {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.6;
+    }
+
+    .colors-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .color-swatch {
+      flex: 1;
+      height: 80px;
+      display: flex;
+      align-items: end;
+      padding: 8px;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .type-scale { margin-top: 24px; }
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(34,211,238,0.06);
+    }
+    .type-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.3);
+      width: 100px;
+      flex-shrink: 0;
+    }
+    .type-sample { font-weight: 600; color: #fff; }
+    .type-sample.h1 { font-size: 2rem; }
+    .type-sample.h2 { font-size: 1.6rem; }
+    .type-sample.h3 { font-size: 1.3rem; }
+    .type-sample.body { font-size: 1rem; font-weight: 400; }
+
+    .mockup-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .mockup-card {
+      background: rgba(15,15,25,0.6);
+      border: 1px solid rgba(34,211,238,0.1);
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 180px;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.35);
+      transition: 0.3s;
+    }
+    .mockup-card:hover {
+      border-color: rgba(34,211,238,0.25);
+      transform: translateY(-2px);
+    }
+    .mockup-card {
+      position: relative;
+      overflow: hidden;
+      padding: 0;
+      min-height: 180px;
+    }
+    .mockup-card span.mockup-label {
+      padding: 24px;
+    }
+    .mockup-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+    }
+
+    .c1 { background: #2563eb; }
+    .c2 { background: #1e40af; }
+    .c3 { background: #f59e0b; }
+    .c4 { background: #10b981; }
+    .c5 { background: #1f2937; }
+
+    .footer { border-top: 1px solid rgba(34,211,238,0.06); }
+    .footer-inner span { color: rgba(255,255,255,0.25); }
+
+    @media (max-width: 768px) {
+      .project-hero { padding: 120px 16px 40px; }
+      .project-hero h1 { font-size: clamp(1.6rem, 6vw, 2.5rem); }
+      .project-hero p { font-size: 0.9rem; }
+      .project-meta { flex-direction: column; gap: 8px; }
+      .project-section { padding: 40px 16px; }
+      .project-section h2 { font-size: 1.3rem; }
+      .project-section p { font-size: 0.85rem; }
+      .approach-grid { grid-template-columns: 1fr; }
+      .qa-steps { grid-template-columns: 1fr 1fr; }
+      .colors-row { flex-wrap: wrap; gap: 8px; }
+      .color-swatch { flex: 0 0 calc(50% - 4px); height: 60px; }
+      .mockup-grid { grid-template-columns: 1fr; }
+      .mockup-card { min-height: 140px; font-size: 0.65rem; }
+      .type-sample.h1 { font-size: 1.5rem; }
+      .type-sample.h2 { font-size: 1.3rem; }
+      .type-sample.h3 { font-size: 1.1rem; }
+      .type-label { font-size: 0.6rem; width: 80px; }
+    }
+    @media (max-width: 480px) {
+      .project-hero { padding: 100px 12px 32px; }
+      .project-hero h1 { font-size: 1.4rem; }
+      .project-section { padding: 32px 12px; }
+      .project-section h2 { font-size: 1.15rem; }
+      .project-section p { font-size: 0.8rem; line-height: 1.7; }
+      .qa-steps { grid-template-columns: 1fr; }
+      .approach-card { padding: 16px; }
+      .approach-card h3 { font-size: 0.8rem; }
+      .approach-card p { font-size: 0.72rem; }
+      .qa-step { padding: 14px; }
+      .qa-step h3 { font-size: 0.78rem; }
+      .qa-step p { font-size: 0.7rem; }
+      .step-num { font-size: 1.2rem; }
+      .colors-row { gap: 6px; }
+      .color-swatch { flex: 0 0 100%; height: 50px; font-size: 0.55rem; }
+      .type-row { gap: 10px; padding: 8px 0; }
+      .type-sample { font-size: 0.9rem !important; }
+      .back-link { font-size: 0.68rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-follower" id="follower"></div>
+
+  <canvas id="workBgCanvas" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+
+  <div class="gradient-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+  </div>
+
+  <div class="bg-shapes">
+    <div class="bg-shape bg-shape--1"></div>
+    <div class="bg-shape bg-shape--2"></div>
+    <div class="bg-shape bg-shape--3"></div>
+    <div class="bg-shape bg-shape--4"></div>
+    <div class="bg-shape bg-shape--5"></div>
+    <div class="bg-shape bg-shape--6"></div>
+    <div class="bg-shape bg-shape--7"></div>
+    <div class="bg-shape bg-shape--8"></div>
+    <div class="bg-shape bg-shape--9"></div>
+    <div class="bg-shape bg-shape--10"></div>
+    <div class="bg-shape bg-shape--11"></div>
+    <div class="bg-shape bg-shape--12"></div>
+  </div>
+
+  <div class="noise-overlay"></div>
+
+  <nav class="nav scrolled">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">RTW.</a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link" data-i18n="nav.home">Home</a>
+        <a href="index.html#skills" class="nav-link" data-i18n="nav.skills">Skills</a>
+        <a href="index.html#work" class="nav-link" data-i18n="nav.work">Work</a>
+        <a href="index.html#contact" class="nav-link" data-i18n="nav.contact">Contact</a>
+      </div>
+      <div class="nav-right">
+        <button class="lang-toggle" id="langToggle" aria-label="Toggle Language">
+          <span class="lang-label" id="langLabel">EN</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="project-hero">
+    <a href="index.html#work" class="back-link" data-i18n="sub.back">&larr; Kembali ke Work</a>
+    <h1>D'Farm Dream</h1>
+    <div class="project-meta">
+      <div><span data-i18n="dfarm.metaRole">Role</span> <span>Project Manager & QA Manual</span></div>
+      <div><span data-i18n="dfarm.metaDate">Date</span> <span data-i18n="dfarm.metaDateVal">Oktober 2024</span></div>
+    </div>
+    <p data-i18n="dfarm.hero">Sistem manajemen dan quality assurance komprehensif untuk ERP poultry berbasis IoT. Mengubah platform multi-modul yang kompleks menjadi sistem yang andal dan mudah digunakan melalui koordinasi proyek yang terstruktur dan protokol pengujian yang ketat.</p>
+  </section>
+
+  <section class="project-section">
+    <span class="section-num">01</span>
+    <h2 data-i18n="dfarm.s1">Kenapa gue manage proyek ini</h2>
+    <p data-i18n="dfarm.s1p1">Selama terlibat di D'Farm Dream — peternakan telur modern pertama di Indonesia yang pakai sistem IoT — gue ambil peran sebagai Project Manager sekaligus QA Manual. Proyek ini butuh koordinasi beberapa tim, manajemen timeline yang kompleks, dan pengujian menyeluruh untuk platform pertanian yang mengintegrasikan workflow karyawan, manajemen kandang & gudang, serta monitoring keuangan dan investor.</p>
+    <p style="margin-top: 12px;" data-i18n="dfarm.s1p2">Fokus gue adalah mengefisienkan komunikasi tim, menetapkan milestone yang jelas, dan melakukan manual testing intensif untuk menemukan serta menyelesaikan masalah sistem sebelum deployment.</p>
+  </section>
+
+  <section class="project-section">
+    <span class="section-num">02</span>
+    <h2 data-i18n="dfarm.s2">Project Management Approach</h2>
+    <div class="approach-grid">
+      <div class="approach-card">
+        <h3 data-i18n="dfarm.s2c1">Team Coordination</h3>
+        <p data-i18n="dfarm.s2c1p">Memimpin daily standup, sprint planning, dan retrospectives untuk memastikan kolaborasi yang lancar antara tim development, desain, dan testing.</p>
+      </div>
+      <div class="approach-card">
+        <h3 data-i18n="dfarm.s2c2">Timeline Management</h3>
+        <p data-i18n="dfarm.s2c2p">Membuat dan memelihara jadwal proyek, mengidentifikasi dependensi critical path, dan mengelola ekspektasi stakeholder selama siklus development.</p>
+      </div>
+      <div class="approach-card">
+        <h3 data-i18n="dfarm.s2c3">Risk Mitigation</h3>
+        <p data-i18n="dfarm.s2c3p">Mengidentifikasi potensi risiko secara proaktif, membuat rencana kontinjensi, dan memastikan deliverable proyek memenuhi standar kualitas dan deadline.</p>
+      </div>
+      <div class="approach-card">
+        <h3 data-i18n="dfarm.s2c4">Quality Assurance</h3>
+        <p data-i18n="dfarm.s2c4p">Menetapkan protokol pengujian komprehensif, melakukan sesi manual testing, dan memelihara proses pelacakan serta resolusi bug yang terstruktur.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="project-section">
+    <span class="section-num">03</span>
+    <h2 data-i18n="dfarm.s3">Quality Assurance Methodology</h2>
+    <div class="qa-steps">
+      <div class="qa-step">
+        <div class="step-num">01</div>
+        <h3 data-i18n="dfarm.s3s1">Test Planning</h3>
+        <p data-i18n="dfarm.s3s1p">Membuat test plan komprehensif yang mencakup pengujian fungsional, integrasi, dan user acceptance testing untuk semua modul sistem.</p>
+      </div>
+      <div class="qa-step">
+        <div class="step-num">02</div>
+        <h3 data-i18n="dfarm.s3s2">Manual Testing</h3>
+        <p data-i18n="dfarm.s3s2p">Menjalankan pengujian manual sistematis di platform web dan mobile, fokus pada workflow pengguna, integritas data, dan performa sistem.</p>
+      </div>
+      <div class="qa-step">
+        <div class="step-num">03</div>
+        <h3 data-i18n="dfarm.s3s3">Bug Tracking</h3>
+        <p data-i18n="dfarm.s3s3p">Mendokumentasikan dan memprioritaskan isu menggunakan laporan bug terstruktur, berkoordinasi dengan tim development untuk resolusi tepat waktu.</p>
+      </div>
+      <div class="qa-step">
+        <div class="step-num">04</div>
+        <h3 data-i18n="dfarm.s3s4">Validation</h3>
+        <p data-i18n="dfarm.s3s4p">Melakukan regression testing dan validasi akhir untuk memastikan semua fitur berfungsi dengan benar sebelum deployment ke production.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="project-section">
+    <span class="section-num">04</span>
+    <h2 data-i18n="dfarm.s4">Core Visual Elements</h2>
+    <p data-i18n="dfarm.s4p">Visual language yang konsisten untuk pengalaman pengguna yang cohesive. Berikut adalah elemen dasar yang menjadi panduan selama proses quality assurance.</p>
+    <h3 style="margin-top: 24px; margin-bottom: 8px; font-size: 0.85rem;" data-i18n="dfarm.s4c1">Primary Color Palette</h3>
+    <div class="colors-row">
+      <div class="color-swatch c1">#2563eb</div>
+      <div class="color-swatch c2">#1e40af</div>
+      <div class="color-swatch c3">#f59e0b</div>
+      <div class="color-swatch c4">#10b981</div>
+      <div class="color-swatch c5">#1f2937</div>
+    </div>
+    <h3 style="margin-top: 32px; margin-bottom: 8px; font-size: 0.85rem;" data-i18n="dfarm.s4c2">Typography Scale</h3>
+    <div class="type-scale">
+      <div class="type-row">
+        <span class="type-label">Heading 1</span>
+        <span class="type-sample h1">40px</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">Heading 2</span>
+        <span class="type-sample h2">32px</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">Heading 3</span>
+        <span class="type-sample h3">28px</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">Body Text</span>
+        <span class="type-sample body">16px</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="project-section">
+    <span class="section-num">05</span>
+    <h2 data-i18n="dfarm.s5">Designing with Clarity</h2>
+    <p data-i18n="dfarm.s5p">Mockup real-world yang menunjukkan bagaimana UI final terlihat di device sungguhan. Selama QA, gue fokus memastikan interface terasa familiar dan mudah digunakan dari genggaman tangan pengguna.</p>
+    <div class="mockup-grid">
+      <div class="mockup-card">
+        <span class="mockup-label">Dashboard Overview</span>
+        <img src="image/dashboard.jpg" alt="Dashboard Overview" style="display:none" onload="this.style.display='block'; this.previousElementSibling.style.display='none';" onerror="this.remove();">
+      </div>
+      <div class="mockup-card">
+        <span class="mockup-label">Coop Management</span>
+        <img src="image/coop.jpg" alt="Coop Management" style="display:none" onload="this.style.display='block'; this.previousElementSibling.style.display='none';" onerror="this.remove();">
+      </div>
+      <div class="mockup-card">
+        <span class="mockup-label">Financial Monitor</span>
+        <img src="image/financial.jpg" alt="Financial Monitor" style="display:none" onload="this.style.display='block'; this.previousElementSibling.style.display='none';" onerror="this.remove();">
+      </div>
+      <div class="mockup-card">
+        <span class="mockup-label">IoT Sensor Panel</span>
+        <img src="image/iot-panel.jpg" alt="IoT Sensor Panel" style="display:none" onload="this.style.display='block'; this.previousElementSibling.style.display='none';" onerror="this.remove();">
+      </div>
+    </div>
+  </section>
+
+  <section class="project-section">
+    <span class="section-num">06</span>
+    <h2 data-i18n="dfarm.s6">Managed with Precision, Tested with Care</h2>
+    <p data-i18n="dfarm.s6p1">Pendekatan project management dan quality assurance ini dibuat dengan niat dan presisi, berangkat dari metodologi yang udah gue rafinasi dari pengalaman mengoordinasi proyek teknis yang kompleks. Setiap detail — dari sprint planning sampai alur pelacakan bug — dirancang untuk memastikan delivery yang sukses dengan standar kualitas tertinggi.</p>
+    <p style="margin-top: 12px;" data-i18n="dfarm.s6p2">Proses pengujian menyeluruh dan koordinasi proyek yang dikembangkan untuk D'Farm Dream terus menjadi fondasi pendekatan gue terhadap proyek teknis yang kompleks.</p>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span>© 2025 Rizki Tri Wahyudi</span>
+        <span>Built with HTML, CSS, JS</span>
+        <span>Jakarta, ID</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js?v=101"></script>
+</body>
+</html>
